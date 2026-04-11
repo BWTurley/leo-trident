@@ -1,0 +1,50 @@
+# Leo Trident — Python Dependencies
+# CPU-only, no Ollama, no GPU required
+# Compatible: Ubuntu (Abacus.AI) + macOS (Mac Mini M5)
+
+# ── Vector Store ──────────────────────────────────────────────────────────────
+lancedb>=0.17.0
+pyarrow>=14.0.0
+
+# ── Embeddings (CPU-only, no Ollama) ─────────────────────────────────────────
+sentence-transformers>=3.0.0      # nomic-embed-text-v1.5 via HuggingFace
+# Matryoshka / nomic-embed requires:
+torch>=2.0.0                      # CPU build; install CPU-only: pip install torch --index-url https://download.pytorch.org/whl/cpu
+transformers>=4.40.0
+einops>=0.7.0                     # required by nomic-embed-text-v1.5
+
+# ── Reranker ──────────────────────────────────────────────────────────────────
+FlagEmbedding>=1.2.9              # BGE-Reranker-v2-M3 (BAAI/bge-reranker-v2-m3)
+
+# ── Graph / PPR ───────────────────────────────────────────────────────────────
+fast-pagerank>=0.0.4              # PPR on scipy CSR (github: asajadi/fast-pagerank)
+scipy>=1.14.0                     # sparse matrices for PPR
+numpy>=1.26.0
+
+# ── File Watching (Obsidian→LanceDB sync) ────────────────────────────────────
+watchdog>=4.0.0
+
+# ── LLM (sleep-time consolidator, Claude via Abacus API) ─────────────────────
+anthropic>=0.30.0                 # Claude Sonnet via https://routellm.abacus.ai/v1
+openai>=1.30.0                    # OpenAI-compatible client for Abacus endpoint
+
+# ── PDF Parsing (Phase 3 ASME ingestion) ──────────────────────────────────────
+# docling>=2.0.0                  # Uncomment for Phase 3: PDF → text pipeline
+# pymupdf4llm>=0.0.10             # Uncomment for Phase 3: figure/table extraction
+
+# ── Prompt Compression (Phase 4 sleep-time) ───────────────────────────────────
+# llmlingua>=0.2.0                # Uncomment for Phase 4: warm→hot compression
+
+# ── Eval (Phase 5) ────────────────────────────────────────────────────────────
+# ragas>=0.1.0                    # Uncomment for Phase 5: RAGAS eval framework
+# deepeval>=0.21.0                # Uncomment for Phase 5: DeepEval CI gates
+
+# ── Testing ───────────────────────────────────────────────────────────────────
+pytest>=8.0.0
+pytest-asyncio>=0.23.0
+
+# ── Utilities ─────────────────────────────────────────────────────────────────
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+rich>=13.0.0                      # Pretty console output
+tqdm>=4.66.0                      # Progress bars for ingestion

@@ -1,7 +1,5 @@
 # Leo Trident — Memory System
 
-> Named for USS Pennsylvania (SSBN-735) and her Trident missiles.
-> Built for Leo, an AI agent specializing in ASME pressure vessel code and inspection.
 
 ---
 
@@ -175,7 +173,7 @@ Prefixes used per nomic spec:
 
 ---
 
-## ASME Corpus Integration
+## ASME  Integration
 
 ### Paragraph Structure
 
@@ -315,7 +313,7 @@ Runs asynchronously (not during conversations). Uses Claude Sonnet via Abacus.AI
 
 **Triggers:**
 - 30 minutes of inactivity
-- Nightly at 2 AM
+- Nightly at 2 AM EST
 - Warm tier exceeds 50K tokens
 - Explicit `!evolve` or "consolidate" command
 
@@ -407,4 +405,4 @@ The system is designed to swap cloud API calls for local Ollama with zero archit
 
 ---
 
-*Built April 10–11, 2026. Named for SSBN-735.*
+*Built April 10–11, 2026*

@@ -400,8 +400,31 @@ The system is designed to swap cloud API calls for local Ollama with zero archit
 | Phase 1: Personal knowledge migration | ✅ Complete |
 | Phase 2: Full retrieval pipeline | ✅ Complete — 6/6 tests passing |
 | Phase 3: ASME corpus ingestion | ⏳ Waiting on text (VIII-1 + IX first) |
-| Phase 4: Sleep-time consolidation v2 | 🔲 Queued |
-| Phase 5: Eval + hardening | 🔲 Queued |
+| Phase 4: Sleep-time consolidation v2 | ✅ Complete |
+| Phase 5: Eval + hardening | ✅ Complete — 34/34 tests passing |
+
+---
+
+## Phase 5: Eval Metrics
+
+### Anchor Integrity (April 11, 2026)
+- **SHA-256 violations:** 0
+- **Rules checked:** 9 (4 NEVER + 5 ALWAYS + core_facts)
+- **Status:** ✅ All anchors verified
+
+### Consolidation Test Coverage
+| Test Suite | Tests | Status |
+|---|---|---|
+| `test_consolidation.py` | 10 | ✅ Pass |
+| `test_drift_monitor.py` | 8 | ✅ Pass |
+| `test_eval_framework.py` | 10 | ✅ Pass |
+| `test_e2e.py` | 6 | ✅ Pass |
+| **Total** | **34** | **✅ All pass** |
+
+### ASME Eval Framework
+- 10 question eval bank covering: single-hop factual (7), multi-hop (2), abstention (1)
+- Metrics: Recall@5, Recall@10, MRR
+- *Full metrics pending real ASME corpus ingestion (Phase 3)*
 
 ---
 

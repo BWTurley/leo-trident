@@ -4,14 +4,19 @@ Uses nomic-ai/nomic-embed-text-v1.5 with Matryoshka dimensions (64/256/768).
 CPU only, batch size 32.
 """
 from __future__ import annotations
+import logging
 import numpy as np
 import torch
 import torch.nn.functional as F
 from sentence_transformers import SentenceTransformer
 from typing import List
 
+from src.config import EMBED_DEVICE
+
 VALID_DIMS = {64, 256, 768}
 DEFAULT_MODEL = "nomic-ai/nomic-embed-text-v1.5"
+
+logger = logging.getLogger(__name__)
 
 
 class Embedder:
@@ -21,11 +26,19 @@ class Embedder:
 
     def _get_model(self) -> SentenceTransformer:
         if self._model is None:
-            self._model = SentenceTransformer(
-                self.model_name,
-                trust_remote_code=True,
-                device="cpu",
-            )
+            try:
+                self._model = SentenceTransformer(
+                    self.model_name,
+                    trust_remote_code=True,
+                    device=EMBED_DEVICE,
+                )
+            except Exception as e:
+                logger.warning(
+                    f"Embedder device {EMBED_DEVICE!r} init failed ({e}), falling back to CPU"
+                )
+                self._model = SentenceTransformer(
+                    self.model_name, trust_remote_code=True, device="cpu",
+                )
         return self._model
 
     def _encode_raw(self, texts: List[str], batch_size: int = 32) -> np.ndarray:

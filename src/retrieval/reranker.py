@@ -7,6 +7,8 @@ from __future__ import annotations
 import logging
 from typing import List
 
+from src.config import EMBED_DEVICE
+
 logger = logging.getLogger(__name__)
 
 
@@ -15,6 +17,7 @@ class BGEReranker:
         self.model_name = model_name
         self._tokenizer = None
         self._model = None
+        self._device = "cpu"
         self._available = False
         self._try_load()
 
@@ -27,9 +30,15 @@ class BGEReranker:
                 self.model_name,
                 torch_dtype=torch.float32,
             )
+            try:
+                self._model = self._model.to(EMBED_DEVICE)
+                self._device = EMBED_DEVICE
+            except Exception as e:
+                logger.warning(f"Reranker device {EMBED_DEVICE!r} failed ({e}), using CPU")
+                self._device = "cpu"
             self._model.eval()
             self._available = True
-            logger.info(f"BGEReranker loaded: {self.model_name}")
+            logger.info(f"BGEReranker loaded: {self.model_name} on {self._device}")
         except Exception as e:
             logger.warning(f"BGEReranker unavailable ({e}), will use score fallback")
             self._available = False
@@ -59,6 +68,7 @@ class BGEReranker:
                 max_length=512,
                 return_tensors="pt",
             )
+            inputs = {k: v.to(self._device) for k, v in inputs.items()}
             with torch.no_grad():
                 logits = self._model(**inputs).logits.squeeze(-1)
                 scores = torch.sigmoid(logits).cpu().numpy().tolist()

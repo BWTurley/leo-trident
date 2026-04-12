@@ -62,9 +62,8 @@ class TestLeoTridentE2E(unittest.TestCase):
         from src.api import LeoTrident
         # Use a temp dir so tests don't pollute production DB
         cls.tmp_dir = tempfile.mkdtemp(prefix="leo_trident_test_")
-        lt = LeoTrident(base_path="/home/ubuntu/leo_trident")
+        lt = LeoTrident(base_path=cls.tmp_dir)
 
-        # Override paths to use temp dir
         cls.lt = lt
         cls.lt.data_path = Path(cls.tmp_dir) / "data"
         cls.lt.db_path = cls.lt.data_path / "leo_trident.db"

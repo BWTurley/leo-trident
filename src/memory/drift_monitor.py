@@ -13,13 +13,14 @@ from typing import Optional
 
 import numpy as np
 
-logger = logging.getLogger(__name__)
+from src.config import BASE_PATH as _DEFAULT_BASE_PATH
 
-BASE_PATH = "/home/ubuntu/leo_trident"
+logger = logging.getLogger(__name__)
 
 
 class DriftMonitor:
-    def __init__(self, base_path: str = BASE_PATH):
+    def __init__(self, base_path: str | Path = None):
+        base_path = Path(base_path) if base_path else _DEFAULT_BASE_PATH
         self.base_path = Path(base_path)
         self.db_path = self.base_path / "data" / "leo_trident.db"
         self.vault_path = self.base_path / "vault" / "_system"

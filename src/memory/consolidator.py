@@ -17,29 +17,19 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
+from src.config import BASE_PATH as _DEFAULT_BASE_PATH
+from src.memory import llm_client
+
 logger = logging.getLogger(__name__)
-
-BASE_PATH = "/home/ubuntu/leo_trident"
-ABACUS_ENDPOINT = "https://routellm.abacus.ai/v1"
-MODEL = "claude-sonnet-4-6"
-
-
-def _load_api_key() -> str:
-    """Read Abacus API key from openclaw.json."""
-    cfg_path = Path("/home/ubuntu/.openclaw/openclaw.json")
-    with open(cfg_path) as f:
-        cfg = json.load(f)
-    return cfg["models"]["providers"]["abacus"]["apiKey"]
 
 
 class SleepTimeConsolidator:
     """Full sleep-time consolidation pipeline."""
 
-    def __init__(self, base_path: str = BASE_PATH):
-        self.base_path = Path(base_path)
+    def __init__(self, base_path: str | Path = None):
+        self.base_path = Path(base_path) if base_path else _DEFAULT_BASE_PATH
         self.db_path = self.base_path / "data" / "leo_trident.db"
         self.vault_path = self.base_path / "vault" / "_system"
-        self.api_key = _load_api_key()
 
         # Lazy imports so missing deps only fail at use time
         self._lt = None       # read-only LeoTrident
@@ -65,25 +55,8 @@ class SleepTimeConsolidator:
         return self._write_conn
 
     def _claude(self, prompt: str) -> str:
-        """Call Claude via Abacus RouteLLM endpoint."""
-        import httpx
-        headers = {
-            "Authorization": f"Bearer {self.api_key}",
-            "Content-Type": "application/json",
-        }
-        body = {
-            "model": MODEL,
-            "messages": [{"role": "user", "content": prompt}],
-            "max_tokens": 1024,
-        }
-        resp = httpx.post(
-            f"{ABACUS_ENDPOINT}/chat/completions",
-            headers=headers,
-            json=body,
-            timeout=60,
-        )
-        resp.raise_for_status()
-        return resp.json()["choices"][0]["message"]["content"]
+        """Call LLM via configured backend (cloud or local)."""
+        return llm_client.complete(prompt)
 
     # ── Public API ────────────────────────────────────────────────────────────
 

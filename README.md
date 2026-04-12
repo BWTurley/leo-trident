@@ -349,6 +349,23 @@ Runs asynchronously (not during conversations). Uses Claude Sonnet via Abacus.AI
 
 ---
 
+## Configuration
+
+All runtime behavior is controlled via environment variables (or a `.env` file in the repo root). Copy `.env.example` to `.env` to customize.
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `LEO_TRIDENT_HOME` | `~/leo_trident` (or legacy `/home/ubuntu/leo_trident`) | Project root |
+| `LEO_LLM_MODE` | `cloud` | `cloud` = Abacus Claude, `local` = Ollama |
+| `LEO_EMBED_DEVICE` | `cpu` | `cpu`, `mps` (Apple Silicon), or `cuda` |
+| `OLLAMA_URL` | `http://localhost:11434` | Used when `LEO_LLM_MODE=local` |
+| `LEO_CONSOLIDATION_MODEL` | `qwen2.5:14b-instruct-q5_K_M` | Ollama model for sleep-time consolidator |
+| `ABACUS_API_KEY` | — | Required when `LEO_LLM_MODE=cloud` |
+
+Defaults preserve Abacus behavior. Mac deployment sets `LEO_LLM_MODE=local` and `LEO_EMBED_DEVICE=mps`.
+
+---
+
 ## Setup
 
 ```bash
@@ -357,7 +374,7 @@ pip install lancedb pyarrow sentence-transformers FlagEmbedding \
             fast-pagerank scipy numpy watchdog anthropic httpx pytest
 
 # Initialize databases
-cd /home/ubuntu/leo_trident
+cd ~/leo_trident
 python3 scripts/init_db.py
 
 # Run tests
@@ -384,11 +401,12 @@ The system is designed to swap cloud API calls for local Ollama with zero archit
 
 | Component | Now (Abacus) | Mac Mini M5 |
 |---|---|---|
-| Embedding model | sentence-transformers (CPU) | nomic-embed-text via Ollama |
-| Sleep LLM | Claude Sonnet via Abacus API | Qwen 2.5 14B Q5_K_M via Ollama |
-| BGE Reranker | CPU FP32 | CPU or Metal GPU |
+| Embedding model | sentence-transformers (CPU) | sentence-transformers (MPS via `LEO_EMBED_DEVICE=mps`) |
+| Sleep LLM | Claude Sonnet via Abacus API | Qwen 2.5 14B Q5_K_M via Ollama (`LEO_LLM_MODE=local`) |
+| BGE Reranker | CPU FP32 | CPU or Metal GPU (follows `LEO_EMBED_DEVICE`) |
 | Main agent LLM | Claude Sonnet via Abacus API | Keep on Abacus or local |
 | Storage | LanceDB + SQLite on disk | Same — no changes |
+| Process management | cron / systemd | launchd (see `deploy/macos/`) |
 
 ---
 

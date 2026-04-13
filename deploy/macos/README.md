@@ -7,6 +7,7 @@ into `~/Library/LaunchAgents/` during manual setup.
 ## Files
 - `com.leotrident.consolidate.plist` — nightly 2 AM consolidation
 - `com.leotrident.watcher.plist` — always-on vault file watcher
+- `com.leotrident.backup.plist` — weekly Sunday 3 AM SQLite + LanceDB backup
 
 ## Setup
 1. Replace every `REPLACE_USERNAME` with the output of `whoami`.

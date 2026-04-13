@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.leotrident.backup</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>REPLACE_HOME/leo_trident/.venv/bin/python</string>
+    <string>REPLACE_HOME/leo_trident/scripts/backup.py</string>
+    <string>--retention-days</string>
+    <string>30</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>LEO_TRIDENT_HOME</key><string>REPLACE_HOME/leo_trident</string>
+    <key>LEO_LLM_MODE</key><string>local</string>
+    <key>LEO_EMBED_DEVICE</key><string>mps</string>
+    <key>PATH</key><string>/opt/homebrew/bin:/usr/bin:/bin</string>
+  </dict>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Weekday</key><integer>0</integer>
+    <key>Hour</key><integer>3</integer>
+    <key>Minute</key><integer>0</integer>
+  </dict>
+  <key>StandardOutPath</key>
+  <string>REPLACE_HOME/leo_trident/data/backup.stdout.log</string>
+  <key>StandardErrorPath</key>
+  <string>REPLACE_HOME/leo_trident/data/backup.stderr.log</string>
+  <key>WorkingDirectory</key>
+  <string>REPLACE_HOME/leo_trident</string>
+  <key>RunAtLoad</key><false/>
+</dict>
+</plist>

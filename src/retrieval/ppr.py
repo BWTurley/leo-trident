@@ -138,6 +138,18 @@ class ASMEGraphPPR:
             dtype=np.float32,
         )
 
+        # Log edge-type distribution for observability
+        try:
+            dist_rows = conn.execute(
+                "SELECT reference_type, COUNT(*) FROM graph_edges GROUP BY reference_type"
+            ).fetchall()
+            dist = {r[0]: r[1] for r in dist_rows}
+            total = sum(dist.values()) or 1
+            dist_str = ", ".join(f"{k}={v} ({100*v//total}%)" for k, v in sorted(dist.items()))
+            logger.info(f"PPR edge distribution: {dist_str}")
+        except Exception:
+            pass  # reference_type column may not exist on very old DBs pre-migration
+
         logger.info(
             f"PPR graph loaded: {n} nodes, {self._n_edges} edges "
             f"({self._matrix.nnz} matrix entries, "

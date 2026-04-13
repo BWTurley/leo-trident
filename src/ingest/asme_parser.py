@@ -90,6 +90,88 @@ HIERARCHY = {
 }
 
 
+# ── Reference Type Classification ────────────────────────────────────────────
+
+# Order matters: first match wins. Most specific patterns first.
+REFERENCE_TYPE_PATTERNS = [
+    ('mandatory', [
+        r'shall\s+(?:comply|conform)\s+(?:with|to)',
+        r'shall\s+(?:meet|satisfy)\s+the\s+requirements\s+of',
+        r'shall\s+be\s+in\s+accordance\s+with',
+        r'as\s+required\s+by',
+        r'in\s+accordance\s+with',
+        r'must\s+meet',
+        r'requirements?\s+of',
+    ]),
+    ('conditional', [
+        r'except\s+as\s+(?:permitted|allowed|provided)\s+by',
+        r'unless\s+(?:exempted|permitted)\s+by',
+        r'when\s+(?:applicable|required)',
+        r'if\s+permitted\s+by',
+        r'subject\s+to',
+        r'provided\s+that',
+    ]),
+    ('informational', [
+        r'\bsee\s+also\b',
+        r'\brefer\s+to\b',
+        r'\bas\s+described\s+in\b',
+        r'\bfor\s+(?:guidance|information)\b',
+        r'\bsee\s+',
+        r'\bcf\.?\s+',
+    ]),
+]
+
+REFERENCE_TYPE_WEIGHTS = {
+    'mandatory': 2.0,
+    'conditional': 1.0,
+    'informational': 0.3,
+    'unclassified': 1.0,
+}
+
+_COMPILED_REF_PATTERNS = [
+    (ref_type, [re.compile(p, re.IGNORECASE) for p in pats])
+    for ref_type, pats in REFERENCE_TYPE_PATTERNS
+]
+
+
+def classify_reference(context: str) -> str:
+    """Return 'mandatory' | 'conditional' | 'informational' | 'unclassified'."""
+    for ref_type, compiled in _COMPILED_REF_PATTERNS:
+        for rx in compiled:
+            if rx.search(context):
+                return ref_type
+    return 'unclassified'
+
+
+def extract_context_window(text: str, match_start: int, match_end: int,
+                           window: int = 160) -> str:
+    """
+    Return the sentence containing the citation, or up to `window` chars around
+    it if no sentence boundary is found. Used to feed classify_reference().
+    """
+    left = max(0, match_start - window)
+    right = min(len(text), match_end + window)
+    snippet = text[left:right]
+    # Prefer sentence boundaries
+    rel_start = match_start - left
+    sent_start = max(
+        snippet.rfind('. ', 0, rel_start),
+        snippet.rfind('? ', 0, rel_start),
+        snippet.rfind('! ', 0, rel_start),
+        snippet.rfind('\n', 0, rel_start),
+    )
+    if sent_start >= 0:
+        snippet = snippet[sent_start + 1:].lstrip()
+    # Clip to next sentence end after the citation
+    rel_end_in_snippet = rel_start - (sent_start + 1 if sent_start >= 0 else 0) + (match_end - match_start)
+    for term in ('. ', '? ', '! ', '\n'):
+        idx = snippet.find(term, rel_end_in_snippet)
+        if idx >= 0:
+            snippet = snippet[:idx + 1]
+            break
+    return snippet.strip()
+
+
 # ── Data Structures ───────────────────────────────────────────────────────────
 
 @dataclass
@@ -101,7 +183,7 @@ class ASMEChunk:
     edition_year: int
     content: str
     content_hash: str
-    cross_refs: list[str] = field(default_factory=list)
+    cross_refs: list[dict] = field(default_factory=list)
     no_forget: bool = True
     mandatory: bool = True
     content_type: str = 'normative'
@@ -144,6 +226,9 @@ class GraphEdge:
     source_id: str
     target_id: str
     edge_type: str = 'cross_ref'
+    reference_type: str = 'unclassified'
+    citation_text: str = ''
+    context: str = ''
     weight: float = 1.0
     edition_year: Optional[int] = None
 
@@ -206,28 +291,43 @@ class ASMEParser:
 
         return None
 
-    def extract_cross_refs(self, text: str, self_id: Optional[str] = None) -> list[str]:
-        """Extract all cross-referenced paragraph IDs from text."""
-        refs = set()
-        for m in self._xref_re.finditer(text):
-            # One of the capture groups will be non-None
-            ref = next((g for g in m.groups() if g), None)
-            if ref:
-                ref = ref.strip().upper()
-                if self_id and ref == self_id:
-                    continue  # skip self-references
-                refs.add(ref)
+    def extract_cross_refs_with_context(self, text: str, self_id: Optional[str] = None
+                                        ) -> list[dict]:
+        """
+        Extract cross-references with reference_type, citation_text, and surrounding context.
+        Returns list of dicts: {ref_id, reference_type, citation_text, context}.
+        De-duplicates by ref_id, keeping the highest-priority classification
+        (mandatory > conditional > informational > unclassified).
+        """
+        priority = {'mandatory': 3, 'conditional': 2, 'informational': 1, 'unclassified': 0}
+        found: dict[str, dict] = {}
 
-        # Also scan for any paragraph IDs in text that look like references
         for m in self._para_id_re.finditer(text):
             ref = next((g for g in m.groups() if g), None)
-            if ref:
-                ref = ref.strip().upper()
-                if self_id and ref == self_id:
-                    continue
-                refs.add(ref)
+            if not ref:
+                continue
+            ref = ref.strip().upper()
+            if self_id and ref == self_id.upper():
+                continue
 
-        return sorted(refs)
+            ctx = extract_context_window(text, m.start(), m.end())
+            ref_type = classify_reference(ctx)
+            citation_text = text[max(0, m.start() - 40):m.end()].strip()
+
+            existing = found.get(ref)
+            if existing is None or priority[ref_type] > priority[existing['reference_type']]:
+                found[ref] = {
+                    'ref_id': ref,
+                    'reference_type': ref_type,
+                    'citation_text': citation_text,
+                    'context': ctx,
+                }
+
+        return sorted(found.values(), key=lambda d: d['ref_id'])
+
+    def extract_cross_refs(self, text: str, self_id: Optional[str] = None) -> list[str]:
+        """Backward-compatible: returns just the list of ref IDs."""
+        return [d['ref_id'] for d in self.extract_cross_refs_with_context(text, self_id)]
 
     # ── Hierarchy resolution ───────────────────────────────────────────
 
@@ -399,7 +499,7 @@ class ASMEParser:
             suffix = f'_{i}' if len(text_chunks) > 1 else ''
             chunk_id = f'{section}_{paragraph_id}{suffix}_{self.edition_year}'.replace(' ', '_')
 
-            cross_refs = self.extract_cross_refs(chunk_text, paragraph_id)
+            cross_refs = self.extract_cross_refs_with_context(chunk_text, paragraph_id)
             content_hash = hashlib.sha256(chunk_text.encode()).hexdigest()
 
             chunk = ASMEChunk(
@@ -430,11 +530,19 @@ class ASMEParser:
         edges = []
         for chunk in chunks:
             for ref in chunk.cross_refs:
+                # cross_refs is now list[dict]
+                if isinstance(ref, str):
+                    # legacy fallback — treat as unclassified cross-ref
+                    ref = {'ref_id': ref, 'reference_type': 'unclassified',
+                           'citation_text': '', 'context': ''}
                 edges.append(GraphEdge(
                     source_id=chunk.paragraph_id,
-                    target_id=ref,
+                    target_id=ref['ref_id'],
                     edge_type='cross_ref',
-                    weight=1.0,
+                    reference_type=ref['reference_type'],
+                    citation_text=ref['citation_text'],
+                    context=ref['context'],
+                    weight=REFERENCE_TYPE_WEIGHTS[ref['reference_type']],
                     edition_year=chunk.edition_year,
                 ))
         return edges
@@ -464,8 +572,11 @@ class ASMEParser:
         rows = [e.to_db_row() for e in edges]
         conn.executemany("""
             INSERT OR IGNORE INTO graph_edges
-            (source_id, target_id, edge_type, weight, edition_year)
-            VALUES (:source_id, :target_id, :edge_type, :weight, :edition_year)
+            (source_id, target_id, edge_type, reference_type,
+             citation_text, context, weight, edition_year)
+            VALUES
+            (:source_id, :target_id, :edge_type, :reference_type,
+             :citation_text, :context, :weight, :edition_year)
         """, rows)
         conn.commit()
         return len(rows)

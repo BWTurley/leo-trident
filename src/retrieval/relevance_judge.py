@@ -144,8 +144,17 @@ class ReferenceRelevanceJudge:
             logger.warning(f"LLM call failed in relevance judge: {e}")
             parsed = None
 
-        if parsed is None:
+        used_fallback = parsed is None
+        if used_fallback:
             parsed = self._fallback(edges)
+
+        # Log fallback metric
+        try:
+            from src.service.metrics import log_metric
+            log_metric("judge.fallback", 1 if used_fallback else 0,
+                       tags={"primary_id": primary_id})
+        except Exception:
+            pass
 
         # Attach content and reference_type to each entry
         for entry, edge in zip(parsed, edges):

@@ -144,6 +144,15 @@ class SleepTimeConsolidator:
         if not dry_run:
             self._append_consolidation_log(summary)
 
+        # 7. Metrics
+        try:
+            from src.service.metrics import log_metric
+            log_metric("consolidation.errors", len(summary["errors"]))
+            log_metric("consolidation.facts_extracted", len(summary["facts_extracted"]))
+            log_metric("consolidation.tier_changes", len(summary["tier_changes"]))
+        except Exception:
+            pass
+
         logger.info("=== Consolidation complete — %d errors ===", len(summary["errors"]))
         return summary
 

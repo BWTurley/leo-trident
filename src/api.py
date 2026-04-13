@@ -6,6 +6,7 @@ from __future__ import annotations
 import hashlib
 import logging
 import sqlite3
+import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import List, Optional
@@ -100,6 +101,7 @@ class LeoTrident:
         Hybrid BM25 + dense + PPR query with RRF fusion and optional BGE rerank.
         Returns top_k results with: chunk_id, paragraph_id, content, score, source.
         """
+        _t0 = time.monotonic()
         embedder = self._get_embedder()
         query_vec_768 = embedder.embed_query(text, dim=768)
         query_vec_256 = embedder.embed_query(text, dim=256)
@@ -253,6 +255,18 @@ class LeoTrident:
                     conn.close()
             except Exception as e:
                 logger.warning(f"Relevance judge failed: {e} — returning unannotated results")
+
+        # Metrics
+        try:
+            from src.service.metrics import log_metric
+            latency_ms = round((time.monotonic() - _t0) * 1000, 1)
+            log_metric("query.latency_ms", latency_ms, tags={
+                "rerank": use_rerank,
+                "judge": use_relevance_judge,
+                "result_count": len(candidates),
+            })
+        except Exception:
+            pass
 
         return candidates
 

@@ -1,0 +1,1564 @@
+{
+  "run_at": "2026-04-13T03:10:56.569997+00:00",
+  "config": {
+    "rerank": false,
+    "judge": false,
+    "llm_mode": "local"
+  },
+  "corpus": {
+    "paragraphs": 90,
+    "edges": 592,
+    "edge_type_dist": {
+      "conditional": 83,
+      "informational": 126,
+      "mandatory": 322,
+      "unclassified": 61
+    }
+  },
+  "aggregate": {
+    "recall_at_5": 1,
+    "recall_at_10": 1,
+    "mrr": 0.903,
+    "by_category": {
+      "abstention": {
+        "n": 6,
+        "recall_at_5": 1,
+        "recall_at_10": 1,
+        "mrr": null
+      },
+      "multi_hop": {
+        "n": 16,
+        "recall_at_5": 1,
+        "recall_at_10": 1,
+        "mrr": 0.906
+      },
+      "paragraph_id_lookup": {
+        "n": 5,
+        "recall_at_5": 1,
+        "recall_at_10": 1,
+        "mrr": 0.85
+      },
+      "reference_relevance": {
+        "n": 10,
+        "recall_at_5": 1,
+        "recall_at_10": 1,
+        "mrr": 0.758
+      },
+      "single_hop_factual": {
+        "n": 22,
+        "recall_at_5": 1,
+        "recall_at_10": 1,
+        "mrr": 0.977
+      }
+    },
+    "relevance": {
+      "required_hit": null,
+      "forbidden_avoid": null,
+      "fallback_rate": null
+    },
+    "latency_ms": {
+      "median": 197.7,
+      "p95": 213.2
+    },
+    "errors": 0
+  },
+  "per_question": [
+    {
+      "id": "q001",
+      "category": "single_hop_factual",
+      "query": "what are the design load requirements for pressure vessels",
+      "expected": [
+        "UG-22"
+      ],
+      "returned_pids": [
+        "UG-22",
+        "UG-16",
+        "UG-80",
+        "UG-18",
+        "UCS-100",
+        "UG-99",
+        "UG-125",
+        "UG-19",
+        "UG-36",
+        "UCS-160"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 422.5,
+      "error": null
+    },
+    {
+      "id": "q002",
+      "category": "single_hop_factual",
+      "query": "minimum wall thickness formula for cylindrical shells under internal pressure",
+      "expected": [
+        "UG-27"
+      ],
+      "returned_pids": [
+        "UG-27",
+        "UG-28",
+        "UG-32",
+        "UG-38",
+        "UG-44",
+        "UG-33",
+        "UCS-160",
+        "UCS-25",
+        "UG-99",
+        "UG-36"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 205.3,
+      "error": null
+    },
+    {
+      "id": "q003",
+      "category": "single_hop_factual",
+      "query": "maximum allowable stress values for design formulas",
+      "expected": [
+        "UG-23"
+      ],
+      "returned_pids": [
+        "UG-23",
+        "UCS-23",
+        "UHA-23",
+        "UG-27",
+        "UG-22",
+        "UG-20",
+        "UCS-25",
+        "UW-12",
+        "UG-34",
+        "UG-28"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 210.0,
+      "error": null
+    },
+    {
+      "id": "q004",
+      "category": "single_hop_factual",
+      "query": "radiographic examination requirements for welded joints",
+      "expected": [
+        "UW-11"
+      ],
+      "returned_pids": [
+        "UW-11",
+        "UW-51",
+        "UW-52",
+        "UHA-51",
+        "UW-12",
+        "QW-150",
+        "UW-2",
+        "UG-93",
+        "QW-301",
+        "QW-160"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 191.7,
+      "error": null
+    },
+    {
+      "id": "q005",
+      "category": "single_hop_factual",
+      "query": "joint efficiency factors for arc welded joints",
+      "expected": [
+        "UW-12"
+      ],
+      "returned_pids": [
+        "UW-12",
+        "UW-15",
+        "UW-3",
+        "UW-9",
+        "UW-2",
+        "UW-13",
+        "UHA-23",
+        "UG-32",
+        "UHA-21",
+        "QW-150"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 185.5,
+      "error": null
+    },
+    {
+      "id": "q006",
+      "category": "single_hop_factual",
+      "query": "impact test exemption curves for low temperature service",
+      "expected": [
+        "UCS-66"
+      ],
+      "returned_pids": [
+        "UCS-66",
+        "UCS-56",
+        "UCS-57",
+        "UG-84",
+        "UW-29",
+        "UCS-68",
+        "UCS-67",
+        "UCS-79",
+        "UCS-85",
+        "UCS-160"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 213.2,
+      "error": null
+    },
+    {
+      "id": "q007",
+      "category": "single_hop_factual",
+      "query": "postweld heat treatment requirements for welded vessels",
+      "expected": [
+        "UW-28"
+      ],
+      "returned_pids": [
+        "UW-28",
+        "UHA-34",
+        "UW-29",
+        "UCS-79",
+        "UW-40",
+        "UW-14",
+        "UCS-85",
+        "UHA-32",
+        "UW-26",
+        "UHA-21"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 203.9,
+      "error": null
+    },
+    {
+      "id": "q008",
+      "category": "single_hop_factual",
+      "query": "welding procedure specification requirements",
+      "expected": [
+        "QW-200"
+      ],
+      "returned_pids": [
+        "QW-200",
+        "QW-100",
+        "UW-14",
+        "UW-26",
+        "QW-202",
+        "UHA-32",
+        "QW-401",
+        "QW-250",
+        "UHA-21",
+        "QW-300"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 191.9,
+      "error": null
+    },
+    {
+      "id": "q009",
+      "category": "single_hop_factual",
+      "query": "welder qualification and testing requirements",
+      "expected": [
+        "QW-300"
+      ],
+      "returned_pids": [
+        "QW-300",
+        "QW-310",
+        "QW-100",
+        "QW-401",
+        "QW-301",
+        "QW-202",
+        "QW-350",
+        "QW-160",
+        "UW-26",
+        "UHA-32"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 190.1,
+      "error": null
+    },
+    {
+      "id": "q010",
+      "category": "single_hop_factual",
+      "query": "hydrostatic test pressure requirements",
+      "expected": [
+        "UG-99"
+      ],
+      "returned_pids": [
+        "UG-99",
+        "UG-100",
+        "UG-101",
+        "UG-22",
+        "UG-93",
+        "UCS-160",
+        "UG-125",
+        "UG-27",
+        "UG-80",
+        "UG-16"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 210.3,
+      "error": null
+    },
+    {
+      "id": "q011",
+      "category": "single_hop_factual",
+      "query": "corrosion allowance provisions for pressure vessels",
+      "expected": [
+        "UG-25"
+      ],
+      "returned_pids": [
+        "UG-25",
+        "UG-22",
+        "UG-16",
+        "UCS-100",
+        "UG-80",
+        "UCS-160",
+        "UG-94",
+        "UG-47",
+        "UG-93",
+        "UHA-20"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 182.3,
+      "error": null
+    },
+    {
+      "id": "q012",
+      "category": "single_hop_factual",
+      "query": "ellipsoidal and torispherical head design requirements",
+      "expected": [
+        "UG-32"
+      ],
+      "returned_pids": [
+        "UG-32",
+        "UG-33",
+        "UG-35",
+        "UG-37",
+        "UG-27",
+        "UG-36",
+        "UG-34",
+        "UG-28",
+        "UW-13",
+        "UG-51"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 200.7,
+      "error": null
+    },
+    {
+      "id": "q013",
+      "category": "single_hop_factual",
+      "query": "reinforcement requirements for openings in shells",
+      "expected": [
+        "UG-37"
+      ],
+      "returned_pids": [
+        "UG-37",
+        "UG-36",
+        "UG-38",
+        "UG-35",
+        "UG-40",
+        "UG-27",
+        "UW-13",
+        "UW-16",
+        "UG-46",
+        "UG-44"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 210.0,
+      "error": null
+    },
+    {
+      "id": "q014",
+      "category": "single_hop_factual",
+      "query": "nozzle neck minimum thickness requirements",
+      "expected": [
+        "UG-44"
+      ],
+      "returned_pids": [
+        "UG-44",
+        "UW-16",
+        "UW-49",
+        "UG-45",
+        "UG-40",
+        "UG-37",
+        "UG-35",
+        "UW-35",
+        "UG-27",
+        "UG-38"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 201.0,
+      "error": null
+    },
+    {
+      "id": "q015",
+      "category": "single_hop_factual",
+      "query": "welded joint category classification",
+      "expected": [
+        "UW-3"
+      ],
+      "returned_pids": [
+        "UW-3",
+        "UW-15",
+        "UW-2",
+        "UW-9",
+        "UW-12",
+        "UW-14",
+        "UW-11",
+        "UHA-21",
+        "QW-150",
+        "QW-280"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 193.6,
+      "error": null
+    },
+    {
+      "id": "q016",
+      "category": "single_hop_factual",
+      "query": "fillet weld minimum size requirements",
+      "expected": [
+        "UW-35"
+      ],
+      "returned_pids": [
+        "UW-35",
+        "UW-16",
+        "UW-49",
+        "UW-17",
+        "UW-15",
+        "UG-44",
+        "UG-45",
+        "UG-35",
+        "UG-40",
+        "UG-37"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 197.7,
+      "error": null
+    },
+    {
+      "id": "q017",
+      "category": "single_hop_factual",
+      "query": "Charpy V-notch impact test specimen preparation",
+      "expected": [
+        "UCS-57"
+      ],
+      "returned_pids": [
+        "UCS-57",
+        "UG-84",
+        "UCS-85",
+        "UCS-56",
+        "UCS-68",
+        "QW-452",
+        "UCS-66",
+        "QW-190",
+        "QW-160",
+        "UCS-115"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 200.5,
+      "error": null
+    },
+    {
+      "id": "q018",
+      "category": "single_hop_factual",
+      "query": "material identification and traceability requirements",
+      "expected": [
+        "UG-81"
+      ],
+      "returned_pids": [
+        "UG-81",
+        "UCS-115",
+        "UG-80",
+        "UG-18",
+        "UCS-56",
+        "QW-403",
+        "UCS-100",
+        "UG-84",
+        "UCS-85",
+        "UG-117"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 192.7,
+      "error": null
+    },
+    {
+      "id": "q019",
+      "category": "single_hop_factual",
+      "query": "pressure relief device set pressure requirements",
+      "expected": [
+        "UG-125"
+      ],
+      "returned_pids": [
+        "UG-125",
+        "UG-22",
+        "UG-16",
+        "UG-100",
+        "UG-99",
+        "UG-101",
+        "UG-94",
+        "UG-80",
+        "UG-27",
+        "UG-93"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 198.3,
+      "error": null
+    },
+    {
+      "id": "q020",
+      "category": "single_hop_factual",
+      "query": "nameplate required markings and information",
+      "expected": [
+        "UG-116"
+      ],
+      "returned_pids": [
+        "UG-116",
+        "UG-115",
+        "UG-94",
+        "UCS-115",
+        "UG-81",
+        "UG-120",
+        "UG-51",
+        "UCS-100",
+        "UG-117",
+        "QW-210"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 189.5,
+      "error": null
+    },
+    {
+      "id": "q021",
+      "category": "single_hop_factual",
+      "query": "pneumatic test requirements and stored energy hazards",
+      "expected": [
+        "UG-100"
+      ],
+      "returned_pids": [
+        "UG-100",
+        "UG-16",
+        "UG-101",
+        "UG-125",
+        "UG-99",
+        "UG-93",
+        "UG-84",
+        "QW-202",
+        "UG-22",
+        "UCS-68"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 197.2,
+      "error": null
+    },
+    {
+      "id": "q022",
+      "category": "single_hop_factual",
+      "query": "carbon steel PWHT temperature and holding time",
+      "expected": [
+        "UCS-79"
+      ],
+      "returned_pids": [
+        "UW-40",
+        "UCS-79",
+        "UW-28",
+        "UHA-34",
+        "UW-29",
+        "UCS-56",
+        "UCS-85",
+        "UCS-160",
+        "UCS-23",
+        "UCS-57"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 0.5,
+      "latency_ms": 205.7,
+      "error": null
+    },
+    {
+      "id": "q030",
+      "category": "multi_hop",
+      "query": "wall thickness calculation considering allowable stress values and joint efficiency",
+      "expected": [
+        "UG-27",
+        "UG-23",
+        "UW-12"
+      ],
+      "returned_pids": [
+        "UCS-25",
+        "UG-23",
+        "UG-38",
+        "UW-13",
+        "UG-32",
+        "UW-12",
+        "UG-27",
+        "UG-40",
+        "QW-451",
+        "UG-101"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 0.5,
+      "latency_ms": 190.9,
+      "error": null
+    },
+    {
+      "id": "q031",
+      "category": "multi_hop",
+      "query": "radiographic examination methods and spot radiography acceptance standards",
+      "expected": [
+        "UW-11",
+        "UW-51",
+        "UW-52"
+      ],
+      "returned_pids": [
+        "UW-52",
+        "UW-51",
+        "UW-11",
+        "QW-190",
+        "UCS-68",
+        "UHA-51",
+        "UCS-57",
+        "QW-452",
+        "UG-84",
+        "QW-451"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 196.3,
+      "error": null
+    },
+    {
+      "id": "q032",
+      "category": "multi_hop",
+      "query": "impact test exemptions and Charpy testing methods for carbon steel",
+      "expected": [
+        "UCS-66",
+        "UG-84",
+        "UCS-68"
+      ],
+      "returned_pids": [
+        "UCS-57",
+        "UG-84",
+        "UCS-56",
+        "UCS-66",
+        "UCS-100",
+        "UCS-68",
+        "UCS-160",
+        "UW-29",
+        "UCS-115",
+        "UCS-79"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 0.5,
+      "latency_ms": 188.0,
+      "error": null
+    },
+    {
+      "id": "q033",
+      "category": "multi_hop",
+      "query": "hydrostatic test and minimum wall thickness verification",
+      "expected": [
+        "UG-99",
+        "UG-27"
+      ],
+      "returned_pids": [
+        "UG-99",
+        "UG-101",
+        "UG-100",
+        "UCS-160",
+        "QW-451",
+        "UG-27",
+        "UG-19",
+        "UG-38",
+        "UG-28",
+        "UG-18"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 193.9,
+      "error": null
+    },
+    {
+      "id": "q034",
+      "category": "multi_hop",
+      "query": "postweld heat treatment for carbon steel and impact test requirements after PWHT",
+      "expected": [
+        "UW-28",
+        "UCS-79",
+        "UCS-56"
+      ],
+      "returned_pids": [
+        "UCS-79",
+        "UW-29",
+        "UW-28",
+        "UW-40",
+        "UCS-85",
+        "UHA-34",
+        "UCS-56",
+        "UG-84",
+        "UCS-160",
+        "UCS-57"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 213.0,
+      "error": null
+    },
+    {
+      "id": "q035",
+      "category": "multi_hop",
+      "query": "opening reinforcement area replacement calculation and limits",
+      "expected": [
+        "UG-37",
+        "UG-38",
+        "UG-40"
+      ],
+      "returned_pids": [
+        "UG-38",
+        "UG-37",
+        "UG-40",
+        "UG-36",
+        "UG-35",
+        "UW-13",
+        "UG-46",
+        "UG-47",
+        "QW-451",
+        "UG-125"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 193.9,
+      "error": null
+    },
+    {
+      "id": "q036",
+      "category": "multi_hop",
+      "query": "welding procedure specifications and essential variable requirements",
+      "expected": [
+        "QW-200",
+        "QW-250"
+      ],
+      "returned_pids": [
+        "QW-250",
+        "QW-350",
+        "QW-280",
+        "QW-100",
+        "QW-200",
+        "UW-26",
+        "QW-210",
+        "UW-14",
+        "QW-300",
+        "QW-401"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 180.8,
+      "error": null
+    },
+    {
+      "id": "q037",
+      "category": "multi_hop",
+      "query": "welder qualification performance tests and qualification range",
+      "expected": [
+        "QW-300",
+        "QW-301",
+        "QW-310"
+      ],
+      "returned_pids": [
+        "QW-300",
+        "QW-401",
+        "QW-310",
+        "QW-301",
+        "QW-350",
+        "QW-202",
+        "QW-200",
+        "QW-100",
+        "QW-451",
+        "QW-280"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 200.8,
+      "error": null
+    },
+    {
+      "id": "q038",
+      "category": "multi_hop",
+      "query": "joint efficiency and service restrictions for lethal service vessels",
+      "expected": [
+        "UW-12",
+        "UW-2"
+      ],
+      "returned_pids": [
+        "UW-2",
+        "UG-22",
+        "UW-12",
+        "UG-40",
+        "UG-19",
+        "UG-36",
+        "UG-16",
+        "UW-29",
+        "UW-14",
+        "UG-23"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 187.3,
+      "error": null
+    },
+    {
+      "id": "q039",
+      "category": "multi_hop",
+      "query": "high alloy steel welding and weld examination requirements",
+      "expected": [
+        "UHA-32",
+        "UHA-51"
+      ],
+      "returned_pids": [
+        "UHA-32",
+        "UHA-51",
+        "UHA-21",
+        "UHA-20",
+        "UHA-34",
+        "UHA-23",
+        "UW-11",
+        "UW-26",
+        "UCS-79",
+        "UW-14"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 190.3,
+      "error": null
+    },
+    {
+      "id": "q040",
+      "category": "multi_hop",
+      "query": "material general requirements and impact testing for low temperature carbon steel",
+      "expected": [
+        "UG-80",
+        "UCS-56",
+        "UCS-66"
+      ],
+      "returned_pids": [
+        "UCS-56",
+        "UCS-57",
+        "UCS-115",
+        "UG-80",
+        "UCS-160",
+        "UG-84",
+        "UCS-79",
+        "UCS-100",
+        "UCS-23",
+        "UCS-66"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 173.9,
+      "error": null
+    },
+    {
+      "id": "q041",
+      "category": "multi_hop",
+      "query": "nozzle design reinforcement and attachment weld sizing",
+      "expected": [
+        "UG-44",
+        "UG-37",
+        "UW-16"
+      ],
+      "returned_pids": [
+        "UW-49",
+        "UW-16",
+        "UG-45",
+        "UG-40",
+        "UG-44",
+        "UW-35",
+        "UG-37",
+        "UW-17",
+        "UG-38",
+        "UW-15"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 0.5,
+      "latency_ms": 190.3,
+      "error": null
+    },
+    {
+      "id": "q042",
+      "category": "multi_hop",
+      "query": "vessel inspection and certification data report requirements",
+      "expected": [
+        "UG-93",
+        "UG-117",
+        "UG-120"
+      ],
+      "returned_pids": [
+        "UG-93",
+        "UG-120",
+        "UG-16",
+        "UG-47",
+        "UG-19",
+        "UG-80",
+        "UG-94",
+        "UG-117",
+        "UW-11",
+        "UG-18"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 205.2,
+      "error": null
+    },
+    {
+      "id": "q043",
+      "category": "multi_hop",
+      "query": "flat head design and opening reinforcement in flat heads",
+      "expected": [
+        "UG-34",
+        "UG-35",
+        "UG-37"
+      ],
+      "returned_pids": [
+        "UG-35",
+        "UG-34",
+        "UG-36",
+        "UG-37",
+        "UG-33",
+        "UG-51",
+        "UG-32",
+        "UW-13",
+        "UG-46",
+        "UW-16"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 214.4,
+      "error": null
+    },
+    {
+      "id": "q044",
+      "category": "multi_hop",
+      "query": "PWHT procedures heating rate and exemption conditions",
+      "expected": [
+        "UW-28",
+        "UW-40",
+        "UW-29"
+      ],
+      "returned_pids": [
+        "UW-29",
+        "UW-40",
+        "UW-28",
+        "UCS-79",
+        "UHA-34",
+        "UCS-85",
+        "UW-14",
+        "QW-202",
+        "QW-200",
+        "QW-310"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 198.6,
+      "error": null
+    },
+    {
+      "id": "q045",
+      "category": "multi_hop",
+      "query": "design temperature and minimum design metal temperature determination",
+      "expected": [
+        "UG-20",
+        "UCS-66"
+      ],
+      "returned_pids": [
+        "UG-20",
+        "UCS-66",
+        "UG-116",
+        "UCS-23",
+        "UCS-67",
+        "UG-23",
+        "QW-403",
+        "UHA-23",
+        "UG-27",
+        "UCS-25"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 191.6,
+      "error": null
+    },
+    {
+      "id": "q050",
+      "category": "reference_relevance",
+      "query": "design load categories for pressure vessels including seismic and thermal cycling",
+      "expected": [
+        "UG-22"
+      ],
+      "returned_pids": [
+        "UG-22",
+        "UG-18",
+        "UG-16",
+        "UG-19",
+        "UCS-100",
+        "UG-80",
+        "UG-23",
+        "UG-125",
+        "UCS-160",
+        "UG-99"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 200.0,
+      "error": null
+    },
+    {
+      "id": "q051",
+      "category": "reference_relevance",
+      "query": "radiographic examination and welder qualification for examined welds",
+      "expected": [
+        "UW-11"
+      ],
+      "returned_pids": [
+        "UW-11",
+        "UW-51",
+        "UHA-51",
+        "UW-52",
+        "QW-301",
+        "QW-300",
+        "QW-202",
+        "QW-100",
+        "QW-401",
+        "QW-310"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 209.2,
+      "error": null
+    },
+    {
+      "id": "q052",
+      "category": "reference_relevance",
+      "query": "impact test exemption temperature for a given material thickness",
+      "expected": [
+        "UCS-66"
+      ],
+      "returned_pids": [
+        "UCS-66",
+        "UG-84",
+        "UCS-56",
+        "UCS-67",
+        "UCS-57",
+        "UCS-68",
+        "UCS-85",
+        "UG-20",
+        "UW-29",
+        "QW-451"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 192.9,
+      "error": null
+    },
+    {
+      "id": "q053",
+      "category": "reference_relevance",
+      "query": "minimum required wall thickness formula for internal pressure",
+      "expected": [
+        "UG-27"
+      ],
+      "returned_pids": [
+        "UG-27",
+        "UG-28",
+        "UG-38",
+        "UG-32",
+        "UG-101",
+        "UG-99",
+        "UG-44",
+        "UCS-25",
+        "UG-40",
+        "UG-33"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 196.8,
+      "error": null
+    },
+    {
+      "id": "q054",
+      "category": "reference_relevance",
+      "query": "WPS essential variable requirements for procedure qualification",
+      "expected": [
+        "QW-200"
+      ],
+      "returned_pids": [
+        "QW-210",
+        "QW-200",
+        "QW-250",
+        "QW-350",
+        "QW-202",
+        "QW-280",
+        "QW-100",
+        "QW-160",
+        "QW-301",
+        "QW-300"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 0.5,
+      "latency_ms": 204.8,
+      "error": null
+    },
+    {
+      "id": "q055",
+      "category": "reference_relevance",
+      "query": "PWHT temperature and time requirements for carbon steel",
+      "expected": [
+        "UW-28"
+      ],
+      "returned_pids": [
+        "UCS-79",
+        "UW-40",
+        "UHA-34",
+        "UW-28",
+        "UW-29",
+        "UCS-56",
+        "UCS-85",
+        "UG-80",
+        "UCS-160",
+        "UHA-32"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 0.25,
+      "latency_ms": 197.9,
+      "error": null
+    },
+    {
+      "id": "q056",
+      "category": "reference_relevance",
+      "query": "opening reinforcement area calculation method",
+      "expected": [
+        "UG-37"
+      ],
+      "returned_pids": [
+        "UG-38",
+        "UG-37",
+        "UW-13",
+        "UG-36",
+        "UG-40",
+        "UG-35",
+        "UG-46",
+        "UCS-25",
+        "QW-451",
+        "UG-101"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 0.5,
+      "latency_ms": 188.6,
+      "error": null
+    },
+    {
+      "id": "q057",
+      "category": "reference_relevance",
+      "query": "hydrostatic test pressure and leakage inspection",
+      "expected": [
+        "UG-99"
+      ],
+      "returned_pids": [
+        "UG-99",
+        "UG-100",
+        "UG-93",
+        "UG-101",
+        "UCS-160",
+        "UG-46",
+        "UG-22",
+        "UG-16",
+        "UHA-51",
+        "UG-18"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 196.1,
+      "error": null
+    },
+    {
+      "id": "q058",
+      "category": "reference_relevance",
+      "query": "welder performance qualification testing requirements",
+      "expected": [
+        "QW-300"
+      ],
+      "returned_pids": [
+        "QW-301",
+        "QW-310",
+        "QW-300",
+        "QW-350",
+        "QW-401",
+        "QW-100",
+        "QW-202",
+        "QW-160",
+        "QW-150",
+        "UW-26"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 0.3333333333333333,
+      "latency_ms": 191.8,
+      "error": null
+    },
+    {
+      "id": "q059",
+      "category": "reference_relevance",
+      "query": "high alloy steel maximum allowable stress values at elevated temperature",
+      "expected": [
+        "UHA-23"
+      ],
+      "returned_pids": [
+        "UHA-23",
+        "UCS-23",
+        "UG-23",
+        "UHA-32",
+        "UCS-25",
+        "UHA-21",
+        "UHA-20",
+        "UHA-34",
+        "UHA-51",
+        "UG-20"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 206.6,
+      "error": null
+    },
+    {
+      "id": "q060",
+      "category": "abstention",
+      "query": "ASME requirements for nuclear reactor pressure vessels in Section III",
+      "expected": [],
+      "returned_pids": [
+        "UG-16",
+        "UG-80",
+        "UG-22",
+        "UG-18",
+        "UG-93",
+        "UW-14",
+        "UG-36",
+        "UG-19",
+        "UCS-160",
+        "UCS-100"
+      ],
+      "hit5": false,
+      "hit10": false,
+      "rr": 0.0,
+      "latency_ms": 186.5,
+      "error": null,
+      "abstention_correct": true
+    },
+    {
+      "id": "q061",
+      "category": "abstention",
+      "query": "piping design requirements per ASME B31.3 process piping",
+      "expected": [],
+      "returned_pids": [
+        "UG-22",
+        "UG-28",
+        "UG-27",
+        "UG-16",
+        "UG-80",
+        "QW-310",
+        "UW-35",
+        "UCS-100",
+        "UG-38",
+        "QW-451"
+      ],
+      "hit5": false,
+      "hit10": false,
+      "rr": 0.0,
+      "latency_ms": 194.7,
+      "error": null,
+      "abstention_correct": true
+    },
+    {
+      "id": "q062",
+      "category": "abstention",
+      "query": "cast iron pressure vessel design requirements",
+      "expected": [],
+      "returned_pids": [
+        "UCS-100",
+        "UG-22",
+        "UG-80",
+        "UG-16",
+        "UCS-160",
+        "UG-18",
+        "UHA-20",
+        "UW-14",
+        "UG-19",
+        "UG-32"
+      ],
+      "hit5": false,
+      "hit10": false,
+      "rr": 0.0,
+      "latency_ms": 198.7,
+      "error": null,
+      "abstention_correct": true
+    },
+    {
+      "id": "q063",
+      "category": "abstention",
+      "query": "fiberglass reinforced plastic vessel design code requirements",
+      "expected": [],
+      "returned_pids": [
+        "UG-16",
+        "UG-22",
+        "UG-80",
+        "UG-18",
+        "UG-19",
+        "UCS-100",
+        "UHA-20",
+        "UG-93",
+        "UG-36",
+        "UG-38"
+      ],
+      "hit5": false,
+      "hit10": false,
+      "rr": 0.0,
+      "latency_ms": 200.8,
+      "error": null,
+      "abstention_correct": true
+    },
+    {
+      "id": "q064",
+      "category": "abstention",
+      "query": "boiler tube installation and bending requirements for power boilers",
+      "expected": [],
+      "returned_pids": [
+        "UW-33",
+        "UG-16",
+        "UG-19",
+        "UCS-79",
+        "UG-22",
+        "UG-28",
+        "UCS-100",
+        "UW-29",
+        "UG-37",
+        "UW-35"
+      ],
+      "hit5": false,
+      "hit10": false,
+      "rr": 0.0,
+      "latency_ms": 197.2,
+      "error": null,
+      "abstention_correct": true
+    },
+    {
+      "id": "q065",
+      "category": "abstention",
+      "query": "transportation tank design requirements for compressed gas",
+      "expected": [],
+      "returned_pids": [
+        "UG-22",
+        "UG-80",
+        "UG-16",
+        "UG-18",
+        "UG-125",
+        "UG-99",
+        "UCS-100",
+        "UG-19",
+        "UG-100",
+        "UG-32"
+      ],
+      "hit5": false,
+      "hit10": false,
+      "rr": 0.0,
+      "latency_ms": 188.6,
+      "error": null,
+      "abstention_correct": true
+    },
+    {
+      "id": "q080",
+      "category": "paragraph_id_lookup",
+      "query": "what does UG-22 say",
+      "expected": [
+        "UG-22"
+      ],
+      "returned_pids": [
+        "UG-22",
+        "UG-94",
+        "UG-18",
+        "UG-117",
+        "UG-120",
+        "UG-25",
+        "UG-115",
+        "UG-16",
+        "UG-19",
+        "UG-40"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 198.0,
+      "error": null
+    },
+    {
+      "id": "q081",
+      "category": "paragraph_id_lookup",
+      "query": "requirements of UW-11",
+      "expected": [
+        "UW-11"
+      ],
+      "returned_pids": [
+        "UW-11",
+        "UW-51",
+        "UG-80",
+        "UG-116",
+        "UW-2",
+        "UHA-20",
+        "UHA-32",
+        "UW-26",
+        "UW-14",
+        "UW-29"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 198.6,
+      "error": null
+    },
+    {
+      "id": "q082",
+      "category": "paragraph_id_lookup",
+      "query": "describe QW-200",
+      "expected": [
+        "QW-200"
+      ],
+      "returned_pids": [
+        "QW-200",
+        "QW-202",
+        "QW-100",
+        "QW-210",
+        "QW-160",
+        "QW-404",
+        "QW-403",
+        "QW-150",
+        "QW-190",
+        "QW-301"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 203.7,
+      "error": null
+    },
+    {
+      "id": "q083",
+      "category": "paragraph_id_lookup",
+      "query": "what is specified in UCS-66",
+      "expected": [
+        "UCS-66"
+      ],
+      "returned_pids": [
+        "UCS-68",
+        "UCS-67",
+        "UCS-85",
+        "UCS-66",
+        "UCS-100",
+        "UCS-57",
+        "UCS-115",
+        "UG-84",
+        "UG-18",
+        "UG-81"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 0.25,
+      "latency_ms": 200.8,
+      "error": null
+    },
+    {
+      "id": "q084",
+      "category": "paragraph_id_lookup",
+      "query": "UG-99 hydrostatic test requirements",
+      "expected": [
+        "UG-99"
+      ],
+      "returned_pids": [
+        "UG-99",
+        "UG-100",
+        "UG-101",
+        "UG-93",
+        "UG-22",
+        "UG-80",
+        "UG-125",
+        "UG-16",
+        "UCS-160",
+        "UG-18"
+      ],
+      "hit5": true,
+      "hit10": true,
+      "rr": 1.0,
+      "latency_ms": 198.8,
+      "error": null
+    }
+  ],
+  "skipped_count": 5
+}

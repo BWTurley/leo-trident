@@ -90,12 +90,17 @@ def seed_vault_system(vault_path: Path) -> None:
     if not hot_path.exists():
         # Minimal seed — will be overwritten by real hot.json from vault/_system/hot.json
         hot_seed = {
-            "version": 1,
-            "token_budget": 200,
-            "persona": "",
-            "safety_pins": [],
-            "active_project": {},
-            "session_hint": {}
+            "_meta": {
+                "version": 2,
+                "format": "Leo Trident system context v2",
+                "generated_at": "",
+                "note": "Injected into retrieval context for safety-critical reminders."
+            },
+            "safety_pins": {
+                "_label": "[SAFETY PINS] \ud83d\udd12 LOCKED",
+                "never": [],
+                "always": []
+            }
         }
         hot_path.write_text(json.dumps(hot_seed, indent=2))
         print(f"  ✓ Seeded {hot_path}")

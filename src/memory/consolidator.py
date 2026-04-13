@@ -162,7 +162,7 @@ class SleepTimeConsolidator:
         ADD / UPDATE / DELETE / NOOP against existing memory.
         """
         prompt = (
-            "You are a memory consolidation agent for Leo, an ASME inspection assistant.\n"
+            "You are a memory consolidation agent for Leo Trident, an ASME retrieval system.\n"
             "Extract atomic facts from the following conversation text.\n"
             "For each fact, classify it as ADD / UPDATE / DELETE / NOOP.\n"
             "ADD = new fact not previously known.\n"

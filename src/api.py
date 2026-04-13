@@ -304,22 +304,28 @@ class LeoTrident:
         except Exception as e:
             logger.warning(f"BM25 index error: {e}")
 
-        # Extract and store cross-reference edges
+        # Extract and store cross-reference edges via the parser
         try:
-            import re
-            refs = re.findall(r'\b(U[A-Z]{1,3}-\d+[\w.]*)\b', text)
+            from src.ingest.asme_parser import ASMEParser, GraphEdge, REFERENCE_TYPE_WEIGHTS
+            parser = ASMEParser(edition_year=edition_year)
+            refs = parser.extract_cross_refs_with_context(text, self_id=paragraph_id)
             if refs:
+                edges = [
+                    GraphEdge(
+                        source_id=paragraph_id,
+                        target_id=r['ref_id'],
+                        edge_type='cross_ref',
+                        reference_type=r['reference_type'],
+                        citation_text=r['citation_text'],
+                        context=r['context'],
+                        weight=REFERENCE_TYPE_WEIGHTS[r['reference_type']],
+                        edition_year=edition_year,
+                    )
+                    for r in refs
+                ]
                 conn2 = self._get_conn()
                 try:
-                    for ref in set(refs):
-                        if ref != paragraph_id:
-                            conn2.execute(
-                                """INSERT OR IGNORE INTO graph_edges
-                                   (source_id, target_id, edge_type, weight, edition_year)
-                                   VALUES (?,?,'cross_ref',1.0,?)""",
-                                (paragraph_id, ref, edition_year),
-                            )
-                    conn2.commit()
+                    ASMEParser.insert_edges(conn2, edges)
                 finally:
                     conn2.close()
         except Exception as e:

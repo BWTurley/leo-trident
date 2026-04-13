@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.leotrident.health</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>REPLACE_HOME/leo_trident/.venv/bin/python</string>
+    <string>REPLACE_HOME/leo_trident/scripts/run_health.py</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>LEO_TRIDENT_HOME</key><string>REPLACE_HOME/leo_trident</string>
+    <key>LEO_LLM_MODE</key><string>local</string>
+    <key>LEO_EMBED_DEVICE</key><string>mps</string>
+    <key>PATH</key><string>/opt/homebrew/bin:/usr/bin:/bin</string>
+  </dict>
+  <key>KeepAlive</key><true/>
+  <key>RunAtLoad</key><true/>
+  <key>StandardOutPath</key>
+  <string>REPLACE_HOME/leo_trident/data/health.stdout.log</string>
+  <key>StandardErrorPath</key>
+  <string>REPLACE_HOME/leo_trident/data/health.stderr.log</string>
+  <key>WorkingDirectory</key>
+  <string>REPLACE_HOME/leo_trident</string>
+</dict>
+</plist>

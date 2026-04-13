@@ -8,6 +8,7 @@ into `~/Library/LaunchAgents/` during manual setup.
 - `com.leotrident.consolidate.plist` — nightly 2 AM consolidation
 - `com.leotrident.watcher.plist` — always-on vault file watcher
 - `com.leotrident.backup.plist` — weekly Sunday 3 AM SQLite + LanceDB backup
+- `com.leotrident.health.plist` — always-on health endpoint on 127.0.0.1:8765
 
 ## Setup
 1. Replace every `REPLACE_USERNAME` with the output of `whoami`.

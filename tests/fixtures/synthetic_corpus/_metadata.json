@@ -1,0 +1,3588 @@
+{
+  "QW-100": {
+    "cross_refs": [
+      {
+        "target": "QW-190",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-200",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-250",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-280",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-300",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-301",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-403",
+        "type": "informational"
+      },
+      {
+        "target": "QW-404",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-451",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "QW",
+    "section": "IX",
+    "topics": [
+      "scope",
+      "welding qualification",
+      "Section IX",
+      "procedure qualification",
+      "performance qualification"
+    ]
+  },
+  "QW-150": {
+    "cross_refs": [
+      {
+        "target": "QW-160",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-190",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-200",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-300",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-452",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "QW",
+    "section": "IX",
+    "topics": [
+      "tests",
+      "mechanical tests",
+      "tension tests",
+      "bend tests",
+      "qualification tests"
+    ]
+  },
+  "QW-160": {
+    "cross_refs": [
+      {
+        "target": "QW-150",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-170",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-190",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-200",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-301",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-451",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "QW",
+    "section": "IX",
+    "topics": [
+      "procedure qualification tests",
+      "groove welds",
+      "fillet welds",
+      "macro examination"
+    ]
+  },
+  "QW-190": {
+    "cross_refs": [
+      {
+        "target": "QW-150",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-160",
+        "type": "informational"
+      },
+      {
+        "target": "QW-170",
+        "type": "informational"
+      },
+      {
+        "target": "QW-452",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "QW",
+    "section": "IX",
+    "topics": [
+      "alternative tests",
+      "hardness testing",
+      "volumetric examination",
+      "additional examinations"
+    ]
+  },
+  "QW-200": {
+    "cross_refs": [
+      {
+        "target": "QW-202",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-210",
+        "type": "informational"
+      },
+      {
+        "target": "QW-250",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-280",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-403",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-404",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-451",
+        "type": "conditional"
+      },
+      {
+        "target": "UW-26",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "QW",
+    "section": "IX",
+    "topics": [
+      "WPS",
+      "welding procedure specification",
+      "procedure specification",
+      "essential variables"
+    ]
+  },
+  "QW-202": {
+    "cross_refs": [
+      {
+        "target": "QW-150",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-160",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-190",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-200",
+        "type": "informational"
+      },
+      {
+        "target": "QW-250",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-301",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-451",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "QW",
+    "section": "IX",
+    "topics": [
+      "PQR",
+      "procedure qualification record",
+      "qualification tests",
+      "test results"
+    ]
+  },
+  "QW-210": {
+    "cross_refs": [
+      {
+        "target": "QW-200",
+        "type": "informational"
+      },
+      {
+        "target": "QW-250",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-280",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-403",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-404",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-451",
+        "type": "informational"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "QW",
+    "section": "IX",
+    "topics": [
+      "WPS preparation",
+      "welder direction",
+      "variable listing",
+      "WPS format"
+    ]
+  },
+  "QW-250": {
+    "cross_refs": [
+      {
+        "target": "QW-200",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-202",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-280",
+        "type": "informational"
+      },
+      {
+        "target": "QW-350",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-403",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-404",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-451",
+        "type": "conditional"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "QW",
+    "section": "IX",
+    "topics": [
+      "welding variables",
+      "essential variables",
+      "nonessential variables",
+      "supplementary essential variables",
+      "requalification"
+    ]
+  },
+  "QW-280": {
+    "cross_refs": [
+      {
+        "target": "QW-150",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-160",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-200",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-202",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-250",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-300",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-350",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "QW",
+    "section": "IX",
+    "topics": [
+      "special process variables",
+      "electron beam welding",
+      "laser welding",
+      "friction welding"
+    ]
+  },
+  "QW-300": {
+    "cross_refs": [
+      {
+        "target": "QW-190",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-200",
+        "type": "informational"
+      },
+      {
+        "target": "QW-301",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-310",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-350",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-401",
+        "type": "conditional"
+      },
+      {
+        "target": "UW-26",
+        "type": "conditional"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "QW",
+    "section": "IX",
+    "topics": [
+      "welder qualification",
+      "welding operator",
+      "performance qualification",
+      "welder testing"
+    ]
+  },
+  "QW-301": {
+    "cross_refs": [
+      {
+        "target": "QW-190",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-200",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-300",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-310",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-350",
+        "type": "informational"
+      },
+      {
+        "target": "QW-452",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "QW",
+    "section": "IX",
+    "topics": [
+      "performance tests",
+      "bend tests",
+      "test coupon",
+      "RT alternative",
+      "welder tests"
+    ]
+  },
+  "QW-310": {
+    "cross_refs": [
+      {
+        "target": "QW-300",
+        "type": "informational"
+      },
+      {
+        "target": "QW-301",
+        "type": "informational"
+      },
+      {
+        "target": "QW-350",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-403",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-451",
+        "type": "conditional"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "QW",
+    "section": "IX",
+    "topics": [
+      "qualification range",
+      "thickness range",
+      "diameter range",
+      "position qualification"
+    ]
+  },
+  "QW-350": {
+    "cross_refs": [
+      {
+        "target": "QW-190",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-250",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-300",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-301",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-310",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-401",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-404",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "QW",
+    "section": "IX",
+    "topics": [
+      "performance variables",
+      "welder variables",
+      "essential variables",
+      "requalification",
+      "welding position"
+    ]
+  },
+  "QW-401": {
+    "cross_refs": [
+      {
+        "target": "QW-200",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-300",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-301",
+        "type": "informational"
+      },
+      {
+        "target": "QW-310",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-403",
+        "type": "informational"
+      },
+      {
+        "target": "UG-93",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "QW",
+    "section": "IX",
+    "topics": [
+      "general qualification",
+      "Manufacturer responsibility",
+      "record maintenance",
+      "renewal"
+    ]
+  },
+  "QW-403": {
+    "cross_refs": [
+      {
+        "target": "QW-202",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-250",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-350",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-404",
+        "type": "informational"
+      },
+      {
+        "target": "UCS-100",
+        "type": "informational"
+      },
+      {
+        "target": "UG-81",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "QW",
+    "section": "IX",
+    "topics": [
+      "base metals",
+      "P-Numbers",
+      "material groupings",
+      "base metal qualification"
+    ]
+  },
+  "QW-404": {
+    "cross_refs": [
+      {
+        "target": "QW-200",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-202",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-250",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-280",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-350",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-403",
+        "type": "informational"
+      },
+      {
+        "target": "UHA-32",
+        "type": "conditional"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "QW",
+    "section": "IX",
+    "topics": [
+      "filler metals",
+      "F-Numbers",
+      "A-Numbers",
+      "electrode classification",
+      "filler metal groupings"
+    ]
+  },
+  "QW-451": {
+    "cross_refs": [
+      {
+        "target": "QW-150",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-160",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-200",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-310",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-452",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "QW",
+    "section": "IX",
+    "topics": [
+      "thickness limits",
+      "procedure qualification",
+      "test coupon",
+      "Table QW-451",
+      "qualified thickness range"
+    ]
+  },
+  "QW-452": {
+    "cross_refs": [
+      {
+        "target": "QW-150",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-160",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-190",
+        "type": "conditional"
+      },
+      {
+        "target": "QW-451",
+        "type": "conditional"
+      },
+      {
+        "target": "UCS-57",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "QW",
+    "section": "IX",
+    "topics": [
+      "test specimens",
+      "specimen types",
+      "specimen locations",
+      "bend specimens",
+      "tension specimens"
+    ]
+  },
+  "UCS-100": {
+    "cross_refs": [
+      {
+        "target": "UCS-115",
+        "type": "mandatory"
+      },
+      {
+        "target": "UCS-23",
+        "type": "conditional"
+      },
+      {
+        "target": "UCS-56",
+        "type": "conditional"
+      },
+      {
+        "target": "UCS-66",
+        "type": "conditional"
+      },
+      {
+        "target": "UG-27",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-80",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-81",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-84",
+        "type": "informational"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UCS",
+    "section": "VIII-1",
+    "topics": [
+      "carbon steel plate",
+      "material specifications",
+      "plate requirements"
+    ]
+  },
+  "UCS-115": {
+    "cross_refs": [
+      {
+        "target": "UCS-100",
+        "type": "informational"
+      },
+      {
+        "target": "UCS-56",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-80",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-81",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-93",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UCS",
+    "section": "VIII-1",
+    "topics": [
+      "material marking",
+      "identification",
+      "traceability",
+      "heat number",
+      "stamp transfer"
+    ]
+  },
+  "UCS-160": {
+    "cross_refs": [
+      {
+        "target": "UCS-66",
+        "type": "unclassified"
+      },
+      {
+        "target": "UCS-79",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-100",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-101",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-27",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-93",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-99",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UCS",
+    "section": "VIII-1",
+    "topics": [
+      "pressure testing",
+      "hydrostatic test",
+      "carbon steel testing",
+      "test temperature"
+    ]
+  },
+  "UCS-23": {
+    "cross_refs": [
+      {
+        "target": "UG-20",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-23",
+        "type": "informational"
+      },
+      {
+        "target": "UG-27",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-28",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-80",
+        "type": "mandatory"
+      },
+      {
+        "target": "UHA-23",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UCS",
+    "section": "VIII-1",
+    "topics": [
+      "allowable stress",
+      "stress values",
+      "carbon steel",
+      "low alloy steel",
+      "stress tables"
+    ]
+  },
+  "UCS-25": {
+    "cross_refs": [
+      {
+        "target": "UCS-100",
+        "type": "informational"
+      },
+      {
+        "target": "UCS-23",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-22",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-23",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-27",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-28",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UCS",
+    "section": "VIII-1",
+    "topics": [
+      "stress intensity",
+      "design by analysis",
+      "stress limits",
+      "carbon steel stress"
+    ]
+  },
+  "UCS-56": {
+    "cross_refs": [
+      {
+        "target": "UCS-57",
+        "type": "mandatory"
+      },
+      {
+        "target": "UCS-66",
+        "type": "informational"
+      },
+      {
+        "target": "UCS-67",
+        "type": "mandatory"
+      },
+      {
+        "target": "UCS-68",
+        "type": "mandatory"
+      },
+      {
+        "target": "UCS-79",
+        "type": "informational"
+      },
+      {
+        "target": "UG-20",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-80",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-84",
+        "type": "unclassified"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UCS",
+    "section": "VIII-1",
+    "topics": [
+      "impact testing",
+      "carbon steel",
+      "toughness",
+      "impact requirements",
+      "low alloy steel"
+    ]
+  },
+  "UCS-57": {
+    "cross_refs": [
+      {
+        "target": "UCS-56",
+        "type": "informational"
+      },
+      {
+        "target": "UCS-66",
+        "type": "informational"
+      },
+      {
+        "target": "UCS-68",
+        "type": "mandatory"
+      },
+      {
+        "target": "UCS-85",
+        "type": "informational"
+      },
+      {
+        "target": "UG-84",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UCS",
+    "section": "VIII-1",
+    "topics": [
+      "impact specimens",
+      "Charpy V-notch",
+      "specimen orientation",
+      "subsize specimens"
+    ]
+  },
+  "UCS-66": {
+    "cross_refs": [
+      {
+        "target": "UCS-23",
+        "type": "informational"
+      },
+      {
+        "target": "UCS-56",
+        "type": "mandatory"
+      },
+      {
+        "target": "UCS-67",
+        "type": "conditional"
+      },
+      {
+        "target": "UCS-68",
+        "type": "conditional"
+      },
+      {
+        "target": "UG-20",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-22",
+        "type": "informational"
+      },
+      {
+        "target": "UG-80",
+        "type": "conditional"
+      },
+      {
+        "target": "UG-84",
+        "type": "informational"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UCS",
+    "section": "VIII-1",
+    "topics": [
+      "impact exemption",
+      "exemption curves",
+      "MDMT",
+      "Curve A",
+      "Curve B",
+      "Curve C",
+      "Curve D",
+      "minimum design metal temperature",
+      "low temperature"
+    ]
+  },
+  "UCS-67": {
+    "cross_refs": [
+      {
+        "target": "UCS-56",
+        "type": "unclassified"
+      },
+      {
+        "target": "UCS-66",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-20",
+        "type": "informational"
+      },
+      {
+        "target": "UG-84",
+        "type": "informational"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UCS",
+    "section": "VIII-1",
+    "topics": [
+      "MDMT reduction",
+      "stress ratio",
+      "coincident ratio",
+      "alternative rules"
+    ]
+  },
+  "UCS-68": {
+    "cross_refs": [
+      {
+        "target": "UCS-56",
+        "type": "mandatory"
+      },
+      {
+        "target": "UCS-57",
+        "type": "informational"
+      },
+      {
+        "target": "UCS-66",
+        "type": "unclassified"
+      },
+      {
+        "target": "UCS-67",
+        "type": "unclassified"
+      },
+      {
+        "target": "UCS-85",
+        "type": "informational"
+      },
+      {
+        "target": "UG-84",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UCS",
+    "section": "VIII-1",
+    "topics": [
+      "impact test methods",
+      "Charpy testing",
+      "absorbed energy",
+      "test procedures",
+      "calibration"
+    ]
+  },
+  "UCS-79": {
+    "cross_refs": [
+      {
+        "target": "UCS-56",
+        "type": "mandatory"
+      },
+      {
+        "target": "UCS-85",
+        "type": "mandatory"
+      },
+      {
+        "target": "UHA-34",
+        "type": "informational"
+      },
+      {
+        "target": "UW-28",
+        "type": "informational"
+      },
+      {
+        "target": "UW-29",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-40",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UCS",
+    "section": "VIII-1",
+    "topics": [
+      "PWHT",
+      "postweld heat treatment",
+      "carbon steel PWHT",
+      "holding time",
+      "P-Number"
+    ]
+  },
+  "UCS-85": {
+    "cross_refs": [
+      {
+        "target": "UCS-56",
+        "type": "informational"
+      },
+      {
+        "target": "UCS-57",
+        "type": "mandatory"
+      },
+      {
+        "target": "UCS-68",
+        "type": "mandatory"
+      },
+      {
+        "target": "UCS-79",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-81",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-84",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-28",
+        "type": "unclassified"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UCS",
+    "section": "VIII-1",
+    "topics": [
+      "heat treatment",
+      "test specimens",
+      "simulated PWHT",
+      "material testing"
+    ]
+  },
+  "UG-100": {
+    "cross_refs": [
+      {
+        "target": "UG-101",
+        "type": "informational"
+      },
+      {
+        "target": "UG-125",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-27",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-93",
+        "type": "informational"
+      },
+      {
+        "target": "UG-99",
+        "type": "informational"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "pneumatic test",
+      "air test",
+      "stored energy",
+      "safety precautions"
+    ]
+  },
+  "UG-101": {
+    "cross_refs": [
+      {
+        "target": "UG-100",
+        "type": "informational"
+      },
+      {
+        "target": "UG-120",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-27",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-34",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-93",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-99",
+        "type": "informational"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "proof test",
+      "maximum allowable working pressure",
+      "MAWP",
+      "design verification"
+    ]
+  },
+  "UG-115": {
+    "cross_refs": [
+      {
+        "target": "UG-116",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-117",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-120",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-93",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-94",
+        "type": "informational"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "nameplates",
+      "vessel identification",
+      "permanent marking"
+    ]
+  },
+  "UG-116": {
+    "cross_refs": [
+      {
+        "target": "UCS-66",
+        "type": "unclassified"
+      },
+      {
+        "target": "UCS-79",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-115",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-117",
+        "type": "informational"
+      },
+      {
+        "target": "UG-93",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-99",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-28",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "markings",
+      "nameplate information",
+      "serial number",
+      "MAWP",
+      "MDMT marking"
+    ]
+  },
+  "UG-117": {
+    "cross_refs": [
+      {
+        "target": "UG-100",
+        "type": "conditional"
+      },
+      {
+        "target": "UG-115",
+        "type": "conditional"
+      },
+      {
+        "target": "UG-116",
+        "type": "conditional"
+      },
+      {
+        "target": "UG-120",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-22",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-81",
+        "type": "informational"
+      },
+      {
+        "target": "UG-93",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-94",
+        "type": "informational"
+      },
+      {
+        "target": "UG-99",
+        "type": "conditional"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "certification",
+      "data report",
+      "compliance",
+      "Inspector sign-off"
+    ]
+  },
+  "UG-120": {
+    "cross_refs": [
+      {
+        "target": "UG-100",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-116",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-117",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-22",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-27",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-80",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-93",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-94",
+        "type": "informational"
+      },
+      {
+        "target": "UG-99",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "data reports",
+      "documentation",
+      "record keeping",
+      "vessel records"
+    ]
+  },
+  "UG-125": {
+    "cross_refs": [
+      {
+        "target": "UG-100",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-116",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-22",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-23",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-27",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-93",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-99",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "pressure relief",
+      "safety valves",
+      "rupture disks",
+      "overpressure protection",
+      "relief devices"
+    ]
+  },
+  "UG-16": {
+    "cross_refs": [
+      {
+        "target": "UG-100",
+        "type": "conditional"
+      },
+      {
+        "target": "UG-115",
+        "type": "informational"
+      },
+      {
+        "target": "UG-120",
+        "type": "informational"
+      },
+      {
+        "target": "UG-125",
+        "type": "conditional"
+      },
+      {
+        "target": "UG-22",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-34",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-47",
+        "type": "conditional"
+      },
+      {
+        "target": "UG-80",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-93",
+        "type": "conditional"
+      },
+      {
+        "target": "UG-99",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-26",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "scope",
+      "general requirements",
+      "applicability",
+      "pressure vessels"
+    ]
+  },
+  "UG-18": {
+    "cross_refs": [
+      {
+        "target": "UCS-23",
+        "type": "conditional"
+      },
+      {
+        "target": "UCS-66",
+        "type": "conditional"
+      },
+      {
+        "target": "UCS-67",
+        "type": "conditional"
+      },
+      {
+        "target": "UG-80",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-81",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-84",
+        "type": "conditional"
+      },
+      {
+        "target": "UG-93",
+        "type": "mandatory"
+      },
+      {
+        "target": "UHA-23",
+        "type": "conditional"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "materials",
+      "material specifications",
+      "material identification",
+      "test reports"
+    ]
+  },
+  "UG-19": {
+    "cross_refs": [
+      {
+        "target": "UG-101",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-116",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-22",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-23",
+        "type": "informational"
+      },
+      {
+        "target": "UG-27",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-34",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-11",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-26",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "special construction",
+      "novel design",
+      "proof tests",
+      "inspector approval"
+    ]
+  },
+  "UG-20": {
+    "cross_refs": [
+      {
+        "target": "UCS-66",
+        "type": "mandatory"
+      },
+      {
+        "target": "UCS-67",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-22",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-23",
+        "type": "informational"
+      },
+      {
+        "target": "UG-84",
+        "type": "informational"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "design temperature",
+      "MDMT",
+      "minimum design metal temperature",
+      "operating conditions"
+    ]
+  },
+  "UG-22": {
+    "cross_refs": [
+      {
+        "target": "UCS-66",
+        "type": "mandatory"
+      },
+      {
+        "target": "UCS-67",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-23",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-25",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-27",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-28",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-99",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "design loads",
+      "pressure",
+      "dead weight",
+      "seismic",
+      "thermal cycling",
+      "wind loads"
+    ]
+  },
+  "UG-23": {
+    "cross_refs": [
+      {
+        "target": "UCS-23",
+        "type": "informational"
+      },
+      {
+        "target": "UG-22",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-27",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-28",
+        "type": "informational"
+      },
+      {
+        "target": "UHA-23",
+        "type": "informational"
+      },
+      {
+        "target": "UW-12",
+        "type": "conditional"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "maximum allowable stress",
+      "stress values",
+      "design formulas",
+      "creep",
+      "joint efficiency"
+    ]
+  },
+  "UG-25": {
+    "cross_refs": [
+      {
+        "target": "UG-22",
+        "type": "informational"
+      },
+      {
+        "target": "UG-27",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-28",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-46",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-47",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-93",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "corrosion",
+      "erosion",
+      "corrosion allowance",
+      "thickness",
+      "design life"
+    ]
+  },
+  "UG-27": {
+    "cross_refs": [
+      {
+        "target": "UG-20",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-22",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-23",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-25",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-28",
+        "type": "informational"
+      },
+      {
+        "target": "UG-32",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-33",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-12",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "wall thickness",
+      "minimum thickness",
+      "cylindrical shells",
+      "internal pressure",
+      "thickness formula"
+    ]
+  },
+  "UG-28": {
+    "cross_refs": [
+      {
+        "target": "UG-22",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-23",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-25",
+        "type": "informational"
+      },
+      {
+        "target": "UG-27",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-29",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-33",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "external pressure",
+      "shells",
+      "tubes",
+      "stiffening rings",
+      "buckling"
+    ]
+  },
+  "UG-32": {
+    "cross_refs": [
+      {
+        "target": "UCS-79",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-23",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-25",
+        "type": "informational"
+      },
+      {
+        "target": "UG-27",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-33",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-12",
+        "type": "unclassified"
+      },
+      {
+        "target": "UW-13",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "formed heads",
+      "ellipsoidal heads",
+      "torispherical heads",
+      "hemispherical heads",
+      "concave pressure"
+    ]
+  },
+  "UG-33": {
+    "cross_refs": [
+      {
+        "target": "UG-23",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-25",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-28",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-32",
+        "type": "informational"
+      },
+      {
+        "target": "UG-34",
+        "type": "informational"
+      },
+      {
+        "target": "UW-12",
+        "type": "unclassified"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "formed heads",
+      "convex pressure",
+      "external pressure on heads",
+      "crown radius",
+      "knuckle radius"
+    ]
+  },
+  "UG-34": {
+    "cross_refs": [
+      {
+        "target": "UG-23",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-27",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-35",
+        "type": "informational"
+      },
+      {
+        "target": "UG-36",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-37",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-11",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-13",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-52",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "flat heads",
+      "covers",
+      "unstayed",
+      "attachment factor",
+      "flat head design"
+    ]
+  },
+  "UG-35": {
+    "cross_refs": [
+      {
+        "target": "UG-34",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-36",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-37",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-38",
+        "type": "informational"
+      },
+      {
+        "target": "UG-40",
+        "type": "informational"
+      },
+      {
+        "target": "UG-44",
+        "type": "conditional"
+      },
+      {
+        "target": "UG-45",
+        "type": "conditional"
+      },
+      {
+        "target": "UG-46",
+        "type": "conditional"
+      },
+      {
+        "target": "UG-47",
+        "type": "conditional"
+      },
+      {
+        "target": "UW-13",
+        "type": "informational"
+      },
+      {
+        "target": "UW-16",
+        "type": "conditional"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "openings",
+      "flat heads",
+      "reinforcement",
+      "nozzle attachment",
+      "ligament"
+    ]
+  },
+  "UG-36": {
+    "cross_refs": [
+      {
+        "target": "UG-35",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-37",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-38",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-40",
+        "type": "informational"
+      },
+      {
+        "target": "UG-44",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-13",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "openings",
+      "shells",
+      "heads",
+      "reinforcement",
+      "nozzle",
+      "unreinforced openings"
+    ]
+  },
+  "UG-37": {
+    "cross_refs": [
+      {
+        "target": "UG-27",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-36",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-38",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-40",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-44",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-45",
+        "type": "informational"
+      },
+      {
+        "target": "UW-16",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "reinforcement",
+      "openings",
+      "area replacement",
+      "reinforcement pads",
+      "shells",
+      "formed heads"
+    ]
+  },
+  "UG-38": {
+    "cross_refs": [
+      {
+        "target": "UG-27",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-28",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-36",
+        "type": "informational"
+      },
+      {
+        "target": "UG-37",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-40",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-44",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-13",
+        "type": "informational"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "reinforcement calculations",
+      "area replacement",
+      "strength reduction",
+      "nozzle temperature"
+    ]
+  },
+  "UG-40": {
+    "cross_refs": [
+      {
+        "target": "UG-37",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-38",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-44",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-45",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-15",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-16",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "limits of reinforcement",
+      "reinforcement zone",
+      "nozzle diameter",
+      "pad thickness"
+    ]
+  },
+  "UG-44": {
+    "cross_refs": [
+      {
+        "target": "UG-27",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-37",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-40",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-45",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-15",
+        "type": "informational"
+      },
+      {
+        "target": "UW-16",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-49",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "nozzle neck",
+      "nozzle thickness",
+      "minimum wall thickness",
+      "nozzle design"
+    ]
+  },
+  "UG-45": {
+    "cross_refs": [
+      {
+        "target": "UG-36",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-37",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-40",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-44",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-46",
+        "type": "informational"
+      },
+      {
+        "target": "UW-11",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-49",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "nozzle dimensions",
+      "nozzle finish",
+      "nozzle projection",
+      "piping connection"
+    ]
+  },
+  "UG-46": {
+    "cross_refs": [
+      {
+        "target": "UG-22",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-27",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-36",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-37",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-47",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-93",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "inspection openings",
+      "vessel inspection",
+      "interior examination",
+      "access"
+    ]
+  },
+  "UG-47": {
+    "cross_refs": [
+      {
+        "target": "UG-100",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-120",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-25",
+        "type": "informational"
+      },
+      {
+        "target": "UG-46",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-93",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-99",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "access openings",
+      "inspection exemptions",
+      "manways",
+      "small vessels"
+    ]
+  },
+  "UG-51": {
+    "cross_refs": [
+      {
+        "target": "UG-22",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-23",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-27",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-34",
+        "type": "informational"
+      },
+      {
+        "target": "UG-93",
+        "type": "informational"
+      },
+      {
+        "target": "UW-19",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "stayed surfaces",
+      "stay bolts",
+      "flat plates",
+      "staying",
+      "pitch"
+    ]
+  },
+  "UG-80": {
+    "cross_refs": [
+      {
+        "target": "UCS-100",
+        "type": "mandatory"
+      },
+      {
+        "target": "UCS-23",
+        "type": "mandatory"
+      },
+      {
+        "target": "UCS-56",
+        "type": "mandatory"
+      },
+      {
+        "target": "UCS-66",
+        "type": "informational"
+      },
+      {
+        "target": "UG-18",
+        "type": "informational"
+      },
+      {
+        "target": "UG-81",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-84",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-93",
+        "type": "informational"
+      },
+      {
+        "target": "UHA-23",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "materials",
+      "material specifications",
+      "general requirements",
+      "material tables"
+    ]
+  },
+  "UG-81": {
+    "cross_refs": [
+      {
+        "target": "UCS-115",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-80",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-84",
+        "type": "informational"
+      },
+      {
+        "target": "UG-93",
+        "type": "informational"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "material identification",
+      "traceability",
+      "heat number",
+      "mill test reports",
+      "marking"
+    ]
+  },
+  "UG-84": {
+    "cross_refs": [
+      {
+        "target": "UCS-56",
+        "type": "mandatory"
+      },
+      {
+        "target": "UCS-57",
+        "type": "informational"
+      },
+      {
+        "target": "UCS-66",
+        "type": "mandatory"
+      },
+      {
+        "target": "UCS-67",
+        "type": "mandatory"
+      },
+      {
+        "target": "UCS-68",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-93",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "impact testing",
+      "Charpy",
+      "toughness",
+      "impact test requirements",
+      "acceptance criteria"
+    ]
+  },
+  "UG-93": {
+    "cross_refs": [
+      {
+        "target": "UG-100",
+        "type": "conditional"
+      },
+      {
+        "target": "UG-117",
+        "type": "informational"
+      },
+      {
+        "target": "UG-120",
+        "type": "conditional"
+      },
+      {
+        "target": "UG-47",
+        "type": "conditional"
+      },
+      {
+        "target": "UG-80",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-81",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-94",
+        "type": "informational"
+      },
+      {
+        "target": "UG-99",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-11",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-51",
+        "type": "informational"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "inspection",
+      "Inspector",
+      "vessel inspection",
+      "construction inspection"
+    ]
+  },
+  "UG-94": {
+    "cross_refs": [
+      {
+        "target": "UCS-115",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-115",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-116",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-117",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-120",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-125",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-93",
+        "type": "informational"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "marking",
+      "reports",
+      "documentation",
+      "data reports",
+      "certification"
+    ]
+  },
+  "UG-99": {
+    "cross_refs": [
+      {
+        "target": "UG-100",
+        "type": "conditional"
+      },
+      {
+        "target": "UG-101",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-19",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-22",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-27",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-93",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-12",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UG",
+    "section": "VIII-1",
+    "topics": [
+      "hydrostatic test",
+      "pressure test",
+      "test pressure",
+      "leakage",
+      "proof test"
+    ]
+  },
+  "UHA-20": {
+    "cross_refs": [
+      {
+        "target": "QW-200",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-125",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-16",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-80",
+        "type": "informational"
+      },
+      {
+        "target": "UHA-23",
+        "type": "informational"
+      },
+      {
+        "target": "UHA-32",
+        "type": "mandatory"
+      },
+      {
+        "target": "UHA-51",
+        "type": "informational"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UHA",
+    "section": "VIII-1",
+    "topics": [
+      "high alloy steel",
+      "stainless steel",
+      "austenitic",
+      "duplex",
+      "scope"
+    ]
+  },
+  "UHA-21": {
+    "cross_refs": [
+      {
+        "target": "QW-200",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-250",
+        "type": "unclassified"
+      },
+      {
+        "target": "QW-300",
+        "type": "unclassified"
+      },
+      {
+        "target": "QW-404",
+        "type": "mandatory"
+      },
+      {
+        "target": "UHA-32",
+        "type": "informational"
+      },
+      {
+        "target": "UHA-34",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-26",
+        "type": "informational"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UHA",
+    "section": "VIII-1",
+    "topics": [
+      "Section IX",
+      "high alloy welding",
+      "welding qualification",
+      "essential variables"
+    ]
+  },
+  "UHA-23": {
+    "cross_refs": [
+      {
+        "target": "UCS-23",
+        "type": "informational"
+      },
+      {
+        "target": "UG-23",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-27",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-28",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-80",
+        "type": "mandatory"
+      },
+      {
+        "target": "UHA-32",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-12",
+        "type": "unclassified"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UHA",
+    "section": "VIII-1",
+    "topics": [
+      "high alloy stress",
+      "stainless steel stress",
+      "stress values",
+      "high alloy allowable stress"
+    ]
+  },
+  "UHA-32": {
+    "cross_refs": [
+      {
+        "target": "QW-200",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-300",
+        "type": "unclassified"
+      },
+      {
+        "target": "QW-404",
+        "type": "mandatory"
+      },
+      {
+        "target": "UHA-21",
+        "type": "mandatory"
+      },
+      {
+        "target": "UHA-34",
+        "type": "mandatory"
+      },
+      {
+        "target": "UHA-51",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-14",
+        "type": "informational"
+      },
+      {
+        "target": "UW-26",
+        "type": "informational"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UHA",
+    "section": "VIII-1",
+    "topics": [
+      "high alloy welding",
+      "stainless steel welding",
+      "interpass temperature",
+      "filler metal compatibility"
+    ]
+  },
+  "UHA-34": {
+    "cross_refs": [
+      {
+        "target": "UCS-79",
+        "type": "informational"
+      },
+      {
+        "target": "UG-84",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-28",
+        "type": "unclassified"
+      },
+      {
+        "target": "UW-29",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-40",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UHA",
+    "section": "VIII-1",
+    "topics": [
+      "high alloy PWHT",
+      "stainless steel heat treatment",
+      "austenitic PWHT"
+    ]
+  },
+  "UHA-51": {
+    "cross_refs": [
+      {
+        "target": "QW-301",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-93",
+        "type": "informational"
+      },
+      {
+        "target": "UW-11",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-2",
+        "type": "informational"
+      },
+      {
+        "target": "UW-3",
+        "type": "unclassified"
+      },
+      {
+        "target": "UW-51",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-52",
+        "type": "informational"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UHA",
+    "section": "VIII-1",
+    "topics": [
+      "high alloy examination",
+      "liquid penetrant",
+      "NDE",
+      "stainless steel examination"
+    ]
+  },
+  "UW-11": {
+    "cross_refs": [
+      {
+        "target": "QW-301",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-93",
+        "type": "unclassified"
+      },
+      {
+        "target": "UW-12",
+        "type": "conditional"
+      },
+      {
+        "target": "UW-51",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-52",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UW",
+    "section": "VIII-1",
+    "topics": [
+      "radiographic examination",
+      "radiography",
+      "full radiography",
+      "spot radiography",
+      "NDE"
+    ]
+  },
+  "UW-12": {
+    "cross_refs": [
+      {
+        "target": "UG-23",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-27",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-11",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-2",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-3",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-52",
+        "type": "conditional"
+      },
+      {
+        "target": "UW-9",
+        "type": "informational"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UW",
+    "section": "VIII-1",
+    "topics": [
+      "joint efficiency",
+      "joint efficiency factor",
+      "Table UW-12",
+      "examination level"
+    ]
+  },
+  "UW-13": {
+    "cross_refs": [
+      {
+        "target": "UG-27",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-36",
+        "type": "informational"
+      },
+      {
+        "target": "UG-37",
+        "type": "informational"
+      },
+      {
+        "target": "UG-38",
+        "type": "informational"
+      },
+      {
+        "target": "UW-12",
+        "type": "unclassified"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UW",
+    "section": "VIII-1",
+    "topics": [
+      "ligament efficiency",
+      "openings",
+      "pitch",
+      "multiple openings",
+      "ligament width"
+    ]
+  },
+  "UW-14": {
+    "cross_refs": [
+      {
+        "target": "QW-200",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-300",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-404",
+        "type": "informational"
+      },
+      {
+        "target": "UG-80",
+        "type": "conditional"
+      },
+      {
+        "target": "UW-11",
+        "type": "conditional"
+      },
+      {
+        "target": "UW-26",
+        "type": "conditional"
+      },
+      {
+        "target": "UW-28",
+        "type": "conditional"
+      },
+      {
+        "target": "UW-29",
+        "type": "conditional"
+      },
+      {
+        "target": "UW-52",
+        "type": "conditional"
+      },
+      {
+        "target": "UW-9",
+        "type": "informational"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UW",
+    "section": "VIII-1",
+    "topics": [
+      "welding",
+      "pressure vessels",
+      "welding procedures",
+      "welder qualification"
+    ]
+  },
+  "UW-15": {
+    "cross_refs": [
+      {
+        "target": "UG-22",
+        "type": "informational"
+      },
+      {
+        "target": "UW-12",
+        "type": "unclassified"
+      },
+      {
+        "target": "UW-16",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-3",
+        "type": "unclassified"
+      },
+      {
+        "target": "UW-35",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-49",
+        "type": "informational"
+      },
+      {
+        "target": "UW-9",
+        "type": "informational"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UW",
+    "section": "VIII-1",
+    "topics": [
+      "joint design details",
+      "joint types",
+      "butt welds",
+      "fillet welds",
+      "corner joints"
+    ]
+  },
+  "UW-16": {
+    "cross_refs": [
+      {
+        "target": "UG-22",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-37",
+        "type": "informational"
+      },
+      {
+        "target": "UG-40",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-44",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-11",
+        "type": "conditional"
+      },
+      {
+        "target": "UW-35",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-49",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-52",
+        "type": "conditional"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UW",
+    "section": "VIII-1",
+    "topics": [
+      "attachment welds",
+      "weld size",
+      "nozzle welds",
+      "minimum weld",
+      "throat dimension"
+    ]
+  },
+  "UW-17": {
+    "cross_refs": [
+      {
+        "target": "QW-200",
+        "type": "informational"
+      },
+      {
+        "target": "UW-14",
+        "type": "informational"
+      },
+      {
+        "target": "UW-16",
+        "type": "informational"
+      },
+      {
+        "target": "UW-35",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UW",
+    "section": "VIII-1",
+    "topics": [
+      "plug welds",
+      "non-pressure attachment",
+      "weld limitations"
+    ]
+  },
+  "UW-2": {
+    "cross_refs": [
+      {
+        "target": "QW-300",
+        "type": "mandatory"
+      },
+      {
+        "target": "UCS-23",
+        "type": "conditional"
+      },
+      {
+        "target": "UG-22",
+        "type": "informational"
+      },
+      {
+        "target": "UHA-23",
+        "type": "conditional"
+      },
+      {
+        "target": "UW-11",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-12",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-3",
+        "type": "informational"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UW",
+    "section": "VIII-1",
+    "topics": [
+      "service restrictions",
+      "lethal service",
+      "direct firing",
+      "welded vessels"
+    ]
+  },
+  "UW-26": {
+    "cross_refs": [
+      {
+        "target": "QW-200",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-202",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-250",
+        "type": "informational"
+      },
+      {
+        "target": "QW-300",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-404",
+        "type": "conditional"
+      },
+      {
+        "target": "UW-11",
+        "type": "conditional"
+      },
+      {
+        "target": "UW-28",
+        "type": "conditional"
+      },
+      {
+        "target": "UW-52",
+        "type": "conditional"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UW",
+    "section": "VIII-1",
+    "topics": [
+      "welding processes",
+      "SMAW",
+      "GMAW",
+      "GTAW",
+      "SAW",
+      "arc welding"
+    ]
+  },
+  "UW-28": {
+    "cross_refs": [
+      {
+        "target": "UCS-56",
+        "type": "informational"
+      },
+      {
+        "target": "UCS-79",
+        "type": "informational"
+      },
+      {
+        "target": "UHA-34",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-29",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-40",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UW",
+    "section": "VIII-1",
+    "topics": [
+      "postweld heat treatment",
+      "PWHT",
+      "stress relief",
+      "heat treatment"
+    ]
+  },
+  "UW-29": {
+    "cross_refs": [
+      {
+        "target": "UCS-56",
+        "type": "mandatory"
+      },
+      {
+        "target": "UCS-66",
+        "type": "mandatory"
+      },
+      {
+        "target": "UCS-79",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-120",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-2",
+        "type": "informational"
+      },
+      {
+        "target": "UW-28",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-40",
+        "type": "informational"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UW",
+    "section": "VIII-1",
+    "topics": [
+      "PWHT exemptions",
+      "heat treatment exemptions",
+      "carbon steel",
+      "thickness limits"
+    ]
+  },
+  "UW-3": {
+    "cross_refs": [
+      {
+        "target": "UW-11",
+        "type": "informational"
+      },
+      {
+        "target": "UW-12",
+        "type": "unclassified"
+      },
+      {
+        "target": "UW-16",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-35",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-9",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UW",
+    "section": "VIII-1",
+    "topics": [
+      "joint categories",
+      "Category A",
+      "Category B",
+      "Category C",
+      "Category D",
+      "weld classification"
+    ]
+  },
+  "UW-33": {
+    "cross_refs": [
+      {
+        "target": "QW-200",
+        "type": "mandatory"
+      },
+      {
+        "target": "QW-300",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-34",
+        "type": "informational"
+      },
+      {
+        "target": "UG-80",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-11",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-26",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UW",
+    "section": "VIII-1",
+    "topics": [
+      "tube-to-tubesheet welds",
+      "tubesheet",
+      "tube attachment",
+      "tube expanding"
+    ]
+  },
+  "UW-35": {
+    "cross_refs": [
+      {
+        "target": "UG-22",
+        "type": "informational"
+      },
+      {
+        "target": "UW-15",
+        "type": "informational"
+      },
+      {
+        "target": "UW-16",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-17",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-49",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UW",
+    "section": "VIII-1",
+    "topics": [
+      "fillet welds",
+      "weld dimensions",
+      "leg size",
+      "weld sizing",
+      "Table UW-35"
+    ]
+  },
+  "UW-40": {
+    "cross_refs": [
+      {
+        "target": "UCS-79",
+        "type": "unclassified"
+      },
+      {
+        "target": "UCS-85",
+        "type": "mandatory"
+      },
+      {
+        "target": "UHA-34",
+        "type": "unclassified"
+      },
+      {
+        "target": "UW-28",
+        "type": "informational"
+      },
+      {
+        "target": "UW-29",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UW",
+    "section": "VIII-1",
+    "topics": [
+      "PWHT procedures",
+      "heating rate",
+      "holding temperature",
+      "cooling rate",
+      "furnace PWHT"
+    ]
+  },
+  "UW-49": {
+    "cross_refs": [
+      {
+        "target": "UG-37",
+        "type": "unclassified"
+      },
+      {
+        "target": "UG-40",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-44",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-11",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-15",
+        "type": "informational"
+      },
+      {
+        "target": "UW-16",
+        "type": "unclassified"
+      },
+      {
+        "target": "UW-35",
+        "type": "unclassified"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UW",
+    "section": "VIII-1",
+    "topics": [
+      "nozzle welds",
+      "nozzle attachment",
+      "full penetration",
+      "nozzle-to-shell"
+    ]
+  },
+  "UW-51": {
+    "cross_refs": [
+      {
+        "target": "QW-301",
+        "type": "informational"
+      },
+      {
+        "target": "UG-93",
+        "type": "informational"
+      },
+      {
+        "target": "UW-11",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-52",
+        "type": "informational"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UW",
+    "section": "VIII-1",
+    "topics": [
+      "radiographic methods",
+      "RT methods",
+      "film quality",
+      "IQI",
+      "acceptance criteria",
+      "radiography"
+    ]
+  },
+  "UW-52": {
+    "cross_refs": [
+      {
+        "target": "QW-301",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-93",
+        "type": "informational"
+      },
+      {
+        "target": "UW-11",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-12",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-51",
+        "type": "mandatory"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UW",
+    "section": "VIII-1",
+    "topics": [
+      "spot radiography",
+      "spot examination",
+      "acceptance standards",
+      "spot RT"
+    ]
+  },
+  "UW-9": {
+    "cross_refs": [
+      {
+        "target": "UG-22",
+        "type": "mandatory"
+      },
+      {
+        "target": "UG-27",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-12",
+        "type": "conditional"
+      },
+      {
+        "target": "UW-15",
+        "type": "informational"
+      },
+      {
+        "target": "UW-28",
+        "type": "mandatory"
+      },
+      {
+        "target": "UW-3",
+        "type": "conditional"
+      }
+    ],
+    "edition_year": 2025,
+    "part": "UW",
+    "section": "VIII-1",
+    "topics": [
+      "welded joint design",
+      "full penetration",
+      "joint strength",
+      "butt joints"
+    ]
+  }
+}

@@ -6,7 +6,7 @@ from __future__ import annotations
 import hashlib
 import logging
 import sqlite3
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import List, Optional
 
@@ -94,7 +94,8 @@ class LeoTrident:
     # ── query ─────────────────────────────────────────────────────────
 
     def query(self, text: str, top_k: int = 10, use_rerank: bool = True,
-              use_relevance_judge: bool = False) -> List[dict]:
+              use_relevance_judge: bool = False,
+              include_conversations: bool = False) -> List[dict]:
         """
         Hybrid BM25 + dense + PPR query with RRF fusion and optional BGE rerank.
         Returns top_k results with: chunk_id, paragraph_id, content, score, source.
@@ -176,6 +177,24 @@ class LeoTrident:
             lists["dense"] = to_ranked(dense_results, "score")
         if ppr_results:
             lists["ppr"] = to_ranked(ppr_results, "score")
+
+        # 3b. Optional conversation history fusion
+        if include_conversations:
+            try:
+                conv_results = self.search_conversations(text, top_k=5)
+                if conv_results:
+                    conv_ranked = []
+                    for i, cr in enumerate(conv_results):
+                        conv_ranked.append(RankedResult(
+                            doc_id=f"log:{cr['log_id']}",
+                            score=cr.get("rank", 0.0),
+                            rank=i + 1,
+                            content=cr["content"],
+                            paragraph_id="",
+                        ))
+                    lists["conversations"] = conv_ranked
+            except Exception as e:
+                logger.debug(f"Conversation search failed: {e}")
 
         if not lists:
             return []
@@ -347,4 +366,47 @@ class LeoTrident:
         self._dense_warm = None
 
         return chunk_id
+
+    # ── conversation search ──────────────────────────────────────────
+
+    def search_conversations(self, text: str, top_k: int = 10,
+                             hours: Optional[int] = None,
+                             session_id: Optional[str] = None) -> list[dict]:
+        """
+        Search conversation history via FTS5.
+        Returns list of dicts with: log_id, session_id, role, content, created_at, rank.
+        """
+        conn = self._get_conn()
+        try:
+            # Quote each token for FTS5 (handles hyphens like UW-51)
+            fts_query = " ".join(f'"{w}"' for w in text.split())
+
+            sql = (
+                "SELECT cl.log_id, cl.session_id, cl.role, cl.content, cl.created_at, "
+                "       logs_fts.rank "
+                "FROM logs_fts "
+                "JOIN conversation_logs cl ON cl.log_id = logs_fts.log_id "
+                "WHERE logs_fts MATCH ?"
+            )
+            params: list = [fts_query]
+
+            if hours is not None:
+                cutoff = datetime.now(timezone.utc) - timedelta(hours=hours)
+                sql += " AND cl.created_at >= ?"
+                params.append(cutoff.isoformat())
+
+            if session_id is not None:
+                sql += " AND cl.session_id = ?"
+                params.append(session_id)
+
+            sql += " ORDER BY logs_fts.rank LIMIT ?"
+            params.append(top_k)
+
+            rows = conn.execute(sql, params).fetchall()
+            return [dict(r) for r in rows]
+        except Exception as e:
+            logger.warning(f"Conversation search failed: {e}")
+            return []
+        finally:
+            conn.close()
 

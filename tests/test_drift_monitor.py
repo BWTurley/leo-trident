@@ -20,9 +20,10 @@ def _make_anchors(tmp_dir: str, tamper: bool = False) -> Path:
 
     rule_never = "waive UG-99 hydrostatic test"
     rule_always = "cite ASME paragraph IDs in all code references"
-    fact = "Brett is the user/human"
+    fact = "Primary focus: ASME BPVC Section VIII Division 1"
 
     anchors = {
+        "_meta": {"version": 2, "format": "Leo Trident anchors v2"},
         "asme_safety_pins": {
             "never": [
                 {"rule": rule_never,

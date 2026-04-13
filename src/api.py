@@ -4,11 +4,8 @@ Leo Trident — Unified Query & Ingest API
 from __future__ import annotations
 
 import hashlib
-import json
 import logging
-import os
 import sqlite3
-import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import List, Optional
@@ -351,41 +348,3 @@ class LeoTrident:
 
         return chunk_id
 
-    # ── hot context ───────────────────────────────────────────────────
-
-    def get_hot_context(self) -> str:
-        """
-        Read vault/_system/hot.json and return formatted string ≤200 tokens.
-        """
-        hot_path = self.vault_path / "_system" / "hot.json"
-        if not hot_path.exists():
-            return "[HOT CONTEXT] Not initialized."
-
-        try:
-            data = json.loads(hot_path.read_text())
-        except Exception as e:
-            return f"[HOT CONTEXT] Error reading hot.json: {e}"
-
-        lines = []
-        if data.get("persona"):
-            lines.append(f"[PERSONA] {data['persona']}")
-
-        pins = data.get("safety_pins", [])
-        if pins:
-            lines.append("[SAFETY PINS] " + " | ".join(str(p) for p in pins[:5]))
-
-        proj = data.get("active_project", {})
-        if proj:
-            proj_str = " | ".join(f"{k}: {v}" for k, v in proj.items() if v)
-            lines.append(f"[PROJECT] {proj_str}")
-
-        hint = data.get("session_hint", {})
-        if hint:
-            hint_str = " | ".join(f"{k}: {v}" for k, v in hint.items() if v)
-            lines.append(f"[HINT] {hint_str}")
-
-        result = "\n".join(lines)
-        # Rough token truncation (~4 chars/token, budget 200 tokens = 800 chars)
-        if len(result) > 800:
-            result = result[:797] + "..."
-        return result or "[HOT CONTEXT] Empty."

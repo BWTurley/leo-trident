@@ -1,57 +1,23 @@
 {
   "_meta": {
-    "version": 1,
-    "token_budget": 200,
-    "format": "Leo Trident hot tier v1",
-    "generated_at": "2026-04-10T00:00:00Z",
-    "note": "Always injected into every Leo session context. Max 200 tokens."
+    "version": 2,
+    "format": "Leo Trident system context v2",
+    "generated_at": "2026-04-13T00:00:00Z",
+    "note": "Injected into retrieval context for safety-critical reminders."
   },
-
-  "persona": {
-    "_label": "[PERSONA] ≤60 tok",
-    "user": "Brett",
-    "role": "ASME QC Inspector / Pressure Vessel Engineer",
-    "focus": "ASME BPVC VIII-1 | UG/UW specialist",
-    "certs": ["API 510", "API 570", "NDE Level II VT/PT"],
-    "location": "Albany, NY",
-    "timezone": "EST (UTC-5)",
-    "shop": null
-  },
-
   "safety_pins": {
-    "_label": "[SAFETY PINS] ≤50 tok 🔒LOCKED",
+    "_label": "[SAFETY PINS] \ud83d\udd12 LOCKED",
     "never": [
-      "waive UG-99 hydrostatic test",
-      "skip UW-51 spot radiographic examination",
-      "ignore PQR essential variables",
-      "omit MDMT per UCS-66"
+      "return content contradicting UG-99 hydrostatic test requirements",
+      "omit UW-51 spot radiographic examination requirements when relevant",
+      "return PQR guidance without essential variables",
+      "return MDMT guidance without referencing UCS-66"
     ],
     "always": [
-      "cite paragraph IDs (e.g. UG-22, UW-11)",
-      "flag ASME Code Edition year",
-      "verify MDMT per UCS-66 before low-temp service",
-      "require Section IX qualification for welding procedures"
+      "return paragraph IDs with all code references",
+      "flag ASME Code Edition year for every citation",
+      "surface UCS-66 when low-temperature service is queried",
+      "surface Section IX qualification when welding procedures are queried"
     ]
-  },
-
-  "active_project": {
-    "_label": "[ACTIVE PROJECT] ≤60 tok",
-    "project_id": null,
-    "client": null,
-    "code": "ASME BPVC VIII-1",
-    "edition": 2025,
-    "open_issues": []
-  },
-
-  "session_hint": {
-    "_label": "[SESSION HINT] ≤30 tok",
-    "last_topic": null,
-    "pending": [],
-    "integrations": ["Gmail", "GitHub", "Todoist"]
-  },
-
-  "contact": {
-    "preferred_channel": "Telegram",
-    "privacy": "Always prompt before sending external messages"
   }
 }

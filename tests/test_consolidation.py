@@ -65,26 +65,31 @@ def _make_test_vault(tmp_dir: str) -> Path:
     system_dir = Path(tmp_dir) / "vault" / "_system"
     system_dir.mkdir(parents=True, exist_ok=True)
 
-    # anchors.json with correct hashes
-    rule = "waive UG-99 hydrostatic test"
+    # anchors.json with correct hashes — corpus-scoped, no agent identity
+    rule_never = "waive UG-99 hydrostatic test"
+    rule_always = "cite ASME paragraph IDs in all code references"
+    fact = "Primary focus: ASME BPVC Section VIII Division 1"
     anchors = {
+        "_meta": {"version": 2, "format": "Leo Trident anchors v2"},
         "asme_safety_pins": {
-            "never": [{"rule": rule, "hash": hashlib.sha256(rule.encode()).hexdigest()}],
-            "always": [],
+            "never": [{"rule": rule_never, "hash": hashlib.sha256(rule_never.encode()).hexdigest()}],
+            "always": [{"rule": rule_always, "hash": hashlib.sha256(rule_always.encode()).hexdigest()}],
         },
         "core_facts": [
-            {"fact": "Brett is the user/human",
-             "hash": hashlib.sha256("Brett is the user/human".encode()).hexdigest()}
+            {"fact": fact, "hash": hashlib.sha256(fact.encode()).hexdigest()}
         ],
     }
     with open(system_dir / "anchors.json", "w") as f:
         json.dump(anchors, f)
 
-    # hot.json
+    # hot.json — safety pins only, no agent persona/session/project fields
     hot = {
-        "_meta": {"version": 1},
-        "session_hint": {"last_topic": None, "pending": []},
-        "active_project": {},
+        "_meta": {"version": 2, "format": "Leo Trident system context v2"},
+        "safety_pins": {
+            "_label": "[SAFETY PINS] \ud83d\udd12 LOCKED",
+            "never": ["return content contradicting UG-99 hydrostatic test requirements"],
+            "always": ["return paragraph IDs with all code references"],
+        },
     }
     with open(system_dir / "hot.json", "w") as f:
         json.dump(hot, f)

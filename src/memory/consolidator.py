@@ -10,9 +10,7 @@ from __future__ import annotations
 import hashlib
 import json
 import logging
-import os
 import sqlite3
-import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
@@ -275,10 +273,9 @@ class SleepTimeConsolidator:
 
     def hot_recompression(self):
         """
-        Regenerate vault/_system/hot.json from current warm-tier facts.
-        Keeps content ≤200 tokens.
+        Re-read hot.json and update only _meta.generated_at.
+        hot.json is now a static safety-pins file; no agent fields to regenerate.
         """
-        # Load current hot.json as baseline
         hot_path = self.vault_path / "hot.json"
         try:
             with open(hot_path) as f:
@@ -286,62 +283,12 @@ class SleepTimeConsolidator:
         except Exception:
             hot = {}
 
-        # Pull active project + session hints from tier_registry / personal facts
-        active_project = self._get_active_project()
-        last_topic = self._get_last_topic()
-        pending = self._get_pending_items()
-
-        # Update session hint
-        if "session_hint" not in hot:
-            hot["session_hint"] = {}
-        hot["session_hint"]["last_topic"] = last_topic
-        hot["session_hint"]["pending"] = pending
-
-        # Update active project if found
-        if active_project and "active_project" in hot:
-            hot["active_project"].update(active_project)
-
-        hot["_meta"] = hot.get("_meta", {})
+        hot.setdefault("_meta", {})
         hot["_meta"]["generated_at"] = datetime.now(timezone.utc).isoformat()
 
         with open(hot_path, "w") as f:
             json.dump(hot, f, indent=2)
         logger.info("hot.json regenerated")
-
-    def _get_active_project(self) -> dict:
-        """Fetch active project from tier_registry if available."""
-        try:
-            conn = sqlite3.connect(str(self.db_path), timeout=10)
-            conn.row_factory = sqlite3.Row
-            row = conn.execute(
-                "SELECT content FROM asme_chunks WHERE content_type='project' "
-                "ORDER BY last_accessed DESC LIMIT 1"
-            ).fetchone()
-            conn.close()
-            if row:
-                return {"notes": row["content"][:100]}
-        except Exception:
-            pass
-        return {}
-
-    def _get_last_topic(self) -> Optional[str]:
-        """Fetch last conversation topic from logs."""
-        try:
-            conn = sqlite3.connect(str(self.db_path), timeout=10)
-            conn.row_factory = sqlite3.Row
-            row = conn.execute(
-                "SELECT content FROM conversation_logs ORDER BY created_at DESC LIMIT 1"
-            ).fetchone()
-            conn.close()
-            if row:
-                return row["content"][:80]
-        except Exception:
-            pass
-        return None
-
-    def _get_pending_items(self) -> list[str]:
-        """Stub — returns empty list unless personal memory has open items."""
-        return []
 
     def drift_check(self) -> dict:
         """

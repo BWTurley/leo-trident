@@ -96,7 +96,8 @@ class LeoTrident:
 
     # ── query ─────────────────────────────────────────────────────────
 
-    def query(self, text: str, top_k: int = 10, use_rerank: bool = True) -> List[dict]:
+    def query(self, text: str, top_k: int = 10, use_rerank: bool = True,
+              use_relevance_judge: bool = False) -> List[dict]:
         """
         Hybrid BM25 + dense + PPR query with RRF fusion and optional BGE rerank.
         Returns top_k results with: chunk_id, paragraph_id, content, score, source.
@@ -223,6 +224,19 @@ class LeoTrident:
                 candidates = candidates[:top_k]
         else:
             candidates = candidates[:top_k]
+
+        # Optional: relevance judgment on cross-references
+        if use_relevance_judge and candidates:
+            try:
+                from src.retrieval.relevance_judge import ReferenceRelevanceJudge
+                judge = ReferenceRelevanceJudge()
+                conn = self._get_conn()
+                try:
+                    candidates = judge.judge(text, candidates, conn)
+                finally:
+                    conn.close()
+            except Exception as e:
+                logger.warning(f"Relevance judge failed: {e} — returning unannotated results")
 
         return candidates
 

@@ -5,7 +5,6 @@ Matches the existing schema (conversation_logs table with log_id, created_at, co
 """
 from __future__ import annotations
 
-import json
 import logging
 import sqlite3
 import uuid
@@ -13,15 +12,16 @@ from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from typing import Optional
 
-logger = logging.getLogger(__name__)
+from src.config import BASE_PATH as _DEFAULT_BASE_PATH
 
-BASE_PATH = "/home/ubuntu/leo_trident"
+logger = logging.getLogger(__name__)
 
 
 class ConversationLogger:
     """Log conversation turns to SQLite and retrieve them for consolidation."""
 
-    def __init__(self, base_path: str = BASE_PATH):
+    def __init__(self, base_path: str | Path = None):
+        base_path = Path(base_path) if base_path else _DEFAULT_BASE_PATH
         self.db_path = Path(base_path) / "data" / "leo_trident.db"
 
     def _connect(self) -> sqlite3.Connection:

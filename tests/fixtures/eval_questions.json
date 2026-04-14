@@ -1,0 +1,583 @@
+[
+  {
+    "id": "q001",
+    "category": "single_hop_factual",
+    "query": "what are the design load requirements for pressure vessels",
+    "expected_paragraph_ids": ["UG-22"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "basic direct lookup — design loads"
+  },
+  {
+    "id": "q002",
+    "category": "single_hop_factual",
+    "query": "minimum wall thickness formula for cylindrical shells under internal pressure",
+    "expected_paragraph_ids": ["UG-27"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "wall thickness formula t = PR/(SE-0.6P)"
+  },
+  {
+    "id": "q003",
+    "category": "single_hop_factual",
+    "query": "maximum allowable stress values for design formulas",
+    "expected_paragraph_ids": ["UG-23"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "general stress value requirements"
+  },
+  {
+    "id": "q004",
+    "category": "single_hop_factual",
+    "query": "radiographic examination requirements for welded joints",
+    "expected_paragraph_ids": ["UW-11"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "full and spot radiography"
+  },
+  {
+    "id": "q005",
+    "category": "single_hop_factual",
+    "query": "joint efficiency factors for arc welded joints",
+    "expected_paragraph_ids": ["UW-12"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "Table UW-12 joint efficiency values"
+  },
+  {
+    "id": "q006",
+    "category": "single_hop_factual",
+    "query": "impact test exemption curves for low temperature service",
+    "expected_paragraph_ids": ["UCS-66"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "Curves A B C D exemption temperatures"
+  },
+  {
+    "id": "q007",
+    "category": "single_hop_factual",
+    "query": "postweld heat treatment requirements for welded vessels",
+    "expected_paragraph_ids": ["UW-28"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "PWHT general requirements"
+  },
+  {
+    "id": "q008",
+    "category": "single_hop_factual",
+    "query": "welding procedure specification requirements",
+    "expected_paragraph_ids": ["QW-200"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "WPS content and qualification"
+  },
+  {
+    "id": "q009",
+    "category": "single_hop_factual",
+    "query": "welder qualification and testing requirements",
+    "expected_paragraph_ids": ["QW-300"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "welder and welding operator qualification"
+  },
+  {
+    "id": "q010",
+    "category": "single_hop_factual",
+    "query": "hydrostatic test pressure requirements",
+    "expected_paragraph_ids": ["UG-99"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "1.3x MAWP hydrostatic test"
+  },
+  {
+    "id": "q011",
+    "category": "single_hop_factual",
+    "query": "corrosion allowance provisions for pressure vessels",
+    "expected_paragraph_ids": ["UG-25"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "corrosion erosion mechanical abrasion"
+  },
+  {
+    "id": "q012",
+    "category": "single_hop_factual",
+    "query": "ellipsoidal and torispherical head design requirements",
+    "expected_paragraph_ids": ["UG-32"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "formed heads under concave pressure"
+  },
+  {
+    "id": "q013",
+    "category": "single_hop_factual",
+    "query": "reinforcement requirements for openings in shells",
+    "expected_paragraph_ids": ["UG-37"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "area replacement method"
+  },
+  {
+    "id": "q014",
+    "category": "single_hop_factual",
+    "query": "nozzle neck minimum thickness requirements",
+    "expected_paragraph_ids": ["UG-44"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "nozzle neck design"
+  },
+  {
+    "id": "q015",
+    "category": "single_hop_factual",
+    "query": "welded joint category classification",
+    "expected_paragraph_ids": ["UW-3"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "Category A B C D definitions"
+  },
+  {
+    "id": "q016",
+    "category": "single_hop_factual",
+    "query": "fillet weld minimum size requirements",
+    "expected_paragraph_ids": ["UW-35"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "fillet weld leg size"
+  },
+  {
+    "id": "q017",
+    "category": "single_hop_factual",
+    "query": "Charpy V-notch impact test specimen preparation",
+    "expected_paragraph_ids": ["UCS-57"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "impact specimen orientation and size"
+  },
+  {
+    "id": "q018",
+    "category": "single_hop_factual",
+    "query": "material identification and traceability requirements",
+    "expected_paragraph_ids": ["UG-81"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "material marking, heat number tracing"
+  },
+  {
+    "id": "q019",
+    "category": "single_hop_factual",
+    "query": "pressure relief device set pressure requirements",
+    "expected_paragraph_ids": ["UG-125"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "safety valve and rupture disk rules"
+  },
+  {
+    "id": "q020",
+    "category": "single_hop_factual",
+    "query": "nameplate required markings and information",
+    "expected_paragraph_ids": ["UG-116"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "serial number, MAWP, MDMT on nameplate"
+  },
+  {
+    "id": "q021",
+    "category": "single_hop_factual",
+    "query": "pneumatic test requirements and stored energy hazards",
+    "expected_paragraph_ids": ["UG-100"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "1.1x MAWP pneumatic test"
+  },
+  {
+    "id": "q022",
+    "category": "single_hop_factual",
+    "query": "carbon steel PWHT temperature and holding time",
+    "expected_paragraph_ids": ["UCS-79"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "Table UCS-79 PWHT for P-Numbers"
+  },
+  {
+    "id": "q030",
+    "category": "multi_hop",
+    "query": "wall thickness calculation considering allowable stress values and joint efficiency",
+    "expected_paragraph_ids": ["UG-27", "UG-23", "UW-12"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "chain: UG-27 refs UG-23 refs UCS-23; UG-27 refs UW-12"
+  },
+  {
+    "id": "q031",
+    "category": "multi_hop",
+    "query": "radiographic examination methods and spot radiography acceptance standards",
+    "expected_paragraph_ids": ["UW-11", "UW-51", "UW-52"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "chain: UW-11 refs UW-51, UW-52"
+  },
+  {
+    "id": "q032",
+    "category": "multi_hop",
+    "query": "impact test exemptions and Charpy testing methods for carbon steel",
+    "expected_paragraph_ids": ["UCS-66", "UG-84", "UCS-68"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "chain: UCS-66 refs UG-84 refs UCS-68"
+  },
+  {
+    "id": "q033",
+    "category": "multi_hop",
+    "query": "hydrostatic test and minimum wall thickness verification",
+    "expected_paragraph_ids": ["UG-99", "UG-27"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "chain: UG-99 refs UG-27"
+  },
+  {
+    "id": "q034",
+    "category": "multi_hop",
+    "query": "postweld heat treatment for carbon steel and impact test requirements after PWHT",
+    "expected_paragraph_ids": ["UW-28", "UCS-79", "UCS-56"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "chain: UW-28 refs UCS-79 refs UCS-56"
+  },
+  {
+    "id": "q035",
+    "category": "multi_hop",
+    "query": "opening reinforcement area replacement calculation and limits",
+    "expected_paragraph_ids": ["UG-37", "UG-38", "UG-40"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "chain: UG-36 refs UG-37 refs UG-38 refs UG-40"
+  },
+  {
+    "id": "q036",
+    "category": "multi_hop",
+    "query": "welding procedure specifications and essential variable requirements",
+    "expected_paragraph_ids": ["QW-200", "QW-250"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "chain: QW-200 refs QW-250"
+  },
+  {
+    "id": "q037",
+    "category": "multi_hop",
+    "query": "welder qualification performance tests and qualification range",
+    "expected_paragraph_ids": ["QW-300", "QW-301", "QW-310"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "chain: QW-300 refs QW-301 refs QW-310"
+  },
+  {
+    "id": "q038",
+    "category": "multi_hop",
+    "query": "joint efficiency and service restrictions for lethal service vessels",
+    "expected_paragraph_ids": ["UW-12", "UW-2"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "chain: UW-12 refs UW-2"
+  },
+  {
+    "id": "q039",
+    "category": "multi_hop",
+    "query": "high alloy steel welding and weld examination requirements",
+    "expected_paragraph_ids": ["UHA-32", "UHA-51"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "chain: UHA-32 refs UHA-51"
+  },
+  {
+    "id": "q040",
+    "category": "multi_hop",
+    "query": "material general requirements and impact testing for low temperature carbon steel",
+    "expected_paragraph_ids": ["UG-80", "UCS-56", "UCS-66"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "chain: UG-80 refs UCS-56 via UG-84; UG-80 refs UCS-66"
+  },
+  {
+    "id": "q041",
+    "category": "multi_hop",
+    "query": "nozzle design reinforcement and attachment weld sizing",
+    "expected_paragraph_ids": ["UG-44", "UG-37", "UW-16"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "chain: UG-44 refs UG-37; UG-44 refs UW-16"
+  },
+  {
+    "id": "q042",
+    "category": "multi_hop",
+    "query": "vessel inspection and certification data report requirements",
+    "expected_paragraph_ids": ["UG-93", "UG-117", "UG-120"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "chain: UG-93 refs UG-117; UG-93 refs UG-120"
+  },
+  {
+    "id": "q043",
+    "category": "multi_hop",
+    "query": "flat head design and opening reinforcement in flat heads",
+    "expected_paragraph_ids": ["UG-34", "UG-35", "UG-37"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "chain: UG-34 refs UG-35 refs UG-37"
+  },
+  {
+    "id": "q044",
+    "category": "multi_hop",
+    "query": "PWHT procedures heating rate and exemption conditions",
+    "expected_paragraph_ids": ["UW-28", "UW-40", "UW-29"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "chain: UW-28 refs UW-40; UW-28 refs UW-29"
+  },
+  {
+    "id": "q045",
+    "category": "multi_hop",
+    "query": "design temperature and minimum design metal temperature determination",
+    "expected_paragraph_ids": ["UG-20", "UCS-66"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "chain: UG-20 refs UCS-66"
+  },
+  {
+    "id": "q050",
+    "category": "reference_relevance",
+    "query": "design load categories for pressure vessels including seismic and thermal cycling",
+    "expected_paragraph_ids": ["UG-22"],
+    "required_references": ["UG-23", "UG-27"],
+    "forbidden_paragraph_ids": ["UG-99"],
+    "notes": "UG-22 cites UG-99 informationally for test loads but it's irrelevant to design load question"
+  },
+  {
+    "id": "q051",
+    "category": "reference_relevance",
+    "query": "radiographic examination and welder qualification for examined welds",
+    "expected_paragraph_ids": ["UW-11"],
+    "required_references": ["UW-51", "QW-301"],
+    "forbidden_paragraph_ids": ["UG-93"],
+    "notes": "UW-11 cites UG-93 for documentation but it's irrelevant to the examination question"
+  },
+  {
+    "id": "q052",
+    "category": "reference_relevance",
+    "query": "impact test exemption temperature for a given material thickness",
+    "expected_paragraph_ids": ["UCS-66"],
+    "required_references": ["UCS-56", "UG-84"],
+    "forbidden_paragraph_ids": ["UCS-23"],
+    "notes": "UCS-66 cites UCS-23 but stress values are irrelevant to exemption curve lookup"
+  },
+  {
+    "id": "q053",
+    "category": "reference_relevance",
+    "query": "minimum required wall thickness formula for internal pressure",
+    "expected_paragraph_ids": ["UG-27"],
+    "required_references": ["UG-23", "UW-12"],
+    "forbidden_paragraph_ids": ["UG-28"],
+    "notes": "UG-27 cites UG-28 for external pressure which is irrelevant to internal pressure question"
+  },
+  {
+    "id": "q054",
+    "category": "reference_relevance",
+    "query": "WPS essential variable requirements for procedure qualification",
+    "expected_paragraph_ids": ["QW-200"],
+    "required_references": ["QW-250", "QW-202"],
+    "forbidden_paragraph_ids": ["UW-26"],
+    "notes": "QW-200 cites UW-26 for permitted processes but irrelevant to variable requirements"
+  },
+  {
+    "id": "q055",
+    "category": "reference_relevance",
+    "query": "PWHT temperature and time requirements for carbon steel",
+    "expected_paragraph_ids": ["UW-28"],
+    "required_references": ["UCS-79", "UW-40"],
+    "forbidden_paragraph_ids": ["UHA-34"],
+    "notes": "UW-28 cites UHA-34 for high alloy but irrelevant to carbon steel PWHT question"
+  },
+  {
+    "id": "q056",
+    "category": "reference_relevance",
+    "query": "opening reinforcement area calculation method",
+    "expected_paragraph_ids": ["UG-37"],
+    "required_references": ["UG-38", "UG-40"],
+    "forbidden_paragraph_ids": ["UG-45"],
+    "notes": "UG-37 cites UG-45 for nozzle dimensions but irrelevant to area calculation"
+  },
+  {
+    "id": "q057",
+    "category": "reference_relevance",
+    "query": "hydrostatic test pressure and leakage inspection",
+    "expected_paragraph_ids": ["UG-99"],
+    "required_references": ["UG-27"],
+    "forbidden_paragraph_ids": ["UG-22"],
+    "notes": "UG-99 cites UG-22 for design loads but irrelevant to test execution"
+  },
+  {
+    "id": "q058",
+    "category": "reference_relevance",
+    "query": "welder performance qualification testing requirements",
+    "expected_paragraph_ids": ["QW-300"],
+    "required_references": ["QW-301", "QW-310"],
+    "forbidden_paragraph_ids": ["UW-26"],
+    "notes": "QW-300 cites UW-26 for processes but irrelevant to performance qualification"
+  },
+  {
+    "id": "q059",
+    "category": "reference_relevance",
+    "query": "high alloy steel maximum allowable stress values at elevated temperature",
+    "expected_paragraph_ids": ["UHA-23"],
+    "required_references": ["UG-27"],
+    "forbidden_paragraph_ids": ["UG-80"],
+    "notes": "UHA-23 cites UG-80 for material specs but irrelevant to stress value lookup"
+  },
+  {
+    "id": "q060",
+    "category": "abstention",
+    "query": "ASME requirements for nuclear reactor pressure vessels in Section III",
+    "expected_paragraph_ids": [],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "Section III nuclear not in corpus"
+  },
+  {
+    "id": "q061",
+    "category": "abstention",
+    "query": "piping design requirements per ASME B31.3 process piping",
+    "expected_paragraph_ids": [],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "B31.3 piping code not in corpus"
+  },
+  {
+    "id": "q062",
+    "category": "abstention",
+    "query": "cast iron pressure vessel design requirements",
+    "expected_paragraph_ids": [],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "cast iron (UCI) not in corpus"
+  },
+  {
+    "id": "q063",
+    "category": "abstention",
+    "query": "fiberglass reinforced plastic vessel design code requirements",
+    "expected_paragraph_ids": [],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "FRP (Section X) not in corpus"
+  },
+  {
+    "id": "q064",
+    "category": "abstention",
+    "query": "boiler tube installation and bending requirements for power boilers",
+    "expected_paragraph_ids": [],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "Section I power boiler tube rules not in corpus"
+  },
+  {
+    "id": "q065",
+    "category": "abstention",
+    "query": "transportation tank design requirements for compressed gas",
+    "expected_paragraph_ids": [],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "transport tanks not in corpus at all"
+  },
+  {
+    "id": "q070",
+    "category": "bi_temporal",
+    "query": "impact test requirements in the 2021 edition of Section VIII Division 1",
+    "expected_paragraph_ids": ["UCS-66"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "edition-specific query — stub until multi-edition support",
+    "skip": true
+  },
+  {
+    "id": "q071",
+    "category": "bi_temporal",
+    "query": "PWHT exemption thickness limits in the 2019 edition",
+    "expected_paragraph_ids": ["UW-29"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "edition-specific query — stub",
+    "skip": true
+  },
+  {
+    "id": "q072",
+    "category": "bi_temporal",
+    "query": "joint efficiency changes between 2021 and 2023 editions",
+    "expected_paragraph_ids": ["UW-12"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "cross-edition comparison — stub",
+    "skip": true
+  },
+  {
+    "id": "q073",
+    "category": "bi_temporal",
+    "query": "material stress values in the 2023 edition for SA-516 Grade 70",
+    "expected_paragraph_ids": ["UCS-23"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "edition-specific stress lookup — stub",
+    "skip": true
+  },
+  {
+    "id": "q074",
+    "category": "bi_temporal",
+    "query": "welding variable changes from 2019 to 2025 edition of Section IX",
+    "expected_paragraph_ids": ["QW-250"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "cross-edition Section IX — stub",
+    "skip": true
+  },
+  {
+    "id": "q080",
+    "category": "paragraph_id_lookup",
+    "query": "what does UG-22 say",
+    "expected_paragraph_ids": ["UG-22"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "direct paragraph ID lookup — BM25 should match ID"
+  },
+  {
+    "id": "q081",
+    "category": "paragraph_id_lookup",
+    "query": "requirements of UW-11",
+    "expected_paragraph_ids": ["UW-11"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "paragraph ID in query"
+  },
+  {
+    "id": "q082",
+    "category": "paragraph_id_lookup",
+    "query": "describe QW-200",
+    "expected_paragraph_ids": ["QW-200"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "paragraph ID lookup"
+  },
+  {
+    "id": "q083",
+    "category": "paragraph_id_lookup",
+    "query": "what is specified in UCS-66",
+    "expected_paragraph_ids": ["UCS-66"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "paragraph ID lookup"
+  },
+  {
+    "id": "q084",
+    "category": "paragraph_id_lookup",
+    "query": "UG-99 hydrostatic test requirements",
+    "expected_paragraph_ids": ["UG-99"],
+    "required_references": [],
+    "forbidden_paragraph_ids": [],
+    "notes": "paragraph ID with topic words"
+  }
+]

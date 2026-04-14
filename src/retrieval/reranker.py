@@ -4,8 +4,11 @@ Uses BAAI/bge-reranker-v2-m3 via transformers cross-encoder.
 Graceful fallback to RRF score order if model unavailable.
 """
 from __future__ import annotations
+
 import logging
 from typing import List
+
+from src.config import EMBED_DEVICE
 
 logger = logging.getLogger(__name__)
 
@@ -15,21 +18,30 @@ class BGEReranker:
         self.model_name = model_name
         self._tokenizer = None
         self._model = None
+        self._device = "cpu"
         self._available = False
         self._try_load()
 
     def _try_load(self):
         try:
-            from transformers import AutoTokenizer, AutoModelForSequenceClassification
             import torch
-            self._tokenizer = AutoTokenizer.from_pretrained(self.model_name)
+            from transformers import AutoModelForSequenceClassification, AutoTokenizer
+            # Pinned for supply-chain safety — bump intentionally, not by accident.
+            self._tokenizer = AutoTokenizer.from_pretrained(self.model_name, revision="953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e")
             self._model = AutoModelForSequenceClassification.from_pretrained(
                 self.model_name,
                 torch_dtype=torch.float32,
+                revision="953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e",
             )
+            try:
+                self._model = self._model.to(EMBED_DEVICE)
+                self._device = EMBED_DEVICE
+            except Exception as e:
+                logger.warning(f"Reranker device {EMBED_DEVICE!r} failed ({e}), using CPU")
+                self._device = "cpu"
             self._model.eval()
             self._available = True
-            logger.info(f"BGEReranker loaded: {self.model_name}")
+            logger.info(f"BGEReranker loaded: {self.model_name} on {self._device}")
         except Exception as e:
             logger.warning(f"BGEReranker unavailable ({e}), will use score fallback")
             self._available = False
@@ -59,6 +71,7 @@ class BGEReranker:
                 max_length=512,
                 return_tensors="pt",
             )
+            inputs = {k: v.to(self._device) for k, v in inputs.items()}
             with torch.no_grad():
                 logits = self._model(**inputs).logits.squeeze(-1)
                 scores = torch.sigmoid(logits).cpu().numpy().tolist()

@@ -1,13 +1,17 @@
-# Leo Trident — Memory System
+# Leo Trident — Retrieval Service for Technical Corpora
 
 
 ---
 
-## What It Is
+## What This Is For
 
-Leo Trident is a **local-first, three-tier memory and retrieval system** designed to give an AI agent persistent, semantically searchable memory across sessions — with special support for the ASME Boiler and Pressure Vessel Code (BPVC).
+Leo Trident is a **local-first retrieval and memory system** built for densely cross-referenced technical corpora. It combines vector search, keyword search, and graph traversal into a single pipeline optimized for documents where paragraphs reference each other extensively.
 
-It runs entirely on commodity hardware (currently Abacus.AI cloud, migrating to Mac Mini M5). No cloud vector databases. No graph servers. No dependencies that can't be swapped for local equivalents.
+**Primary use case:** ASME Boiler and Pressure Vessel Code (BPVC), where a query about shell thickness (UG-27) must also surface joint efficiency (UW-12), radiographic examination (UW-11), and impact testing (UCS-66) through cross-reference graph edges.
+
+**Generalizes to:** Legal codes, regulatory standards, ISO/ANSI specifications, building codes, military standards — any corpus with hierarchical structure and dense internal cross-references.
+
+It runs entirely on commodity hardware (Mac Mini M5, any Linux box). No cloud vector databases. No graph servers. No dependencies that can't be swapped for local equivalents.
 
 ---
 
@@ -15,8 +19,7 @@ It runs entirely on commodity hardware (currently Abacus.AI cloud, migrating to 
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    LEO (AI Agent)                           │
-│                Claude Sonnet via Abacus.AI                  │
+│           Caller (LLM agent, CLI, API, etc.)                │
 └──────────────────────┬──────────────────────────────────────┘
                        │  query / ingest
                        ▼
@@ -33,7 +36,9 @@ It runs entirely on commodity hardware (currently Abacus.AI cloud, migrating to 
 │                       │                                     │
 │              BGE Reranker  (src/retrieval/reranker.py)      │
 │                       │                                     │
-│               Top-K Results returned to Leo                 │
+│              Reference Relevance Judge (optional)           │
+│                       │                                     │
+│               Top-K Results returned to caller              │
 └─────────────────────────────────────────────────────────────┘
                        │
           ┌────────────┴────────────┐
@@ -49,48 +54,59 @@ It runs entirely on commodity hardware (currently Abacus.AI cloud, migrating to 
 └──────────────────┘    │  tier_registry       │
                         │  conversation_logs   │
                         └──────────────────────┘
-                                   ▲
-                        ┌──────────┘
-                        │
-              ┌─────────────────────┐
-              │   Markdown Vault    │
-              │  (plain .md files)  │
-              │                     │
-              │  vault/Personal/    │
-              │  vault/ASME-BPVC/   │
-              │  vault/Sessions/    │
-              │  vault/_system/     │
-              │    hot.json         │
-              │    anchors.json     │
-              └─────────────────────┘
+```
+
+---
+
+## Integration
+
+```python
+from src.api import LeoTrident
+
+lt = LeoTrident()
+results = lt.query(
+    "welding examination requirements for austenitic stainless steel",
+    top_k=10,
+    use_rerank=True,
+    use_relevance_judge=True,
+)
+for r in results:
+    print(f"{r['paragraph_id']} (score={r['score']:.3f})")
+    for ref in r.get('references', []):
+        if ref['relevance'] == 'required':
+            print(f"  → also consult {ref['paragraph_id']}: {ref['reason']}")
+```
+
+### Conversation History Search
+
+```python
+# Search past conversations
+results = lt.search_conversations("UW-51", hours=24)
+
+# Include conversation history in retrieval results
+results = lt.query("UW-51 spot RT", include_conversations=True)
 ```
 
 ---
 
 ## Three-Tier Memory
 
-The core design is a **hot / warm / cold** memory hierarchy. Every piece of information lives in exactly one tier based on how often it's accessed.
+Every piece of information lives in exactly one tier based on how often it's accessed.
 
 ### HOT Tier — Always On (≤200 tokens)
 
-**What lives here:** Brett's identity, active project context, ASME safety pins, session hints.
+**What lives here:** Safety-critical retrieval constraints (safety pins).
 
-**How it works:** `vault/_system/hot.json` is read at the start of every agent turn and injected directly into the prompt. No retrieval needed — it's always there.
+**How it works:** `vault/_system/hot.json` contains output constraints injected into retrieval context. No retrieval needed — it's always available.
 
 **Format:**
-```
-[PERSONA]
-Brett | ASME QC Inspector → HSB Authorized Inspector | VIII-1 focus | Albany NY
-
-[SAFETY PINS] 🔒
-NEVER: waive UG-99 hydro | skip UW-51 spot RT | ignore PQR essential vars
-ALWAYS: cite paragraph IDs | flag Code Edition year | verify MDMT per UCS-66
-
-[ACTIVE PROJECT]
-Project: {id} | Client: {name} | Code: VIII-1 {edition}
-
-[SESSION HINT]
-Last: {topic} | Pending: {items}
+```json
+{
+  "safety_pins": {
+    "never": ["return content contradicting UG-99 hydrostatic test requirements", "..."],
+    "always": ["return paragraph IDs with all code references", "..."]
+  }
+}
 ```
 
 **Promotion rule:** Only updated by sleep-time consolidation. Content must score H > 0.7 heat score or be accessed ≥5 times in 3 days.
@@ -99,7 +115,7 @@ Last: {topic} | Pending: {items}
 
 ### WARM Tier — Fast Retrieval (500–1,500 tokens/query)
 
-**What lives here:** Session summaries, frequently-accessed ASME paragraphs, active project notes, recent personal facts.
+**What lives here:** Session summaries, frequently-accessed ASME paragraphs, active project notes.
 
 **How it works:** 256-dimensional vector search via LanceDB (`chunks_warm` table) + SQLite FTS5 keyword search. Results fused via RRF.
 
@@ -109,7 +125,7 @@ Last: {topic} | Pending: {items}
 
 ### COLD Tier — Deep Storage (2,000–4,000 tokens on explicit retrieval)
 
-**What lives here:** Full ASME BPVC corpus (Sections I, II, V, VIII-1, IX), episodic conversation logs, archived project notes, rarely-accessed personal facts.
+**What lives here:** Full ASME BPVC corpus, episodic conversation logs, archived notes.
 
 **How it works:** 768-dimensional vector search via LanceDB (`chunks_cold` table) + FTS5 + PPR graph traversal across ASME cross-reference edges. All three signals fused via RRF, then reranked by BGE-Reranker-v2-M3.
 
@@ -120,8 +136,6 @@ Last: {topic} | Pending: {items}
 ## Retrieval Pipeline (4 Stages)
 
 ### Stage 1: Broad Recall (parallel)
-
-Three signals fire simultaneously:
 
 | Signal | Implementation | Returns |
 |--------|---------------|---------|
@@ -147,9 +161,13 @@ BGE-Reranker-v2-M3 (`BAAI/bge-reranker-v2-m3`) scores the top-30 RRF candidates 
 
 Falls back to RRF-ordered results if model download fails.
 
-### Stage 4: Return
+### Stage 4: Reference Relevance Judgment (optional)
 
-Top-K results (default 10) returned with: `chunk_id`, `paragraph_id`, `content`, `score`, `source` (bm25/dense/ppr/reranked).
+For each reranked result, an LLM judges which of the result's outgoing cross-references are required, optional, or irrelevant for the specific query. Falls back to deterministic reference-type mapping when the LLM is unavailable.
+
+### Stage 5: Return
+
+Top-K results (default 10) returned with: `chunk_id`, `paragraph_id`, `content`, `score`, `source`, and optionally `references`.
 
 **Total latency: ~300–600ms on CPU.**
 
@@ -157,13 +175,13 @@ Top-K results (default 10) returned with: `chunk_id`, `paragraph_id`, `content`,
 
 ## Embeddings: Matryoshka Architecture
 
-All embeddings use `nomic-ai/nomic-embed-text-v1.5` with Matryoshka Representation Learning. This means a single model produces embeddings at multiple dimensions, where smaller dimensions are nested inside larger ones.
+All embeddings use `nomic-ai/nomic-embed-text-v1.5` with Matryoshka Representation Learning. A single model produces embeddings at multiple dimensions, where smaller dimensions are nested inside larger ones.
 
 | Tier | Dimension | Use | Quality vs 768d |
 |------|-----------|-----|-----------------|
 | HOT | 64d | Quick relevance check | ~85–88% |
 | WARM | 256d | Session/recent retrieval | ~95–97% |
-| COLD | 768d | Full ASME corpus search | 100% (baseline) |
+| COLD | 768d | Full corpus search | 100% (baseline) |
 
 **Required:** Apply `F.layer_norm` before dimension truncation (nomic-specific requirement for Matryoshka to work correctly).
 
@@ -173,11 +191,9 @@ Prefixes used per nomic spec:
 
 ---
 
-## ASME  Integration
+## ASME Integration
 
 ### Paragraph Structure
-
-The ASME BPVC uses a hierarchical numbering system that maps cleanly to the vault structure:
 
 ```
 Section VIII Division 1
@@ -204,13 +220,9 @@ Section IX (Welding Qualifications)
 
 When ASME text arrives (plain text, pre-split by paragraph):
 
-1. **Parse** — `asme_parser.py` extracts paragraph IDs via regex (`[A-Z]{1,4}-\d{1,4}`), identifies cross-references (`see UW-11`, `per UCS-66`), builds hierarchy metadata
+1. **Parse** — `asme_parser.py` extracts paragraph IDs via regex, identifies cross-references, classifies reference types (mandatory/conditional/informational), builds hierarchy metadata
 2. **Embed** — `embedder.py` generates 64d, 256d, and 768d vectors using nomic-embed-text-v1.5
-3. **Store** — chunk stored in:
-   - `asme_chunks` SQLite table (metadata + bi-temporal versioning)
-   - `chunks_fts` FTS5 index (keyword search)
-   - `chunks_cold` LanceDB table (768d vectors)
-   - `graph_edges` SQLite table (cross-reference edges for PPR)
+3. **Store** — chunk stored in SQLite (metadata + bi-temporal versioning), FTS5 index, LanceDB tables, and graph_edges
 4. **Flag** — `no_forget=True`, `content_type="normative"` set automatically
 
 ### Bi-Temporal Versioning
@@ -225,37 +237,6 @@ valid_from   = 2025-07-01
 valid_to     = NULL  -- NULL means current
 ```
 
-Querying "what did UG-22 say in 2021 vs 2023" = `WHERE paragraph_id='UG-22' AND edition_year IN (2021, 2023)`.
-
----
-
-## Vault Structure
-
-```
-leo_trident/vault/
-├── _system/
-│   ├── hot.json              # 200-token hot context (auto-generated)
-│   ├── anchors.json          # LOCKED facts with SHA-256 hashes
-│   ├── consolidation_log.json # Sleep-time audit trail
-│   └── tier_registry/        # SQLite metadata lives here
-├── Personal/
-│   ├── Profile.md            # Brett's identity, certs, preferences
-│   └── Projects/             # Active and archived project notes
-├── ASME-BPVC/
-│   ├── _index.md             # Edition tracking
-│   ├── Section-VIII-Div1/
-│   │   ├── Subsection-A/Part-UG/   # UG-22.md, UG-27.md, etc.
-│   │   ├── Subsection-B/Part-UW/
-│   │   └── Subsection-C/
-│   └── Section-IX/
-│       ├── Part-QW/
-│       └── Part-QB/
-├── Summaries/                # RAPTOR-generated hierarchical summaries
-└── Sessions/                 # Conversation logs (auto-generated)
-```
-
-File watcher (`file_watcher.py`) monitors `vault/` for `.md` changes. On change: debounce 500ms → re-parse → re-embed → update LanceDB + FTS5 index.
-
 ---
 
 ## Heat Score & Forgetting Curve
@@ -268,11 +249,7 @@ Controls tier promotion. Higher = more likely to move to warmer tier.
 H(m) = α·N_visit + β·R_recency + γ·L_interaction
 ```
 
-Where:
-- `N_visit` = access count
-- `R_recency` = `1 / (1 + days_since_last_access)`
-- `L_interaction` = average interaction depth (how many turns used this memory)
-- Weights: α=0.5, β=0.3, γ=0.2
+Where: `N_visit` = access count, `R_recency` = `1 / (1 + days_since_last_access)`, `L_interaction` = average interaction depth. Weights: α=0.5, β=0.3, γ=0.2.
 
 ### FSRS Forgetting Curve
 
@@ -295,35 +272,77 @@ ASME normative content: `no_forget=True` — exempt from R(t) demotion, never de
 
 ---
 
-## Locked Anchors
+## Locked Anchors (Data Integrity)
 
-`vault/_system/anchors.json` contains facts that **cannot be modified by sleep-time consolidation**. Each anchor has a SHA-256 hash of its content. If the consolidator tries to overwrite an anchor, the hash won't match and the change is rejected.
+`vault/_system/anchors.json` contains data-integrity safeguards for safety-critical corpus content. Each anchor has a SHA-256 hash. If the consolidator or any automated process tries to modify an anchor, the hash won't match and the change is rejected.
 
-Current anchors:
-- Core identity (Brett's name, role, location)
-- ASME safety pins (never waive UG-99 hydro, always cite paragraph IDs, etc.)
+Current anchors protect:
+- **ASME safety pins:** retrieval constraints ensuring safety-critical content (UG-99 hydrostatic test, UW-51 spot RT, PQR essential variables, MDMT per UCS-66) is never omitted or contradicted
+- **Corpus scope facts:** what the system's primary domain coverage is
 
-To add or change an anchor, Brett must explicitly approve it — it's a deliberate human-in-the-loop gate.
+The drift monitor (`src/memory/drift_monitor.py`) verifies anchor integrity on every consolidation run and at health check time.
 
 ---
 
 ## Sleep-Time Consolidation
 
-Runs asynchronously (not during conversations). Uses Claude Sonnet via Abacus.AI API.
+Runs asynchronously (not during conversations). Uses configurable LLM backend.
 
 **Triggers:**
 - 30 minutes of inactivity
 - Nightly at 2 AM EST
 - Warm tier exceeds 50K tokens
-- Explicit `!evolve` or "consolidate" command
 
 **What it does:**
 1. **Fact extraction** — reads conversation logs, classifies each new fact as ADD / UPDATE / DELETE / NOOP against existing memories
 2. **Tier management** — recomputes heat scores and R(t), promotes/demotes content
-3. **Forward prediction** — if Brett has been working on a vessel project, pre-loads relevant UG-22, UW-12, and Section IX welding quals into warm tier
-4. **Hot recompression** — regenerates the 200-token hot context from warm candidates
+3. **Forward prediction** — pre-loads related cold-tier chunks into warm tier based on recent topics
+4. **Hot recompression** — updates timestamp on safety-pins context
+5. **Drift check** — verifies anchor SHA-256 hashes
+6. **Metrics** — logs consolidation stats to JSONL
 
-**Race condition prevention:** SQLite WAL mode. Conversational agent uses read-only connection (`PRAGMA query_only=ON`). Consolidator uses write connection. Readers never block writers.
+**Race condition prevention:** SQLite WAL mode. Conversational readers use read-only connections. Consolidator uses write connection. Readers never block writers.
+
+---
+
+## Health and Operations
+
+### Health Endpoint
+
+Always-on FastAPI service at `127.0.0.1:8765`:
+
+| Endpoint | Purpose |
+|----------|---------|
+| `GET /health` | 200 OK if SQLite + LanceDB + anchors + embedder are healthy; 503 otherwise |
+| `GET /stats` | Corpus counts, tier distribution, disk usage, last consolidation/backup times |
+| `GET /version` | Phase marker, schema migrations, git SHA |
+
+### Backup Job
+
+`scripts/backup.py` runs weekly (Sunday 3 AM via launchd):
+- WAL-safe SQLite `.backup()` API
+- LanceDB directory copy (append-only, safe to copy live)
+- `vault/_system/` snapshot
+- `manifest.json` with counts and sizes
+- Configurable retention (default 30 days)
+- Metrics file pruning (90 days)
+
+### Metrics
+
+JSONL files at `data/metrics/{YYYY-MM-DD}.jsonl`. Instrumented paths:
+- `query.latency_ms` — end-to-end retrieval latency with rerank/judge tags
+- `judge.fallback` — whether the relevance judge fell back to deterministic mapping
+- `consolidation.*` — error count, facts extracted, tier changes per run
+
+### Deployment (macOS)
+
+Four launchd agents in `deploy/macos/`:
+- `com.leotrident.consolidate.plist` — nightly 2 AM consolidation
+- `com.leotrident.watcher.plist` — always-on vault file watcher
+- `com.leotrident.backup.plist` — weekly Sunday 3 AM backup
+- `com.leotrident.health.plist` — always-on health endpoint
+
+See `deploy/macos/README.md` for setup instructions.
 
 ---
 
@@ -331,21 +350,43 @@ Runs asynchronously (not during conversations). Uses Claude Sonnet via Abacus.AI
 
 | File | Purpose |
 |------|---------|
-| `src/api.py` | Main interface — `LeoTrident.query()`, `LeoTrident.ingest_text()` |
+| `src/api.py` | Main interface — `query()`, `ingest_text()`, `search_conversations()` |
 | `src/schema.py` | SQLite table definitions, WAL mode, FTS5 indexes |
-| `src/ingest/asme_parser.py` | ASME paragraph-boundary parser, cross-reference extractor |
+| `src/config.py` | Environment variable resolution, path defaults |
+| `src/ingest/asme_parser.py` | ASME paragraph-boundary parser, cross-reference extractor, reference type classification |
 | `src/ingest/embedder.py` | nomic-embed-text-v1.5, Matryoshka 64/256/768d |
 | `src/ingest/file_watcher.py` | watchdog vault sync → LanceDB + FTS5 |
 | `src/retrieval/bm25.py` | SQLite FTS5 BM25 keyword search |
 | `src/retrieval/dense.py` | LanceDB cosine similarity vector search |
-| `src/retrieval/ppr.py` | scipy CSR PageRank on ASME cross-reference graph |
+| `src/retrieval/ppr.py` | scipy CSR PageRank on cross-reference graph |
 | `src/retrieval/fusion.py` | Reciprocal Rank Fusion (k=60) |
 | `src/retrieval/reranker.py` | BGE-Reranker-v2-M3, CPU, fallback to RRF order |
+| `src/retrieval/relevance_judge.py` | LLM-based cross-reference relevance classification |
 | `src/memory/tier_manager.py` | Heat scores, FSRS forgetting curve, tier transitions |
+| `src/memory/consolidator.py` | Sleep-time consolidation pipeline |
+| `src/memory/drift_monitor.py` | Embedding drift detection + anchor integrity |
+| `src/memory/conversation_logger.py` | Conversation turn logging for FTS5 search |
+| `src/service/health.py` | FastAPI health/stats/version endpoints |
+| `src/service/metrics.py` | JSONL metrics sink |
+| `scripts/backup.py` | Scheduled backup with retention |
+| `scripts/run_health.py` | Health endpoint launcher |
 | `scripts/init_db.py` | Initialize SQLite schema + LanceDB tables |
 | `scripts/ingest_asme.py` | CLI for batch ASME corpus ingestion |
-| `vault/_system/hot.json` | 200-token hot context (always injected) |
-| `vault/_system/anchors.json` | SHA-256 locked identity + safety pins |
+
+---
+
+## Configuration
+
+All runtime behavior is controlled via environment variables (or a `.env` file in the repo root).
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `LEO_TRIDENT_HOME` | `~/leo_trident` | Project root |
+| `LEO_LLM_MODE` | `cloud` | `cloud` = Abacus Claude, `local` = Ollama |
+| `LEO_EMBED_DEVICE` | `cpu` | `cpu`, `mps` (Apple Silicon), or `cuda` |
+| `OLLAMA_URL` | `http://localhost:11434` | Used when `LEO_LLM_MODE=local` |
+| `LEO_CONSOLIDATION_MODEL` | `qwen2.5:14b-instruct-q5_K_M` | Ollama model for consolidation |
+| `ABACUS_API_KEY` | — | Required when `LEO_LLM_MODE=cloud` |
 
 ---
 
@@ -353,42 +394,21 @@ Runs asynchronously (not during conversations). Uses Claude Sonnet via Abacus.AI
 
 ```bash
 # Install dependencies
-pip install lancedb pyarrow sentence-transformers FlagEmbedding \
-            fast-pagerank scipy numpy watchdog anthropic httpx pytest
+pip install -r requirements.txt
 
 # Initialize databases
-cd /home/ubuntu/leo_trident
-python3 scripts/init_db.py
+python scripts/init_db.py
 
 # Run tests
-python3 -m pytest tests/ -v
+python -m pytest tests/ -v
 
 # Ingest ASME text (when available)
-python3 scripts/ingest_asme.py --input /path/to/section-viii-div1/ --section VIII-1
+python scripts/ingest_asme.py --input /path/to/section-viii-div1/ --section VIII-1
 
-# Query
-python3 -c "
-from src.api import LeoTrident
-lt = LeoTrident()
-results = lt.query('minimum wall thickness formula for cylindrical shells', top_k=5)
-for r in results:
-    print(r['paragraph_id'], r['score'], r['content'][:100])
-"
+# Start health endpoint
+python scripts/run_health.py
+# → http://127.0.0.1:8765/health
 ```
-
----
-
-## Migration Path to Mac Mini M5
-
-The system is designed to swap cloud API calls for local Ollama with zero architecture changes:
-
-| Component | Now (Abacus) | Mac Mini M5 |
-|---|---|---|
-| Embedding model | sentence-transformers (CPU) | nomic-embed-text via Ollama |
-| Sleep LLM | Claude Sonnet via Abacus API | Qwen 2.5 14B Q5_K_M via Ollama |
-| BGE Reranker | CPU FP32 | CPU or Metal GPU |
-| Main agent LLM | Claude Sonnet via Abacus API | Keep on Abacus or local |
-| Storage | LanceDB + SQLite on disk | Same — no changes |
 
 ---
 
@@ -396,36 +416,35 @@ The system is designed to swap cloud API calls for local Ollama with zero archit
 
 | Phase | Status |
 |-------|--------|
-| Phase 0: Foundation (LanceDB + SQLite schema) | ✅ Complete |
-| Phase 1: Personal knowledge migration | ✅ Complete |
-| Phase 2: Full retrieval pipeline | ✅ Complete — 6/6 tests passing |
-| Phase 3: ASME corpus ingestion | ⏳ Waiting on text (VIII-1 + IX first) |
-| Phase 4: Sleep-time consolidation v2 | ✅ Complete |
-| Phase 5: Eval + hardening | ✅ Complete — 34/34 tests passing |
+| Phase 0: Foundation (LanceDB + SQLite schema) | Complete |
+| Phase 1: Personal knowledge migration | Complete |
+| Phase 2: Full retrieval pipeline | Complete |
+| Phase 3: ASME corpus ingestion | Waiting on text |
+| Phase 4: Sleep-time consolidation v2 | Complete |
+| Phase 5: Eval + hardening | Complete |
+| Phase 6a: Typed cross-references | Complete |
+| Phase 6b: Relevance judge | Complete |
+| Phase 7: Eval framework | Complete |
+| Phase 8: Operational hardening | Complete |
 
 ---
 
-## Phase 5: Eval Metrics
+## Troubleshooting
 
-### Anchor Integrity (April 11, 2026)
-- **SHA-256 violations:** 0
-- **Rules checked:** 9 (4 NEVER + 5 ALWAYS + core_facts)
-- **Status:** ✅ All anchors verified
+### "Real embedder failed to load" error
+You're missing `sentence-transformers` or one of its dependencies (likely `torch` or `transformers`). Either:
+- Install the full stack: `pip install sentence-transformers torch transformers einops`
+- Or for CI/test only, set `LEO_ALLOW_STUB_EMBEDDER=1` (warning: search results will be random).
 
-### Consolidation Test Coverage
-| Test Suite | Tests | Status |
-|---|---|---|
-| `test_consolidation.py` | 10 | ✅ Pass |
-| `test_drift_monitor.py` | 8 | ✅ Pass |
-| `test_eval_framework.py` | 10 | ✅ Pass |
-| `test_e2e.py` | 6 | ✅ Pass |
-| **Total** | **34** | **✅ All pass** |
+### Search returns unrelated results
+Check whether you're running with the stub embedder. Look for a `warning: stub_embedder_random_vectors` field on each result, or grep logs for "USING STUB EMBEDDER".
 
-### ASME Eval Framework
-- 10 question eval bank covering: single-hop factual (7), multi-hop (2), abstention (1)
-- Metrics: Recall@5, Recall@10, MRR
-- *Full metrics pending real ASME corpus ingestion (Phase 3)*
+### `git status` shows changes in `vault/_system/` after every consolidation
+Those files are runtime state and should be gitignored. If you see them tracked, your `.gitignore` is missing the `vault/_system/` line. Re-run the audit-remediation steps.
+
+### Cloud LLM mode silently uses an old key
+If you have `/home/ubuntu/.openclaw/openclaw.json` on your machine, it's used as a fallback when `ABACUS_API_KEY` is empty. Either delete that file or explicitly set `ABACUS_API_KEY` in `.env`.
 
 ---
 
-*Built April 10–11, 2026*
+*Built April 2026*

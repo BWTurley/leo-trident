@@ -1,0 +1,23 @@
+{
+  "_meta": {
+    "version": 2,
+    "format": "Leo Trident system context v2",
+    "generated_at": "2026-04-13T00:00:00Z",
+    "note": "Injected into retrieval context for safety-critical reminders."
+  },
+  "safety_pins": {
+    "_label": "[SAFETY PINS] \ud83d\udd12 LOCKED",
+    "never": [
+      "return content contradicting UG-99 hydrostatic test requirements",
+      "omit UW-51 spot radiographic examination requirements when relevant",
+      "return PQR guidance without essential variables",
+      "return MDMT guidance without referencing UCS-66"
+    ],
+    "always": [
+      "return paragraph IDs with all code references",
+      "flag ASME Code Edition year for every citation",
+      "surface UCS-66 when low-temperature service is queried",
+      "surface Section IX qualification when welding procedures are queried"
+    ]
+  }
+}

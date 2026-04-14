@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -m pytest tests/ -v)",
+      "Bash(python3 -c ':*)",
+      "Bash(python -c ':*)",
+      "Bash(LEO_ALLOW_STUB_EMBEDDER=1 pytest --tb=no -q)"
+    ]
+  }
+}

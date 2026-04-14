@@ -90,12 +90,17 @@ def seed_vault_system(vault_path: Path) -> None:
     if not hot_path.exists():
         # Minimal seed — will be overwritten by real hot.json from vault/_system/hot.json
         hot_seed = {
-            "version": 1,
-            "token_budget": 200,
-            "persona": "",
-            "safety_pins": [],
-            "active_project": {},
-            "session_hint": {}
+            "_meta": {
+                "version": 2,
+                "format": "Leo Trident system context v2",
+                "generated_at": "",
+                "note": "Injected into retrieval context for safety-critical reminders."
+            },
+            "safety_pins": {
+                "_label": "[SAFETY PINS] \ud83d\udd12 LOCKED",
+                "never": [],
+                "always": []
+            }
         }
         hot_path.write_text(json.dumps(hot_seed, indent=2))
         print(f"  ✓ Seeded {hot_path}")
@@ -134,7 +139,7 @@ def main():
 
     # ── SQLite ────────────────────────────────────────────────────────
     db_path = data_dir / "leo_trident.db"
-    print(f"\n── SQLite ─────────────────────────────────────────────")
+    print("\n── SQLite ─────────────────────────────────────────────")
     print(f"   Path: {db_path}")
     conn = init_schema(db_path)
     tables = conn.execute(
@@ -143,18 +148,18 @@ def main():
     for t in tables:
         print(f"  ✓ {t['name']}")
     conn.close()
-    print(f"  WAL mode: active")
+    print("  WAL mode: active")
 
     # ── LanceDB ───────────────────────────────────────────────────────
     if not args.skip_lancedb:
         lance_path = data_dir / "lancedb"
-        print(f"\n── LanceDB ────────────────────────────────────────────")
+        print("\n── LanceDB ────────────────────────────────────────────")
         print(f"   Path: {lance_path}")
         init_lancedb(lance_path)
 
     # ── Vault ────────────────────────────────────────────────────────
     vault_path = Path(args.vault_dir)
-    print(f"\n── Vault ──────────────────────────────────────────────")
+    print("\n── Vault ──────────────────────────────────────────────")
     print(f"   Path: {vault_path}")
     seed_vault_system(vault_path)
 

@@ -12,10 +12,9 @@ References:
 
 from __future__ import annotations
 
-import json
 import logging
 import uuid
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, asdict
 from datetime import datetime, timezone
 from typing import Optional
 
@@ -406,7 +405,7 @@ class TierManager:
                 if dt.tzinfo is None:
                     dt = dt.replace(tzinfo=timezone.utc)
                 return dt
-            except Exception:
+            except (ValueError, TypeError):
                 return None
 
         return MemoryRecord(
@@ -449,7 +448,9 @@ class TierManager:
 # ── Self-test ─────────────────────────────────────────────────────────────────
 
 if __name__ == '__main__':
-    import sys, os, tempfile
+    import sys
+    import os
+    import tempfile
     sys.path.insert(0, str(__import__('pathlib').Path(__file__).resolve().parent.parent.parent))
     from src.schema import init_schema
 

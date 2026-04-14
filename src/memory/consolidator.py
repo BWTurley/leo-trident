@@ -10,40 +10,30 @@ from __future__ import annotations
 import hashlib
 import json
 import logging
-import os
 import sqlite3
-import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
+from src.config import BASE_PATH as _DEFAULT_BASE_PATH
+from src.memory import llm_client
+
 logger = logging.getLogger(__name__)
-
-BASE_PATH = "/home/ubuntu/leo_trident"
-ABACUS_ENDPOINT = "https://routellm.abacus.ai/v1"
-MODEL = "claude-sonnet-4-6"
-
-
-def _load_api_key() -> str:
-    """Read Abacus API key from openclaw.json."""
-    cfg_path = Path("/home/ubuntu/.openclaw/openclaw.json")
-    with open(cfg_path) as f:
-        cfg = json.load(f)
-    return cfg["models"]["providers"]["abacus"]["apiKey"]
 
 
 class SleepTimeConsolidator:
     """Full sleep-time consolidation pipeline."""
 
-    def __init__(self, base_path: str = BASE_PATH):
-        self.base_path = Path(base_path)
+    def __init__(self, base_path: str | Path = None):
+        self.base_path = Path(base_path) if base_path else _DEFAULT_BASE_PATH
         self.db_path = self.base_path / "data" / "leo_trident.db"
         self.vault_path = self.base_path / "vault" / "_system"
-        self.api_key = _load_api_key()
 
         # Lazy imports so missing deps only fail at use time
         self._lt = None       # read-only LeoTrident
         self._write_conn = None
+        import threading
+        self._write_lock = threading.Lock()
 
     # ── Internal helpers ──────────────────────────────────────────────────────
 
@@ -65,25 +55,8 @@ class SleepTimeConsolidator:
         return self._write_conn
 
     def _claude(self, prompt: str) -> str:
-        """Call Claude via Abacus RouteLLM endpoint."""
-        import httpx
-        headers = {
-            "Authorization": f"Bearer {self.api_key}",
-            "Content-Type": "application/json",
-        }
-        body = {
-            "model": MODEL,
-            "messages": [{"role": "user", "content": prompt}],
-            "max_tokens": 1024,
-        }
-        resp = httpx.post(
-            f"{ABACUS_ENDPOINT}/chat/completions",
-            headers=headers,
-            json=body,
-            timeout=60,
-        )
-        resp.raise_for_status()
-        return resp.json()["choices"][0]["message"]["content"]
+        """Call LLM via configured backend (cloud or local)."""
+        return llm_client.complete(prompt)
 
     # ── Public API ────────────────────────────────────────────────────────────
 
@@ -173,6 +146,15 @@ class SleepTimeConsolidator:
         if not dry_run:
             self._append_consolidation_log(summary)
 
+        # 7. Metrics
+        try:
+            from src.service.metrics import log_metric
+            log_metric("consolidation.errors", len(summary["errors"]))
+            log_metric("consolidation.facts_extracted", len(summary["facts_extracted"]))
+            log_metric("consolidation.tier_changes", len(summary["tier_changes"]))
+        except (ImportError, OSError) as e:
+            logger.debug("Metrics logging skipped: %s", e)
+
         logger.info("=== Consolidation complete — %d errors ===", len(summary["errors"]))
         return summary
 
@@ -181,8 +163,10 @@ class SleepTimeConsolidator:
         Call Claude to extract atomic facts and classify them as
         ADD / UPDATE / DELETE / NOOP against existing memory.
         """
+        if len(text) > 4000:
+            logger.warning("Truncating consolidation input from %d to 4000 chars", len(text))
         prompt = (
-            "You are a memory consolidation agent for Leo, an ASME inspection assistant.\n"
+            "You are a memory consolidation agent for Leo Trident, an ASME retrieval system.\n"
             "Extract atomic facts from the following conversation text.\n"
             "For each fact, classify it as ADD / UPDATE / DELETE / NOOP.\n"
             "ADD = new fact not previously known.\n"
@@ -196,18 +180,41 @@ class SleepTimeConsolidator:
             f"{text[:4000]}"
         )
         raw = self._claude(prompt)
-        # Extract JSON array from response
-        import re
-        match = re.search(r"\[.*\]", raw, re.DOTALL)
-        if not match:
-            logger.warning("No JSON array found in Claude response")
-            return []
+        # Try strict JSON first, then fall back to extracting the largest [...] span.
+        raw_stripped = raw.strip()
+        # Strip markdown code fences if present
+        if raw_stripped.startswith("```"):
+            lines = raw_stripped.split("\n")
+            raw_stripped = "\n".join(lines[1:-1] if lines[-1].startswith("```") else lines[1:])
+
         try:
-            facts = json.loads(match.group(0))
-            return facts if isinstance(facts, list) else []
-        except json.JSONDecodeError as e:
-            logger.warning("JSON parse error in fact_extraction: %s", e)
-            return []
+            facts = json.loads(raw_stripped)
+        except json.JSONDecodeError:
+            # Find the outermost [...] using bracket counting, not regex
+            start = raw.find("[")
+            if start == -1:
+                logger.warning("No JSON array found. Raw response (first 500 chars): %s", raw[:500])
+                return []
+            depth = 0
+            end = -1
+            for i in range(start, len(raw)):
+                if raw[i] == "[":
+                    depth += 1
+                elif raw[i] == "]":
+                    depth -= 1
+                    if depth == 0:
+                        end = i + 1
+                        break
+            if end == -1:
+                logger.warning("Unbalanced brackets in response: %s", raw[:500])
+                return []
+            try:
+                facts = json.loads(raw[start:end])
+            except json.JSONDecodeError as e:
+                logger.warning("JSON parse error: %s. Raw: %s", e, raw[:500])
+                return []
+
+        return facts if isinstance(facts, list) else []
 
     def tier_management(self, dry_run: bool = False) -> list[dict]:
         """
@@ -261,9 +268,10 @@ class SleepTimeConsolidator:
                 }
                 changes.append(change)
                 if not dry_run:
-                    record.tier = new_tier
-                    tm.upsert(record)
-                    write_conn.commit()
+                    with self._write_lock:
+                        record.tier = new_tier
+                        tm.upsert(record)
+                        write_conn.commit()
                     logger.info("Tier change: %s %s→%s", memory_id, old_tier, new_tier)
 
         return changes
@@ -293,82 +301,32 @@ class SleepTimeConsolidator:
 
     def _promote_to_warm(self, chunk_id: str):
         """Bump a chunk from cold to warm in tier_registry."""
-        conn = self._write_db()
-        conn.execute(
-            "UPDATE tier_registry SET tier='warm' WHERE chunk_id=?",
-            (chunk_id,),
-        )
-        conn.commit()
+        with self._write_lock:
+            conn = self._write_db()
+            conn.execute(
+                "UPDATE tier_registry SET tier='warm' WHERE chunk_id=?",
+                (chunk_id,),
+            )
+            conn.commit()
 
     def hot_recompression(self):
         """
-        Regenerate vault/_system/hot.json from current warm-tier facts.
-        Keeps content ≤200 tokens.
+        Re-read hot.json and update only _meta.generated_at.
+        hot.json is now a static safety-pins file; no agent fields to regenerate.
         """
-        # Load current hot.json as baseline
         hot_path = self.vault_path / "hot.json"
         try:
             with open(hot_path) as f:
                 hot = json.load(f)
-        except Exception:
+        except (json.JSONDecodeError, OSError):
             hot = {}
 
-        # Pull active project + session hints from tier_registry / personal facts
-        active_project = self._get_active_project()
-        last_topic = self._get_last_topic()
-        pending = self._get_pending_items()
-
-        # Update session hint
-        if "session_hint" not in hot:
-            hot["session_hint"] = {}
-        hot["session_hint"]["last_topic"] = last_topic
-        hot["session_hint"]["pending"] = pending
-
-        # Update active project if found
-        if active_project and "active_project" in hot:
-            hot["active_project"].update(active_project)
-
-        hot["_meta"] = hot.get("_meta", {})
+        hot.setdefault("_meta", {})
         hot["_meta"]["generated_at"] = datetime.now(timezone.utc).isoformat()
 
         with open(hot_path, "w") as f:
             json.dump(hot, f, indent=2)
         logger.info("hot.json regenerated")
-
-    def _get_active_project(self) -> dict:
-        """Fetch active project from tier_registry if available."""
-        try:
-            conn = sqlite3.connect(str(self.db_path), timeout=10)
-            conn.row_factory = sqlite3.Row
-            row = conn.execute(
-                "SELECT content FROM asme_chunks WHERE content_type='project' "
-                "ORDER BY last_accessed DESC LIMIT 1"
-            ).fetchone()
-            conn.close()
-            if row:
-                return {"notes": row["content"][:100]}
-        except Exception:
-            pass
-        return {}
-
-    def _get_last_topic(self) -> Optional[str]:
-        """Fetch last conversation topic from logs."""
-        try:
-            conn = sqlite3.connect(str(self.db_path), timeout=10)
-            conn.row_factory = sqlite3.Row
-            row = conn.execute(
-                "SELECT content FROM conversation_logs ORDER BY created_at DESC LIMIT 1"
-            ).fetchone()
-            conn.close()
-            if row:
-                return row["content"][:80]
-        except Exception:
-            pass
-        return None
-
-    def _get_pending_items(self) -> list[str]:
-        """Stub — returns empty list unless personal memory has open items."""
-        return []
 
     def drift_check(self) -> dict:
         """
@@ -419,7 +377,7 @@ class SleepTimeConsolidator:
         try:
             with open(log_path) as f:
                 log = json.load(f)
-        except Exception:
+        except (json.JSONDecodeError, OSError):
             log = {"runs": []}
 
         # Keep last 100 runs

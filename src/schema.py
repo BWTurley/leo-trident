@@ -58,6 +58,9 @@ CREATE TABLE IF NOT EXISTS graph_edges (
     source_id       TEXT NOT NULL,   -- paragraph_id or chunk_id
     target_id       TEXT NOT NULL,   -- paragraph_id or chunk_id
     edge_type       TEXT DEFAULT 'cross_ref',  -- cross_ref / hierarchy / related
+    reference_type  TEXT DEFAULT 'unclassified',  -- mandatory / conditional / informational / unclassified
+    citation_text   TEXT,
+    context         TEXT,
     weight          REAL DEFAULT 1.0,
     edition_year    INTEGER,
     created_at      DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -191,11 +194,26 @@ def create_connection(db_path: str | Path, read_only: bool = False) -> sqlite3.C
     return conn
 
 
+def _migrate_graph_edges(conn):
+    """Add Phase 6a columns to graph_edges if they don't exist yet."""
+    cols = {row[1] for row in conn.execute("PRAGMA table_info(graph_edges)")}
+    migrations = [
+        ("reference_type", "ALTER TABLE graph_edges ADD COLUMN reference_type TEXT DEFAULT 'unclassified'"),
+        ("citation_text",  "ALTER TABLE graph_edges ADD COLUMN citation_text TEXT"),
+        ("context",        "ALTER TABLE graph_edges ADD COLUMN context TEXT"),
+    ]
+    for col, sql in migrations:
+        if col not in cols:
+            conn.execute(sql)
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_edges_reftype ON graph_edges(reference_type)")
+
+
 def init_schema(db_path: str | Path) -> sqlite3.Connection:
     """Initialize the full schema. Idempotent — safe to call on existing DB."""
     conn = create_connection(db_path)
     conn.executescript(SCHEMA_SQL)
     conn.executescript(FTS_SYNC_TRIGGERS)
+    _migrate_graph_edges(conn)
     conn.commit()
     return conn
 

@@ -103,6 +103,138 @@ class LeoTrident:
         from src.schema import create_connection
         return create_connection(self.db_path)
 
+    # ── query helpers ──────────────────────────────────────────────────
+
+    def _run_bm25(self, text: str) -> List[dict]:
+        """BM25 search via FTS5. Returns ranked results or empty list on failure."""
+        try:
+            return self._get_bm25().search(text, top_k=100)
+        except Exception as e:
+            logger.warning(f"BM25 search failed: {e}")
+            return []
+
+    def _run_dense(self, vec_768, vec_256) -> List[dict]:
+        """Dense vector search across cold (768d) and warm (256d) tables."""
+        results = []
+        try:
+            results = self._get_dense_cold().search(vec_768, top_k=100)
+        except Exception as e:
+            logger.warning(f"Dense cold search failed: {e}")
+        try:
+            warm = self._get_dense_warm().search(vec_256, top_k=50)
+            results = results + warm
+        except Exception as e:
+            logger.warning(f"Dense warm search failed: {e}")
+        return results
+
+    def _run_ppr(self, bm25_results: List[dict]) -> List[dict]:
+        """PPR search seeded by top BM25 paragraph IDs."""
+        results = []
+        try:
+            seeds = [r["paragraph_id"] for r in bm25_results[:5] if r.get("paragraph_id")]
+            if not seeds:
+                return []
+            raw_ppr = self._get_ppr().query(seeds, top_k=100)
+            conn_ppr = self._get_conn()
+            try:
+                for pid, score in raw_ppr:
+                    row = conn_ppr.execute(
+                        "SELECT chunk_id, paragraph_id, content FROM asme_chunks WHERE paragraph_id=? LIMIT 1",
+                        (pid,)
+                    ).fetchone()
+                    if row:
+                        results.append({
+                            "chunk_id": row["chunk_id"],
+                            "paragraph_id": row["paragraph_id"],
+                            "content": row["content"],
+                            "score": score,
+                        })
+            finally:
+                conn_ppr.close()
+        except Exception as e:
+            logger.warning(f"PPR search failed: {e}")
+        return results
+
+    def _fuse_and_enrich(self, bm25_results: List[dict], dense_results: List[dict],
+                         ppr_results: List[dict], text: str,
+                         include_conversations: bool) -> List[dict]:
+        """RRF fusion + DB content enrichment. Returns candidate dicts."""
+        from src.retrieval.fusion import RankedResult
+
+        def to_ranked(results: List[dict], score_key: str = "score") -> List[RankedResult]:
+            return [
+                RankedResult(
+                    doc_id=r.get("chunk_id", str(i)),
+                    score=r.get(score_key, 0.0),
+                    rank=i + 1,
+                    content=r.get("content", ""),
+                    paragraph_id=r.get("paragraph_id", ""),
+                )
+                for i, r in enumerate(results)
+            ]
+
+        lists = {}
+        if bm25_results:
+            lists["bm25"] = to_ranked(bm25_results, "rank")
+        if dense_results:
+            lists["dense"] = to_ranked(dense_results, "score")
+        if ppr_results:
+            lists["ppr"] = to_ranked(ppr_results, "score")
+
+        if include_conversations:
+            try:
+                conv_results = self.search_conversations(text, top_k=5)
+                if conv_results:
+                    lists["conversations"] = [
+                        RankedResult(
+                            doc_id=f"log:{cr['log_id']}",
+                            score=cr.get("rank", 0.0),
+                            rank=i + 1,
+                            content=cr["content"],
+                            paragraph_id="",
+                        )
+                        for i, cr in enumerate(conv_results)
+                    ]
+            except Exception as e:
+                logger.warning(f"Conversation search failed: {e}")
+
+        if not lists:
+            return []
+
+        fused = self._get_fusion().fuse(lists)
+
+        # Enrich content from DB
+        conn = self._get_conn()
+        chunk_content = {}
+        chunk_para = {}
+        try:
+            ids = [f.doc_id for f in fused[:30]]
+            if not ids:
+                return []
+            placeholders = ",".join("?" * len(ids))
+            rows = conn.execute(
+                f"SELECT chunk_id, paragraph_id, content FROM asme_chunks WHERE chunk_id IN ({placeholders})",
+                ids,
+            ).fetchall()
+            for row in rows:
+                chunk_content[row["chunk_id"]] = row["content"]
+                chunk_para[row["chunk_id"]] = row["paragraph_id"]
+        except Exception as e:
+            logger.warning(f"DB content lookup failed: {e}")
+        finally:
+            conn.close()
+
+        return [
+            {
+                "chunk_id": f.doc_id,
+                "paragraph_id": f.paragraph_id or chunk_para.get(f.doc_id, ""),
+                "content": f.content or chunk_content.get(f.doc_id, ""),
+                "score": f.rrf_score,
+                "source": list(f.ranks.keys()),
+            }
+            for f in fused[:30]
+        ]
+
     # ── query ─────────────────────────────────────────────────────────
 
     def query(self, text: str, top_k: int = 10, use_rerank: bool = True,
@@ -117,134 +249,18 @@ class LeoTrident:
         query_vec_768 = embedder.embed_query(text, dim=768)
         query_vec_256 = embedder.embed_query(text, dim=256)
 
-        # 1. BM25
-        bm25_results = []
-        try:
-            bm25_results = self._get_bm25().search(text, top_k=100)
-        except Exception as e:
-            logger.warning(f"BM25 search failed: {e}")
+        bm25_results = self._run_bm25(text)
+        dense_results = self._run_dense(query_vec_768, query_vec_256)
+        ppr_results = self._run_ppr(bm25_results)
 
-        # 2. Dense cold (768d)
-        dense_results = []
-        try:
-            dense_results = self._get_dense_cold().search(query_vec_768, top_k=100)
-        except Exception as e:
-            logger.warning(f"Dense cold search failed: {e}")
-
-        # Also try warm (256d)
-        try:
-            warm = self._get_dense_warm().search(query_vec_256, top_k=50)
-            dense_results = dense_results + warm
-        except Exception as e:
-            logger.debug(f"Dense warm search failed: {e}")
-
-        # 3. PPR
-        ppr_results = []
-        try:
-            # Use top BM25 paragraph IDs as seeds
-            seeds = [r["paragraph_id"] for r in bm25_results[:5] if r.get("paragraph_id")]
-            if seeds:
-                raw_ppr = self._get_ppr().query(seeds, top_k=100)
-                # raw_ppr is list of (paragraph_id, score)
-                # Look up chunk data from DB
-                conn_ppr = self._get_conn()
-                try:
-                    for pid, score in raw_ppr:
-                        row = conn_ppr.execute(
-                            "SELECT chunk_id, paragraph_id, content FROM asme_chunks WHERE paragraph_id=? LIMIT 1",
-                            (pid,)
-                        ).fetchone()
-                        if row:
-                            ppr_results.append({
-                                "chunk_id": row["chunk_id"],
-                                "paragraph_id": row["paragraph_id"],
-                                "content": row["content"],
-                                "score": score,
-                            })
-                finally:
-                    conn_ppr.close()
-        except Exception as e:
-            logger.debug(f"PPR search failed: {e}")
-
-        # 4. RRF Fusion
-        fusion = self._get_fusion()
-
-        from src.retrieval.fusion import RankedResult
-
-        def to_ranked(results: List[dict], score_key: str = "score") -> List[RankedResult]:
-            ranked = []
-            for i, r in enumerate(results):
-                ranked.append(RankedResult(
-                    doc_id=r.get("chunk_id", str(i)),
-                    score=r.get(score_key, 0.0),
-                    rank=i + 1,
-                    content=r.get("content", ""),
-                    paragraph_id=r.get("paragraph_id", ""),
-                ))
-            return ranked
-
-        lists = {}
-        if bm25_results:
-            lists["bm25"] = to_ranked(bm25_results, "rank")
-        if dense_results:
-            lists["dense"] = to_ranked(dense_results, "score")
-        if ppr_results:
-            lists["ppr"] = to_ranked(ppr_results, "score")
-
-        # 3b. Optional conversation history fusion
-        if include_conversations:
-            try:
-                conv_results = self.search_conversations(text, top_k=5)
-                if conv_results:
-                    conv_ranked = []
-                    for i, cr in enumerate(conv_results):
-                        conv_ranked.append(RankedResult(
-                            doc_id=f"log:{cr['log_id']}",
-                            score=cr.get("rank", 0.0),
-                            rank=i + 1,
-                            content=cr["content"],
-                            paragraph_id="",
-                        ))
-                    lists["conversations"] = conv_ranked
-            except Exception as e:
-                logger.debug(f"Conversation search failed: {e}")
-
-        if not lists:
+        candidates = self._fuse_and_enrich(
+            bm25_results, dense_results, ppr_results, text, include_conversations
+        )
+        if not candidates:
             return []
 
-        fused = fusion.fuse(lists)
-
-        # Enrich content from DB if missing
-        conn = self._get_conn()
-        chunk_content = {}
-        chunk_para = {}
-        try:
-            ids = [f.doc_id for f in fused[:30]]
-            placeholders = ",".join("?" * len(ids))
-            rows = conn.execute(
-                f"SELECT chunk_id, paragraph_id, content FROM asme_chunks WHERE chunk_id IN ({placeholders})",
-                ids,
-            ).fetchall()
-            for row in rows:
-                chunk_content[row["chunk_id"]] = row["content"]
-                chunk_para[row["chunk_id"]] = row["paragraph_id"]
-        except Exception as e:
-            logger.debug(f"DB content lookup failed: {e}")
-        finally:
-            conn.close()
-
-        candidates = []
-        for f in fused[:30]:
-            candidates.append({
-                "chunk_id": f.doc_id,
-                "paragraph_id": f.paragraph_id or chunk_para.get(f.doc_id, ""),
-                "content": f.content or chunk_content.get(f.doc_id, ""),
-                "score": f.rrf_score,
-                "source": list(f.ranks.keys()),
-            })
-
-        # 5. Optional BGE rerank
-        if use_rerank and candidates:
+        # Optional BGE rerank
+        if use_rerank:
             try:
                 reranker = self._get_reranker()
                 candidates = reranker.rerank(text, candidates, top_k=top_k)
@@ -254,7 +270,7 @@ class LeoTrident:
         else:
             candidates = candidates[:top_k]
 
-        # Optional: relevance judgment on cross-references
+        # Optional relevance judgment
         if use_relevance_judge and candidates:
             try:
                 from src.retrieval.relevance_judge import ReferenceRelevanceJudge
@@ -280,8 +296,8 @@ class LeoTrident:
                 "judge": use_relevance_judge,
                 "result_count": len(candidates),
             })
-        except Exception:
-            pass
+        except (ImportError, OSError) as e:
+            logger.debug(f"Metrics logging skipped: {e}")
 
         return candidates
 
@@ -388,7 +404,7 @@ class LeoTrident:
                 finally:
                     conn2.close()
         except Exception as e:
-            logger.debug(f"Graph edge extraction failed: {e}")
+            logger.warning(f"Graph edge extraction failed: {e}")
 
         # Reload dense retriever handles
         self._dense_cold = None

@@ -1,0 +1,28 @@
+name: test
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install minimal deps
+        run: |
+          pip install --upgrade pip
+          # Install only what's needed for tests; skip torch/transformers (they're huge)
+          pip install pytest pytest-asyncio pydantic python-dotenv rich tqdm \
+                      lancedb pyarrow scipy numpy fast-pagerank watchdog httpx
+      - name: Lint
+        run: |
+          pip install ruff
+          ruff check . --exit-zero  # report only for now
+      - name: Test (allow stub embedder in CI)
+        env:
+          LEO_ALLOW_STUB_EMBEDDER: "1"
+        run: pytest -q --tb=short

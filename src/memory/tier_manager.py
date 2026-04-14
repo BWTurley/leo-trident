@@ -406,7 +406,7 @@ class TierManager:
                 if dt.tzinfo is None:
                     dt = dt.replace(tzinfo=timezone.utc)
                 return dt
-            except Exception:
+            except (ValueError, TypeError):
                 return None
 
         return MemoryRecord(

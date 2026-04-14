@@ -32,6 +32,8 @@ class SleepTimeConsolidator:
         # Lazy imports so missing deps only fail at use time
         self._lt = None       # read-only LeoTrident
         self._write_conn = None
+        import threading
+        self._write_lock = threading.Lock()
 
     # ── Internal helpers ──────────────────────────────────────────────────────
 
@@ -150,8 +152,8 @@ class SleepTimeConsolidator:
             log_metric("consolidation.errors", len(summary["errors"]))
             log_metric("consolidation.facts_extracted", len(summary["facts_extracted"]))
             log_metric("consolidation.tier_changes", len(summary["tier_changes"]))
-        except Exception:
-            pass
+        except (ImportError, OSError) as e:
+            logger.debug("Metrics logging skipped: %s", e)
 
         logger.info("=== Consolidation complete — %d errors ===", len(summary["errors"]))
         return summary
@@ -161,6 +163,8 @@ class SleepTimeConsolidator:
         Call Claude to extract atomic facts and classify them as
         ADD / UPDATE / DELETE / NOOP against existing memory.
         """
+        if len(text) > 4000:
+            logger.warning("Truncating consolidation input from %d to 4000 chars", len(text))
         prompt = (
             "You are a memory consolidation agent for Leo Trident, an ASME retrieval system.\n"
             "Extract atomic facts from the following conversation text.\n"
@@ -176,18 +180,40 @@ class SleepTimeConsolidator:
             f"{text[:4000]}"
         )
         raw = self._claude(prompt)
-        # Extract JSON array from response
-        import re
-        match = re.search(r"\[.*\]", raw, re.DOTALL)
-        if not match:
-            logger.warning("No JSON array found in Claude response")
-            return []
+        # Try strict JSON first, then fall back to extracting the largest [...] span.
+        raw_stripped = raw.strip()
+        # Strip markdown code fences if present
+        if raw_stripped.startswith("```"):
+            lines = raw_stripped.split("\n")
+            raw_stripped = "\n".join(lines[1:-1] if lines[-1].startswith("```") else lines[1:])
+
         try:
-            facts = json.loads(match.group(0))
-            return facts if isinstance(facts, list) else []
-        except json.JSONDecodeError as e:
-            logger.warning("JSON parse error in fact_extraction: %s", e)
-            return []
+            facts = json.loads(raw_stripped)
+        except json.JSONDecodeError:
+            # Find the outermost [...] using bracket counting, not regex
+            start = raw.find("[")
+            if start == -1:
+                logger.warning("No JSON array found. Raw response (first 500 chars): %s", raw[:500])
+                return []
+            depth = 0
+            end = -1
+            for i in range(start, len(raw)):
+                if raw[i] == "[": depth += 1
+                elif raw[i] == "]":
+                    depth -= 1
+                    if depth == 0:
+                        end = i + 1
+                        break
+            if end == -1:
+                logger.warning("Unbalanced brackets in response: %s", raw[:500])
+                return []
+            try:
+                facts = json.loads(raw[start:end])
+            except json.JSONDecodeError as e:
+                logger.warning("JSON parse error: %s. Raw: %s", e, raw[:500])
+                return []
+
+        return facts if isinstance(facts, list) else []
 
     def tier_management(self, dry_run: bool = False) -> list[dict]:
         """
@@ -241,9 +267,10 @@ class SleepTimeConsolidator:
                 }
                 changes.append(change)
                 if not dry_run:
-                    record.tier = new_tier
-                    tm.upsert(record)
-                    write_conn.commit()
+                    with self._write_lock:
+                        record.tier = new_tier
+                        tm.upsert(record)
+                        write_conn.commit()
                     logger.info("Tier change: %s %s→%s", memory_id, old_tier, new_tier)
 
         return changes
@@ -273,12 +300,13 @@ class SleepTimeConsolidator:
 
     def _promote_to_warm(self, chunk_id: str):
         """Bump a chunk from cold to warm in tier_registry."""
-        conn = self._write_db()
-        conn.execute(
-            "UPDATE tier_registry SET tier='warm' WHERE chunk_id=?",
-            (chunk_id,),
-        )
-        conn.commit()
+        with self._write_lock:
+            conn = self._write_db()
+            conn.execute(
+                "UPDATE tier_registry SET tier='warm' WHERE chunk_id=?",
+                (chunk_id,),
+            )
+            conn.commit()
 
     def hot_recompression(self):
         """
@@ -289,7 +317,7 @@ class SleepTimeConsolidator:
         try:
             with open(hot_path) as f:
                 hot = json.load(f)
-        except Exception:
+        except (json.JSONDecodeError, OSError):
             hot = {}
 
         hot.setdefault("_meta", {})
@@ -348,7 +376,7 @@ class SleepTimeConsolidator:
         try:
             with open(log_path) as f:
                 log = json.load(f)
-        except Exception:
+        except (json.JSONDecodeError, OSError):
             log = {"runs": []}
 
         # Keep last 100 runs

@@ -11,6 +11,8 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import List, Optional
 
+import os
+
 import numpy as np
 
 from src.config import BASE_PATH as _DEFAULT_BASE_PATH
@@ -27,6 +29,7 @@ class LeoTrident:
         self.vault_path = self.base_path / "vault"
 
         self._embedder = None
+        self._using_stub = False
         self._bm25 = None
         self._dense_cold = None
         self._dense_warm = None
@@ -41,10 +44,18 @@ class LeoTrident:
             try:
                 from src.ingest.embedder import Embedder
                 self._embedder = Embedder()
-            except Exception:
+                self._using_stub = False
+            except Exception as e:
+                if os.environ.get("LEO_ALLOW_STUB_EMBEDDER") != "1":
+                    raise RuntimeError(
+                        f"Real embedder failed to load ({e}). "
+                        "Set LEO_ALLOW_STUB_EMBEDDER=1 to fall back to random "
+                        "vectors (test/CI only — produces meaningless results)."
+                    ) from e
                 from src.ingest.stub_embedder import StubEmbedder
-                logger.warning("sentence-transformers unavailable — using StubEmbedder")
+                logger.error("USING STUB EMBEDDER — search results are random")
                 self._embedder = StubEmbedder()
+                self._using_stub = True
         return self._embedder
 
     def _get_bm25(self):
@@ -255,6 +266,10 @@ class LeoTrident:
                     conn.close()
             except Exception as e:
                 logger.warning(f"Relevance judge failed: {e} — returning unannotated results")
+
+        if getattr(self, "_using_stub", False):
+            for c in candidates:
+                c["warning"] = "stub_embedder_random_vectors"
 
         # Metrics
         try:

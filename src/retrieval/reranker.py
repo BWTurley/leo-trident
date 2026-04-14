@@ -25,10 +25,12 @@ class BGEReranker:
         try:
             from transformers import AutoTokenizer, AutoModelForSequenceClassification
             import torch
-            self._tokenizer = AutoTokenizer.from_pretrained(self.model_name)
+            # Pinned for supply-chain safety — bump intentionally, not by accident.
+            self._tokenizer = AutoTokenizer.from_pretrained(self.model_name, revision="953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e")
             self._model = AutoModelForSequenceClassification.from_pretrained(
                 self.model_name,
                 torch_dtype=torch.float32,
+                revision="953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e",
             )
             try:
                 self._model = self._model.to(EMBED_DEVICE)

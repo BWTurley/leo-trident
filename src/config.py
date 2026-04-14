@@ -57,17 +57,25 @@ ABACUS_ENDPOINT: str = os.environ.get(
 ABACUS_API_KEY: str = os.environ.get("ABACUS_API_KEY", "")
 ABACUS_MODEL: str = os.environ.get("ABACUS_MODEL", "claude-sonnet-4-6")
 
-# Legacy key-file fallback for Abacus back-compat (read once if env is empty)
+# Legacy key-file fallback for Abacus back-compat — DEPRECATED.
+# Remove after 2026-Q3 once all known users have migrated to .env.
 if not ABACUS_API_KEY and LLM_MODE == "cloud":
     _legacy_key_path = Path("/home/ubuntu/.openclaw/openclaw.json")
     if _legacy_key_path.exists():
         try:
-            import json
-            with open(_legacy_key_path) as f:
-                cfg = json.load(f)
-            ABACUS_API_KEY = cfg["models"]["providers"]["abacus"]["apiKey"]
-        except Exception:
-            pass
+            import json as _json
+            with open(_legacy_key_path) as _f:
+                ABACUS_API_KEY = _json.load(_f)["models"]["providers"]["abacus"]["apiKey"]
+            import logging as _logging
+            _logging.getLogger(__name__).warning(
+                "Loaded ABACUS_API_KEY from legacy path %s — migrate to .env",
+                _legacy_key_path,
+            )
+        except (KeyError, OSError, ValueError) as _e:
+            import logging as _logging
+            _logging.getLogger(__name__).error(
+                "Legacy key file exists but could not be read: %s", _e
+            )
 
 
 def _bootstrap_personal_files():

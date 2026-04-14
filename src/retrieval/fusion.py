@@ -13,6 +13,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Optional
 
+ALLOWED_FTS_TABLES = frozenset({"chunks_fts", "asme_fts"})
+
 
 @dataclass
 class RankedResult:
@@ -204,6 +206,8 @@ def bm25_from_sqlite(
     Run BM25 search against SQLite FTS5 asme_fts table.
     Returns ranked list of RankedResult.
     """
+    if table not in ALLOWED_FTS_TABLES:
+        raise ValueError(f"table must be one of {sorted(ALLOWED_FTS_TABLES)}, got {table!r}")
     rows = conn.execute(
         f"""
         SELECT f.chunk_id, rank,

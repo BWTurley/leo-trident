@@ -14,7 +14,7 @@ class StubEmbedder:
     """Deterministic stub: same text always returns the same vector."""
 
     def _text_to_vec(self, text: str, dim: int) -> np.ndarray:
-        seed = int(hashlib.md5(text.encode()).hexdigest()[:8], 16)
+        seed = int(hashlib.md5(text.encode(), usedforsecurity=False).hexdigest()[:8], 16)
         rng = np.random.default_rng(seed)
         v = rng.standard_normal(dim).astype(np.float32)
         v /= np.linalg.norm(v)

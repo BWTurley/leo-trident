@@ -429,4 +429,22 @@ python scripts/run_health.py
 
 ---
 
+## Troubleshooting
+
+### "Real embedder failed to load" error
+You're missing `sentence-transformers` or one of its dependencies (likely `torch` or `transformers`). Either:
+- Install the full stack: `pip install sentence-transformers torch transformers einops`
+- Or for CI/test only, set `LEO_ALLOW_STUB_EMBEDDER=1` (warning: search results will be random).
+
+### Search returns unrelated results
+Check whether you're running with the stub embedder. Look for a `warning: stub_embedder_random_vectors` field on each result, or grep logs for "USING STUB EMBEDDER".
+
+### `git status` shows changes in `vault/_system/` after every consolidation
+Those files are runtime state and should be gitignored. If you see them tracked, your `.gitignore` is missing the `vault/_system/` line. Re-run the audit-remediation steps.
+
+### Cloud LLM mode silently uses an old key
+If you have `/home/ubuntu/.openclaw/openclaw.json` on your machine, it's used as a fallback when `ABACUS_API_KEY` is empty. Either delete that file or explicitly set `ABACUS_API_KEY` in `.env`.
+
+---
+
 *Built April 2026*

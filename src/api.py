@@ -5,15 +5,12 @@ from __future__ import annotations
 
 import hashlib
 import logging
+import os
 import sqlite3
 import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import List, Optional
-
-import os
-
-import numpy as np
 
 from src.config import BASE_PATH as _DEFAULT_BASE_PATH
 
@@ -346,7 +343,6 @@ class LeoTrident:
         # Store in LanceDB (cold = 768d, warm = 256d)
         try:
             import lancedb
-            import pyarrow as pa
             db = lancedb.connect(str(self.lance_path))
 
             for table_name, vec in [("chunks_cold", vec_768), ("chunks_warm", vec_256)]:

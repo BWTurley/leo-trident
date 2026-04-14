@@ -68,3 +68,18 @@ if not ABACUS_API_KEY and LLM_MODE == "cloud":
             ABACUS_API_KEY = cfg["models"]["providers"]["abacus"]["apiKey"]
         except Exception:
             pass
+
+
+def _bootstrap_personal_files():
+    """Copy *.example.* templates into place if the real files don't exist."""
+    for ex in (BASE_PATH / "vault" / "_system").glob("*.example.json"):
+        real = ex.with_name(ex.name.replace(".example", ""))
+        if not real.exists():
+            real.write_text(ex.read_text())
+    prof_ex = BASE_PATH / "vault" / "Personal" / "Profile.example.md"
+    prof = BASE_PATH / "vault" / "Personal" / "Profile.md"
+    if prof_ex.exists() and not prof.exists():
+        prof.write_text(prof_ex.read_text())
+
+
+_bootstrap_personal_files()

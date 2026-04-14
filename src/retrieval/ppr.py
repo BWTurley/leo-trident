@@ -11,7 +11,7 @@ References:
 from __future__ import annotations
 
 import logging
-from typing import Optional, Union
+from typing import Optional
 
 import numpy as np
 
@@ -323,7 +323,8 @@ if __name__ == '__main__':
     import sys
     sys.path.insert(0, str(__import__('pathlib').Path(__file__).resolve().parent.parent.parent))
     from src.schema import init_schema
-    import tempfile, os
+    import tempfile
+    import os
 
     with tempfile.NamedTemporaryFile(suffix='.db', delete=False) as f:
         db_path = f.name
@@ -350,7 +351,7 @@ if __name__ == '__main__':
         print(f"Graph: {ppr.stats}")
 
         results = ppr.query(['UG-22'], top_k=10)
-        print(f"\nPPR from UG-22 (top-10):")
+        print("\nPPR from UG-22 (top-10):")
         for pid, score in results:
             print(f"  {pid:20s}  {score:.6f}")
 

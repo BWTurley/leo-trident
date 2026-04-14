@@ -139,7 +139,7 @@ def main():
 
     # ── SQLite ────────────────────────────────────────────────────────
     db_path = data_dir / "leo_trident.db"
-    print(f"\n── SQLite ─────────────────────────────────────────────")
+    print("\n── SQLite ─────────────────────────────────────────────")
     print(f"   Path: {db_path}")
     conn = init_schema(db_path)
     tables = conn.execute(
@@ -148,18 +148,18 @@ def main():
     for t in tables:
         print(f"  ✓ {t['name']}")
     conn.close()
-    print(f"  WAL mode: active")
+    print("  WAL mode: active")
 
     # ── LanceDB ───────────────────────────────────────────────────────
     if not args.skip_lancedb:
         lance_path = data_dir / "lancedb"
-        print(f"\n── LanceDB ────────────────────────────────────────────")
+        print("\n── LanceDB ────────────────────────────────────────────")
         print(f"   Path: {lance_path}")
         init_lancedb(lance_path)
 
     # ── Vault ────────────────────────────────────────────────────────
     vault_path = Path(args.vault_dir)
-    print(f"\n── Vault ──────────────────────────────────────────────")
+    print("\n── Vault ──────────────────────────────────────────────")
     print(f"   Path: {vault_path}")
     seed_vault_system(vault_path)
 

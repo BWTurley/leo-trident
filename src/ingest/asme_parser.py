@@ -586,7 +586,6 @@ class ASMEParser:
 
 if __name__ == '__main__':
     import argparse
-    import sys
 
     parser = argparse.ArgumentParser(description='Parse ASME text files')
     parser.add_argument('input', help='File or directory to parse')

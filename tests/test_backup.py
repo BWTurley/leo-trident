@@ -5,7 +5,6 @@ import json
 import sqlite3
 import sys
 import tempfile
-import time
 import unittest
 from pathlib import Path
 
@@ -105,7 +104,6 @@ class TestBackup(unittest.TestCase):
         tmp = tempfile.mkdtemp()
         base = _seed_test_env(tmp)
 
-        from scripts.backup import prune_backups
 
         # Create a fake old backup directory with a past timestamp
         old_ts = "20260101T030000Z"

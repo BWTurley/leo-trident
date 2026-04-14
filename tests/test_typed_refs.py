@@ -12,9 +12,8 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.schema import init_schema
 from src.ingest.asme_parser import (
-    ASMEParser, ASMEChunk, GraphEdge,
-    classify_reference, extract_context_window,
-    REFERENCE_TYPE_WEIGHTS,
+    ASMEParser, GraphEdge,
+    classify_reference,
 )
 
 

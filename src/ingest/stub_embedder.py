@@ -3,9 +3,11 @@ Stub Embedder — returns deterministic random normalized vectors.
 Used when sentence-transformers is unavailable (CI, CPU-only test env).
 """
 from __future__ import annotations
+
 import hashlib
-import numpy as np
 from typing import List
+
+import numpy as np
 
 VALID_DIMS = {64, 256, 768}
 

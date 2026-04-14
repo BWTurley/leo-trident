@@ -5,7 +5,6 @@ Matches the existing schema (conversation_logs table with log_id, created_at, co
 """
 from __future__ import annotations
 
-import json
 import logging
 import sqlite3
 import uuid

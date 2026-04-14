@@ -6,7 +6,6 @@ CPU only, batch size 32.
 from __future__ import annotations
 import logging
 import numpy as np
-import torch
 import torch.nn.functional as F
 from sentence_transformers import SentenceTransformer
 from typing import List

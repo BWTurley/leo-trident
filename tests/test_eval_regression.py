@@ -5,7 +5,6 @@ Baseline is committed in tests/fixtures/eval_baseline.json. Update it
 intentionally when you've verified the new numbers are better.
 """
 import json
-import os
 import sys
 import shutil
 import tempfile
@@ -59,7 +58,7 @@ class TestEvalRegression(unittest.TestCase):
                 use_rerank=False,
                 use_judge=False,
             )
-        except Exception as e:
+        except Exception:
             shutil.rmtree(cls.tmp_dir, ignore_errors=True)
             raise
 

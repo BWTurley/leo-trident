@@ -382,7 +382,8 @@ def _try_rich_table(results: dict) -> bool:
         from rich.console import Console
         from rich.table import Table
 
-        import io, sys as _sys
+        import io
+        import sys as _sys
         # Force UTF-8 on Windows to avoid cp1252 encoding errors with rich
         if _sys.platform == "win32":
             _sys.stdout = io.TextIOWrapper(

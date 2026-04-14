@@ -43,7 +43,7 @@ class DenseRetriever:
                     "content": row.get("content", ""),
                 })
             return output
-        except Exception as e:
+        except Exception:
             # Table might not exist yet
             return []
 

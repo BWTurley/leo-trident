@@ -198,7 +198,8 @@ class SleepTimeConsolidator:
             depth = 0
             end = -1
             for i in range(start, len(raw)):
-                if raw[i] == "[": depth += 1
+                if raw[i] == "[":
+                    depth += 1
                 elif raw[i] == "]":
                     depth -= 1
                     if depth == 0:

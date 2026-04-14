@@ -3,7 +3,6 @@ Tests for Phase 6b — Reference Relevance Judge
 Mocks llm_client.complete — no external calls.
 """
 import json
-import sqlite3
 import sys
 import tempfile
 import unittest

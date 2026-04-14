@@ -377,7 +377,7 @@ class LeoTrident:
 
         # Extract and store cross-reference edges via the parser
         try:
-            from src.ingest.asme_parser import ASMEParser, GraphEdge, REFERENCE_TYPE_WEIGHTS
+            from src.ingest.asme_parser import REFERENCE_TYPE_WEIGHTS, ASMEParser, GraphEdge
             parser = ASMEParser(edition_year=edition_year)
             refs = parser.extract_cross_refs_with_context(text, self_id=paragraph_id)
             if refs:

@@ -93,7 +93,7 @@ class ASMEEvalFramework:
 
             try:
                 results = lt.query(query, top_k=10)
-            except Exception as e:
+            except Exception:
                 results = []
 
             retrieved_ids = [r.get("paragraph_id", "") for r in results]

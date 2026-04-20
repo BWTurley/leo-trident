@@ -57,3 +57,10 @@ if [ -f /data/.creds/.git-credentials ]; then
   chmod 600 /root/.git-credentials
   git config --global credential.helper 'store --file /root/.git-credentials'
 fi
+
+# Auto-start OpenClaw gateway
+if command -v openclaw >/dev/null 2>&1 && ! pgrep -f "openclaw gateway" >/dev/null; then
+  tmux kill-session -t openclaw 2>/dev/null || true
+  tmux new-session -d -s openclaw \
+    "cd /data/leo_trident && openclaw gateway --force 2>&1 | tee -a /var/log/openclaw.log"
+fi

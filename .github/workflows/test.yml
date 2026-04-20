@@ -3,7 +3,6 @@ on:
   push:
     branches: [main]
   pull_request:
-
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -17,7 +16,8 @@ jobs:
           pip install --upgrade pip
           # Install only what's needed for tests; skip torch/transformers (they're huge)
           pip install pytest pytest-asyncio pydantic python-dotenv rich tqdm \
-                      lancedb pyarrow scipy numpy fast-pagerank watchdog httpx
+                      lancedb pyarrow scipy numpy fast-pagerank watchdog httpx \
+                      fastapi uvicorn httpx
       - name: Lint
         run: |
           pip install ruff

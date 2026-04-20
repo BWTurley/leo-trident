@@ -43,3 +43,10 @@ fi
 if ! pgrep -af cron >/dev/null; then
   service cron start 2>/dev/null || /usr/sbin/cron
 fi
+
+# Restore git credentials from persistent volume
+if [ -f /data/.creds/.git-credentials ]; then
+  cp /data/.creds/.git-credentials /root/.git-credentials
+  chmod 600 /root/.git-credentials
+  git config --global credential.helper 'store --file /root/.git-credentials'
+fi

@@ -51,14 +51,16 @@ if [ -f /data/.creds/.git-credentials ]; then
   git config --global credential.helper 'store --file /root/.git-credentials'
 fi
 
-# Restore git credentials from persistent volume
-if [ -f /data/.creds/.git-credentials ]; then
-  cp /data/.creds/.git-credentials /root/.git-credentials
-  chmod 600 /root/.git-credentials
-  git config --global credential.helper 'store --file /root/.git-credentials'
+
+# Restore OpenClaw state from /data (real files — bind-mounts blocked in vast, symlinks break exec)
+if [ -d /data/openclaw ]; then
+  [ -L /root/.openclaw ] && rm /root/.openclaw
+  mkdir -p /root/.openclaw
+  rsync -a /data/openclaw/ /root/.openclaw/
+  [ ! -f /root/.openclaw/status ] && touch /root/.openclaw/status
 fi
 
-# Auto-start OpenClaw gateway
+# Auto-start OpenClaw gateway (after state restore)
 if command -v openclaw >/dev/null 2>&1 && ! pgrep -f "openclaw gateway" >/dev/null; then
   tmux kill-session -t openclaw 2>/dev/null || true
   tmux new-session -d -s openclaw \

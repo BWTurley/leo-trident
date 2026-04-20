@@ -10,3 +10,6 @@ data/
 # Personal vault data and runtime state — never commit
 vault/Personal/
 vault/_system/
+.venv/
+leo_trident.egg-info/
+scripts/*.bak

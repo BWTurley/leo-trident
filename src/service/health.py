@@ -87,33 +87,36 @@ def _check_anchors() -> bool:
     return ok
 
 
-def _check_embedder() -> bool:
-    """Check if the embedding model can be loaded."""
+def _check_embedder() -> str:
+    """Return 'real', 'stub', or 'missing' based on which embedder loads."""
     try:
         from src.ingest.embedder import Embedder
         Embedder()
-        return True
+        return "real"
     except Exception:
         try:
             from src.ingest.stub_embedder import StubEmbedder
             StubEmbedder()
-            return True
+            return "stub"
         except Exception:
-            return False
+            return "missing"
 
 
 # ── Endpoints ────────────────────────────────────────────────────────────
 
 @app.get("/health")
 def health():
+    embedder_kind = _check_embedder()
     checks = {
         "sqlite_readable": _db_path().exists(),
         "lancedb_readable": _lance_path().exists(),
         "anchors_intact": _check_anchors(),
-        "embedder_loaded": _check_embedder(),
+        "embedder_loaded": embedder_kind != "missing",
+        "embedder": embedder_kind,
     }
 
-    all_ok = all(checks.values())
+    bool_checks = {k: v for k, v in checks.items() if isinstance(v, bool)}
+    all_ok = all(bool_checks.values())
     status_code = 200 if all_ok else 503
 
     return JSONResponse(

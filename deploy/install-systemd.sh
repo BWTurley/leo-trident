@@ -48,3 +48,15 @@ if [ "${http_code}" != "200" ]; then
 fi
 
 echo "OK: leo-trident is running and ${HEALTH_URL} returned 200."
+
+# Self-verify the install by running the full smoke harness.
+SMOKE_SH="${REPO_ROOT}/scripts/smoke.sh"
+if [ -x "${SMOKE_SH}" ]; then
+  echo "Running smoke harness..."
+  if ! bash "${SMOKE_SH}"; then
+    echo "ERROR: smoke harness failed — install is NOT verified." >&2
+    exit 1
+  fi
+else
+  echo "WARN: ${SMOKE_SH} not found or not executable — skipping post-install smoke." >&2
+fi

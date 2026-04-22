@@ -11,5 +11,7 @@ data/
 vault/Personal/
 vault/_system/
 .venv/
+venv/
+logs/
 leo_trident.egg-info/
 scripts/*.bak

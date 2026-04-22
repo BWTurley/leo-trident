@@ -1,0 +1,17 @@
+[Unit]
+Description=Leo Trident retrieval service
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/brett/leo/leo-trident
+Environment="PYTHONUNBUFFERED=1"
+EnvironmentFile=/home/brett/leo/leo-trident/.env
+ExecStart=/home/brett/leo/leo-trident/venv/bin/python scripts/run_health.py
+Restart=on-failure
+RestartSec=5s
+StandardOutput=append:/home/brett/leo/leo-trident/logs/trident.log
+StandardError=append:/home/brett/leo/leo-trident/logs/trident.err
+
+[Install]
+WantedBy=default.target

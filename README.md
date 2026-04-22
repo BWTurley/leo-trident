@@ -334,6 +334,18 @@ JSONL files at `data/metrics/{YYYY-MM-DD}.jsonl`. Instrumented paths:
 - `judge.fallback` — whether the relevance judge fell back to deterministic mapping
 - `consolidation.*` — error count, facts extracted, tier changes per run
 
+### Deployment (Linux / WSL2 — systemd user service)
+
+Quick start:
+
+```bash
+cp deploy/env.template .env && chmod 600 .env   # fill in secrets
+bash deploy/install-systemd.sh
+curl http://127.0.0.1:8765/health
+```
+
+The installer enables a user-level systemd unit (`~/.config/systemd/user/leo-trident.service`) that runs `scripts/run_health.py` under `venv/`, restarts on failure, and writes logs to `logs/trident.{log,err}`. Remove with `bash deploy/uninstall-systemd.sh`.
+
 ### Deployment (macOS)
 
 Four launchd agents in `deploy/macos/`:

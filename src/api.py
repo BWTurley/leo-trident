@@ -307,10 +307,15 @@ class LeoTrident:
         section: str,
         part: str,
         edition_year: int = 2025,
+        source: Optional[str] = None,
     ) -> str:
         """
         Parse + embed + store in LanceDB + FTS5 + graph.
         Returns chunk_id.
+
+        `source` is stored in `asme_chunks.content_type` so non-normative
+        material (e.g. personal facts ingested via /ingest_fact) is filterable
+        and shows up in BM25/dense search alongside ASME content.
         """
         # Generate chunk_id
         chunk_id = f"{section}_{paragraph_id}_{edition_year}"
@@ -318,6 +323,7 @@ class LeoTrident:
 
         content_hash = hashlib.sha256(text.encode()).hexdigest()
         now = datetime.now(timezone.utc).isoformat()
+        content_type = source if source else "normative"
 
         # Embed at 256d (warm) and 768d (cold)
         embedder = self._get_embedder()
@@ -332,9 +338,9 @@ class LeoTrident:
                    (chunk_id, paragraph_id, section, part, edition_year,
                     content, content_hash, no_forget, mandatory, content_type,
                     cross_refs, raptor_level, embedding_dim, created_at, updated_at)
-                   VALUES (?,?,?,?,?,?,?,1,1,'normative','[]',0,768,?,?)""",
+                   VALUES (?,?,?,?,?,?,?,1,1,?,'[]',0,768,?,?)""",
                 (chunk_id, paragraph_id, section, part, edition_year,
-                 text, content_hash, now, now),
+                 text, content_hash, content_type, now, now),
             )
             conn.commit()
         finally:
@@ -354,7 +360,7 @@ class LeoTrident:
                         "chunk_id": chunk_id,
                         "paragraph_id": paragraph_id,
                         "section": section,
-                        "content_type": "normative",
+                        "content_type": content_type,
                         "content": text,
                         "no_forget": True,
                         "tier": "cold" if table_name == "chunks_cold" else "warm",

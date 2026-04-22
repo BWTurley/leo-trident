@@ -118,6 +118,7 @@ CREATE TABLE IF NOT EXISTS conversation_logs (
 
 CREATE INDEX IF NOT EXISTS idx_logs_session    ON conversation_logs(session_id);
 CREATE INDEX IF NOT EXISTS idx_logs_created    ON conversation_logs(created_at);
+CREATE INDEX IF NOT EXISTS idx_logs_session_ts ON conversation_logs(session_id, created_at);
 CREATE INDEX IF NOT EXISTS idx_logs_pending    ON conversation_logs(consolidated) WHERE consolidated=FALSE;
 
 -- FTS5 over conversation logs
@@ -171,6 +172,11 @@ END;
 
 CREATE TRIGGER IF NOT EXISTS logs_fts_delete AFTER DELETE ON conversation_logs BEGIN
     DELETE FROM logs_fts WHERE log_id = old.log_id;
+END;
+
+CREATE TRIGGER IF NOT EXISTS logs_fts_update AFTER UPDATE ON conversation_logs BEGIN
+    DELETE FROM logs_fts WHERE log_id = old.log_id;
+    INSERT INTO logs_fts(log_id, content) VALUES (new.log_id, new.content);
 END;
 """
 

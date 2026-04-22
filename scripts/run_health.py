@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Run the health + API endpoints on 127.0.0.1:8765."""
+import logging
 import sys
 from pathlib import Path
 
@@ -8,8 +9,25 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import uvicorn
 from fastapi import FastAPI
 
+from src.config import DB_PATH
+from src.schema import init_schema
 from src.service.api import app as api_app
 from src.service.health import app as health_app
+
+log = logging.getLogger("leo_trident.startup")
+
+
+def _run_migrations() -> None:
+    """Apply the SQLite schema (idempotent) before serving traffic."""
+    conn = init_schema(DB_PATH)
+    try:
+        (n,) = conn.execute("SELECT COUNT(*) FROM conversation_logs").fetchone()
+        log.info("schema: conversation_logs ready (%d rows) at %s", n, DB_PATH)
+    finally:
+        conn.close()
+
+
+_run_migrations()
 
 app = FastAPI(title="Leo Trident", docs_url=None, redoc_url=None)
 
@@ -23,4 +41,6 @@ for handler_type, handler in api_app.exception_handlers.items():
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(levelname)s %(message)s")
+    _run_migrations()
     uvicorn.run(app, host="127.0.0.1", port=8765, log_level="info")

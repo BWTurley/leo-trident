@@ -52,3 +52,6 @@ python-dotenv>=1.0.0
 pydantic>=2.0.0
 rich>=13.0.0                      # Pretty console output
 tqdm>=4.66.0                      # Progress bars for ingestion
+
+# ── Multimodal Ingest ─────────────────────────────────────────────────────────
+pypdf>=4.0.0                       # PDF page extraction (Wave 1B)

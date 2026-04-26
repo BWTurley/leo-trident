@@ -8,10 +8,11 @@ Public API:
     cost_breakdown(days=7) -> dict
     weekly_digest_job()  # scheduled
 
-TODO: wire log_embed_call into actual embedder calls (src/ingest/embedder.py).
-The embedder is currently un-instrumented to keep its external API stable;
-once we add a thin wrapper there we get cost tracking for free.
+log_embed_call is invoked from src/ingest/embedder.py (Embedder.embed and
+its query/document wrappers). Callers can pass `namespace=` to attribute
+spend; default is 'global'.
 """
+
 from __future__ import annotations
 
 import logging
@@ -127,6 +128,7 @@ def weekly_digest_job() -> dict:
     sent = False
     try:
         from src.notify import notify_telegram
+
         sent = bool(notify_telegram(text))
     except Exception as e:
         logger.exception("weekly_digest_job: notify failed: %s", e)

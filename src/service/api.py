@@ -53,6 +53,12 @@ class QueryRequest(BaseModel):
     use_rerank: bool = True
     use_relevance_judge: bool = False
     include_conversations: bool = True
+    # Reply-aware retrieval (Wave 1C): optional text of the message the user
+    # is replying to. When non-empty, results are re-ranked using a blend of
+    # similarity to ``text`` and to ``reply_context``. None/empty == disabled
+    # (backwards compatible).
+    reply_context: Optional[str] = None
+    reply_alpha: float = Field(default=0.7, ge=0.0, le=1.0)
 
 
 class LogTurnRequest(BaseModel):
@@ -124,6 +130,51 @@ def query(req: QueryRequest):
     except Exception as e:
         logger.exception("query failed")
         return _error(500, "query_failed", type(e).__name__)
+
+    # Reply-aware re-rank (Wave 1C). Best-effort: if anything goes wrong
+    # (missing embeddings on results, embedder unavailable, etc.) we log and
+    # fall through to the un-boosted results.
+    if req.reply_context and req.reply_context.strip() and results:
+        try:
+            embedder = trident._get_embedder()
+            q_vec = embedder.embed_query(req.text, dim=768)
+            r_vec = embedder.embed_query(req.reply_context, dim=768)
+            # Results from LeoTrident.query() do not currently carry the
+            # raw embedding vector. Fetch from LanceDB by chunk_id when
+            # possible.
+            # TODO(reply-aware): plumb embeddings through LeoTrident.query()
+            # so we don't need this side-channel lookup.
+            from src.retrieval.reply_aware import boost_with_reply_context
+            chunk_ids = [r.get("chunk_id") for r in results if r.get("chunk_id")]
+            embed_map: dict[str, list[float]] = {}
+            if chunk_ids:
+                try:
+                    tbl = trident._get_lance_table()  # type: ignore[attr-defined]
+                    rows = tbl.search().where(
+                        "chunk_id IN ({})".format(
+                            ",".join(f"'{c}'" for c in chunk_ids)
+                        )
+                    ).limit(len(chunk_ids)).to_list()
+                    for row in rows:
+                        cid = row.get("chunk_id")
+                        emb = row.get("vector_768") or row.get("embedding")
+                        if cid and emb is not None:
+                            embed_map[cid] = list(emb)
+                except Exception as e:
+                    logger.debug("reply_aware: embedding lookup skipped: %s", e)
+            enriched = [
+                {**r, "embedding": embed_map.get(r.get("chunk_id"))}
+                for r in results
+            ]
+            if any(r["embedding"] is not None for r in enriched):
+                results = boost_with_reply_context(
+                    enriched, q_vec, r_vec, alpha=req.reply_alpha
+                )
+                # Strip raw embedding from the response payload to keep it small.
+                for r in results:
+                    r.pop("embedding", None)
+        except Exception as e:
+            logger.warning("reply_aware boost failed: %s", e)
 
     elapsed_ms = int((time.monotonic() - t0) * 1000)
     return {
@@ -199,6 +250,19 @@ def ingest_fact(req: IngestFactRequest):
         return _error(500, "ingest_failed", type(e).__name__)
 
     return {"ok": True, "paragraph_id": paragraph_id, "chunk_id": chunk_id}
+
+
+@app.post("/admin/consolidate/run-now")
+def admin_consolidate_run_now():
+    """Trigger nightly consolidation synchronously and return metric counts."""
+    try:
+        from src.jobs.consolidation import nightly_consolidation_job
+        result = nightly_consolidation_job()
+    except Exception as e:
+        # nightly_consolidation_job promises not to raise, but be defensive.
+        logger.exception("admin_consolidate_run_now: unexpected raise")
+        return _error(500, "consolidate_failed", type(e).__name__)
+    return result
 
 
 @app.post("/search_conversations")

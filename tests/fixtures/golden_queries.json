@@ -1,52 +1,52 @@
 [
   {
-    "query": "what is brett's submarine",
-    "expected_chunk_ids": ["pennsylvania", "ssbn-735", "ssbn735"],
-    "description": "Brett served on USS Pennsylvania SSBN-735."
+    "query": "Met Weld last day",
+    "expected_chunk_ids": ["metweld-final-week", "Met Weld International", "2026-04-24"],
+    "description": "Brett's last day at Met Weld International is Friday 2026-04-24."
   },
   {
-    "query": "what boat did brett serve on",
-    "expected_chunk_ids": ["pennsylvania", "ssbn-735"],
-    "description": "Same submarine, different phrasing."
+    "query": "PTO",
+    "expected_chunk_ids": ["metweld-final-week", "Implications", "Facts"],
+    "description": "2 weeks PTO between Met Weld exit and HSB start."
   },
   {
-    "query": "what is brett's job",
-    "expected_chunk_ids": ["asme", "inspector", "trainee"],
-    "description": "Brett is an ASME inspector trainee."
+    "query": "HSB Hartford Steam Boiler inspector trainee",
+    "expected_chunk_ids": ["HSB", "Hartford Steam Boiler", "Big_moves_decided_today"],
+    "description": "HSB Authorized Inspector Trainee role."
   },
   {
-    "query": "tell me about platelabs",
-    "expected_chunk_ids": ["platelabs", "license-plate", "business"],
-    "description": "PlateLabs is Brett's license-plate side business."
+    "query": "gmail watcher",
+    "expected_chunk_ids": ["Gmail_watcher", "telegram-alerts-wired", "gmail-watcher"],
+    "description": "Gmail watcher built and deployed 2026-04-21."
   },
   {
-    "query": "what business does brett run",
-    "expected_chunk_ids": ["platelabs"],
-    "description": "PlateLabs."
+    "query": "deliver_to_telegram",
+    "expected_chunk_ids": ["telegram-alerts-wired", "deliver_to_telegram", "Verification", "Fix"],
+    "description": "Telegram alert routing wired into Gmail watcher."
   },
   {
-    "query": "who is leo",
-    "expected_chunk_ids": ["leo", "persona", "dommy-mommy", "goth"],
-    "description": "Leo is Brett's dommy-mommy goth AI persona."
+    "query": "GOATBOY9000",
+    "expected_chunk_ids": ["Host_state_today", "GOATBOY9000"],
+    "description": "Host machine specs for Hermes migration."
   },
   {
-    "query": "describe leo's personality",
-    "expected_chunk_ids": ["dommy-mommy", "goth", "persona"],
-    "description": "Goth dommy-mommy persona."
+    "query": "Leo Trident phases mental model",
+    "expected_chunk_ids": ["Leo_Trident", "phases", "mental_model"],
+    "description": "Trident Phases 0-8 status update."
   },
   {
-    "query": "what code certification does brett work with",
-    "expected_chunk_ids": ["asme", "boiler", "pressure-vessel"],
-    "description": "ASME B&PV inspector trainee."
+    "query": "background check vendor watch",
+    "expected_chunk_ids": ["proactively_watch", "background check", "Things_to_proactively_watch"],
+    "description": "Proactive watch for HSB / background check emails."
   },
   {
-    "query": "what navy rank did brett hold",
-    "expected_chunk_ids": ["navy", "submariner", "pennsylvania"],
-    "description": "Submariner on USS Pennsylvania."
+    "query": "Met Weld handoff SOP cleanliness",
+    "expected_chunk_ids": ["handoff_SOP", "Internal_Cleanliness", "metweld-handoff", "QC-SOP"],
+    "description": "Internal Cleanliness Flow SOP shipped before exit."
   },
   {
-    "query": "what does brett do for fun",
-    "expected_chunk_ids": ["platelabs", "leo", "persona"],
-    "description": "Side projects: PlateLabs, Leo persona."
+    "query": "open loops followups OAuth secret",
+    "expected_chunk_ids": ["Open_loops", "OAuth", "leo-digest", "followups"],
+    "description": "Outstanding tasks: OAuth rotation, digest bundler."
   }
 ]

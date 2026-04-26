@@ -265,6 +265,28 @@ def admin_consolidate_run_now():
     return result
 
 
+@app.get("/admin/cost")
+def admin_cost(days: int = 7):
+    """Per-namespace + per-model embed cost breakdown over trailing N days."""
+    try:
+        from src.cost_tracking import cost_breakdown
+        return cost_breakdown(days)
+    except Exception as e:
+        logger.exception("admin_cost failed")
+        return _error(500, "cost_breakdown_failed", type(e).__name__)
+
+
+@app.post("/admin/quality/snapshot")
+def admin_quality_snapshot():
+    """Run the golden-query quality snapshot synchronously and return the result."""
+    try:
+        from src.quality import run_quality_snapshot
+        return run_quality_snapshot()
+    except Exception as e:
+        logger.exception("admin_quality_snapshot failed")
+        return _error(500, "quality_snapshot_failed", type(e).__name__)
+
+
 @app.post("/search_conversations")
 def search_conversations(req: SearchConversationsRequest):
     try:

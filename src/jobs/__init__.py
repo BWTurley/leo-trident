@@ -10,6 +10,7 @@ import logging
 
 from src import scheduler
 from src.jobs.consolidation import nightly_consolidation_job
+from src.quality import daily_quality_job
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +26,16 @@ def register_default_jobs() -> None:
         "@daily 03:00",
         nightly_consolidation_job,
     )
+    scheduler.register(
+        "quality_daily",
+        "@daily 04:00",
+        daily_quality_job,
+    )
     logger.info("jobs: registered default jobs")
 
 
-__all__ = ["register_default_jobs", "nightly_consolidation_job"]
+__all__ = [
+    "register_default_jobs",
+    "nightly_consolidation_job",
+    "daily_quality_job",
+]

@@ -1,0 +1,52 @@
+[
+  {
+    "query": "what is brett's submarine",
+    "expected_chunk_ids": ["pennsylvania", "ssbn-735", "ssbn735"],
+    "description": "Brett served on USS Pennsylvania SSBN-735."
+  },
+  {
+    "query": "what boat did brett serve on",
+    "expected_chunk_ids": ["pennsylvania", "ssbn-735"],
+    "description": "Same submarine, different phrasing."
+  },
+  {
+    "query": "what is brett's job",
+    "expected_chunk_ids": ["asme", "inspector", "trainee"],
+    "description": "Brett is an ASME inspector trainee."
+  },
+  {
+    "query": "tell me about platelabs",
+    "expected_chunk_ids": ["platelabs", "license-plate", "business"],
+    "description": "PlateLabs is Brett's license-plate side business."
+  },
+  {
+    "query": "what business does brett run",
+    "expected_chunk_ids": ["platelabs"],
+    "description": "PlateLabs."
+  },
+  {
+    "query": "who is leo",
+    "expected_chunk_ids": ["leo", "persona", "dommy-mommy", "goth"],
+    "description": "Leo is Brett's dommy-mommy goth AI persona."
+  },
+  {
+    "query": "describe leo's personality",
+    "expected_chunk_ids": ["dommy-mommy", "goth", "persona"],
+    "description": "Goth dommy-mommy persona."
+  },
+  {
+    "query": "what code certification does brett work with",
+    "expected_chunk_ids": ["asme", "boiler", "pressure-vessel"],
+    "description": "ASME B&PV inspector trainee."
+  },
+  {
+    "query": "what navy rank did brett hold",
+    "expected_chunk_ids": ["navy", "submariner", "pennsylvania"],
+    "description": "Submariner on USS Pennsylvania."
+  },
+  {
+    "query": "what does brett do for fun",
+    "expected_chunk_ids": ["platelabs", "leo", "persona"],
+    "description": "Side projects: PlateLabs, Leo persona."
+  }
+]

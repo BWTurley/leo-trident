@@ -84,7 +84,10 @@ class _Schedule:
             and m(self.cron_hour, dt.hour)
             and m(self.cron_dom, dt.day)
             and m(self.cron_mon, dt.month)
-            and m(self.cron_dow, dt.weekday())
+            # cron convention: 0=Sunday … 6=Saturday
+            # Python weekday(): 0=Monday … 6=Sunday
+            # Convert: cron_day = (python_weekday + 1) % 7
+            and m(self.cron_dow, (dt.weekday() + 1) % 7)
         )
 
 

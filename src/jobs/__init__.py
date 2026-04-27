@@ -11,6 +11,7 @@ import logging
 from src import scheduler
 from src.jobs.consolidation import nightly_consolidation_job
 from src.quality import daily_quality_job
+from src.cost_tracking import weekly_digest_job
 
 logger = logging.getLogger(__name__)
 
@@ -30,6 +31,11 @@ def register_default_jobs() -> None:
         "quality_daily",
         "@daily 04:00",
         daily_quality_job,
+    )
+    scheduler.register(
+        "cost_weekly_digest",
+        "0 9 * * 1",  # Mondays 09:00 — cron 1=Monday
+        weekly_digest_job,
     )
     logger.info("jobs: registered default jobs")
 

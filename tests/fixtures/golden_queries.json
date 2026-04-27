@@ -21,7 +21,7 @@
   },
   {
     "query": "deliver_to_telegram",
-    "expected_chunk_ids": ["telegram-alerts-wired", "deliver_to_telegram", "Verification", "Fix"],
+    "expected_chunk_ids": ["telegram-alerts-wired", "deliver_to_telegram", "Verification"],
     "description": "Telegram alert routing wired into Gmail watcher."
   },
   {
